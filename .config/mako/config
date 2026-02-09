@@ -1,0 +1,74 @@
+# =============================================================================
+# Mako - Notificaciones para Wayland (Hyprdots)
+# Colores waybar/colors.css (Catppuccin). Reinicia mako para aplicar:
+#   killall mako; mako &
+# =============================================================================
+
+anchor=top-right
+layer=overlay
+
+width=400
+height=140
+max-visible=5
+margin=14
+padding=18
+outer-margin=18
+
+# Bordes visibles (teal) y esquinas redondeadas – distinto del azul por defecto
+border-size=3
+border-radius=14
+border-color=#94e2d5ff
+
+# Fondo mantle + texto subtext (más contraste que el default #285577)
+background-color=#181825ff
+text-color=#cdd6f4ff
+
+progress-color=over #89b4faff
+
+font=JetBrainsMono Nerd Font 12
+
+# Formato: título negrita, cuerpo debajo. %s=summary, %b=body, %a=app
+format=<b>%s</b>\n%b
+
+# Agrupar por aplicación; más recientes primero
+group-by=app-name
+sort=-time
+
+# Iconos (0=no, 1=sí)
+icons=1
+max-icon-size=48
+icon-border-radius=8
+
+# Historial; max-history=cuántas guardar
+history=1
+max-history=20
+
+# Timeout ms (0=no cerrar). Por urgencia abajo.
+default-timeout=5000
+
+# Marcado Pango en format y cuerpo
+markup=1
+
+# Clic medio: menú acciones (jq + rofi)
+on-button-middle=exec makoctl menu -n "$id" rofi -dmenu -p 'Acción'
+
+# =============================================================================
+# Urgencia baja: más discreta, menos tiempo
+# =============================================================================
+[urgency=low]
+border-color=#6c7086ff
+background-color=#313244ff
+default-timeout=3000
+
+[urgency=normal]
+border-color=#94e2d5ff
+background-color=#181825ff
+default-timeout=5000
+
+[urgency=critical]
+border-color=#f38ba8ff
+border-size=4
+background-color=#181825ff
+text-color=#f38ba8ff
+default-timeout=0
+

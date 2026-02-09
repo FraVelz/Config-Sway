@@ -1,0 +1,156 @@
+# ============================================================================
+# SWAY CONFIGURATION - Equivalente a tu Hyprland (Fravelz)
+# ============================================================================
+# Copia a ~/.config/sway/config para usarla.
+# Modificador y teclas de dirección (como en Hyprland: HJKL)
+# ============================================================================
+
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+
+# === APLICACIONES (igual que Hyprland) ===
+bindsym $mod+Return exec kitty
+bindsym $mod+f exec firefox
+bindsym $mod+z exec flameshot gui
+
+# === VENTANAS ===
+bindsym $mod+u floating toggle
+bindsym $mod+c kill
+bindsym $mod+m exit
+bindsym $mod+p fullscreen toggle
+bindsym $mod+o layout toggle split
+# Recargar configuración
+bindsym $mod+Shift+r reload
+# Centrar ventana: Sway no tiene comando nativo; si quieres, usa un script con wlr-randr o criteria
+# bindsym $mod+Shift+c exec tu-script-centrar
+
+# === MENÚS ROFI (Sway) ===
+bindsym $mod+d exec ~/.config/rofi/selector-app.sh
+bindsym $mod+q exec bash ~/.config/rofi/power-menu-sway.sh
+bindsym $mod+a exec bash ~/.config/rofi/theme-switcher-sway.sh
+bindsym $mod+w exec bash ~/.config/rofi/wallpaper-switcher-sway.sh
+bindsym $mod+e exec ~/.config/rofi/menu-iconos.sh
+bindsym $mod+Shift+Return exec bash ~/.config/rofi/mode-hacker-sway.sh
+
+# === MOVER FOCO (HJKL como en Hyprland) ===
+bindsym $mod+$left focus left
+bindsym $mod+$right focus right
+bindsym $mod+$up focus up
+bindsym $mod+$down focus down
+
+# === MOVER VENTANA FLOTANTE (pequeño) ===
+bindsym $mod+Shift+$left move left 50px
+bindsym $mod+Shift+$right move right 50px
+bindsym $mod+Shift+$up move up 50px
+bindsym $mod+Shift+$down move down 50px
+
+# === MOVER VENTANA FLOTANTE (grande) - Alt+Super+HJKL ===
+bindsym $mod+Mod1+$left move left 150px
+bindsym $mod+Mod1+$right move right 150px
+bindsym $mod+Mod1+$up move up 150px
+bindsym $mod+Mod1+$down move down 150px
+
+# === REDIMENSIONAR VENTANA FLOTANTE (Super+Ctrl+HJKL) ===
+bindsym $mod+Control+$left resize shrink width 50px
+bindsym $mod+Control+$right resize grow width 50px
+bindsym $mod+Control+$down resize shrink height 50px
+bindsym $mod+Control+$up resize grow height 50px
+
+# === WORKSPACES 1-10 ===
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# Workspace especial "magic"
+bindsym $mod+s workspace magic
+bindsym $mod+Shift+s move container to workspace magic
+
+# Scroll para cambiar de workspace
+bindsym $mod+button4 workspace next
+bindsym $mod+button5 workspace prev
+
+# === RATÓN ===
+bindsym $mod+button1 move window
+bindsym $mod+button2 resize
+bindsym $mod+button3 floating toggle
+
+# === MULTIMEDIA ===
+bindsym XF86AudioRaiseVolume exec wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+
+bindsym XF86MonBrightnessUp exec brightnessctl -e 4 -n 2 set 5%+
+bindsym XF86MonBrightnessDown exec brightnessctl -e 4 -n 2 set 5%-
+
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPrev exec playerctl previous
+
+# === NOTIFICACIONES (mako) ===
+bindsym $mod+n exec makoctl dismiss -a
+bindsym $mod+Shift+n exec makoctl mode -a dnd
+
+# ============================================================================
+# ASPECTO
+# ============================================================================
+default_border pixel 2
+default_floating_border pixel 2
+hide_edge_borders none
+
+set $bg           #1e1e2e
+set $fg           #cdd6f4
+set $active       #9ecddf
+set $inactive     #9ecddf11
+
+client.focused          $active   $active   $fg      $active   $active
+client.focused_inactive $inactive $inactive $fg      $inactive $inactive
+client.unfocused        $inactive $inactive $fg      $inactive $inactive
+
+gaps inner 5
+gaps outer 10
+
+# ============================================================================
+# ENTRADA
+# ============================================================================
+input type:keyboard {
+    xkb_layout us,latam
+    xkb_options grp:alt_shift_toggle
+}
+
+input type:touchpad {
+    tap enabled
+    natural_scroll disabled
+}
+
+# ============================================================================
+# AUTOSTART
+# ============================================================================
+exec_always sh -c 'W="$(cat ~/.config/sway/wallpaper 2>/dev/null || true)"; if [ -n "$W" ] && [ -f "$W" ]; then killall swaybg 2>/dev/null || true; swaybg -i "$W" -m fill >/dev/null 2>&1 & elif [ -f ~/.config/hypr/wallpaper.png ]; then killall swaybg 2>/dev/null || true; swaybg -i ~/.config/hypr/wallpaper.png -m fill >/dev/null 2>&1 & else killall swaybg 2>/dev/null || true; swaybg -c "#1e1e2e" >/dev/null 2>&1 & fi'
+exec nm-applet
+exec waybar -c ~/.config/waybar/config-sway.jsonc
+exec mako
+exec bash ~/.config/rofi/autostart-sway.sh
+
