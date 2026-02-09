@@ -1,6 +1,6 @@
 # Configuración Sway (Fravelz)
 
-Configuración de **Sway** alineada con tus atajos y preferencias de **Hyprland** en Arch. No se ha borrado nada de tu configuración existente.
+Configuración de **Sway** alineada con los atajos y preferencias de **Hyprland** en Arch. No se borra tu configuración: se hace **backup** antes de copiar/sobrescribir archivos.
 
 ## Dónde está todo
 
@@ -8,18 +8,35 @@ Configuración de **Sway** alineada con tus atajos y preferencias de **Hyprland*
 | ---------------------------------------- | ------------------------------------ |
 | Config principal de Sway (en tu sistema) | `~/.config/sway/config`              |
 | Waybar para Sway (en tu sistema)         | `~/.config/waybar/config-sway.jsonc` |
-| Repo (dotfiles listo para Git)           | `Documentos/others/sway/.config/`    |
-| Copia rápida (legacy)                    | `Documentos/others/sway/config`      |
+| Repo (fuente de verdad)                  | `./.config/`                         |
+| Config suelta (legacy)                   | `./config`                           |
 
 ## Instalar desde este repo
 
-La “fuente de verdad” para subir a Git es `Documentos/others/sway/.config/`.
+La “fuente de verdad” para subir a Git es `./.config/`.
 
-- Para aplicar en tu usuario:
+### Opción recomendada (instalador)
+
+El script **no borra nada**: hace un backup completo de `~/.config` y luego copia el contenido de `./.config/` encima.
+
+```bash
+./install.sh
+```
+
+El backup queda como `~/.config.bak-YYYYMMDD-HHMMSS/`. Si estás dentro de Sway, puedes recargar con `swaymsg reload`.
+
+### Opción manual (si no quieres usar el script)
 
 ```bash
 cp -a ~/.config ~/.config.bak-$(date +%Y%m%d-%H%M%S)
-cp -a Documentos/others/sway/.config/* ~/.config/
+cp -a ./.config/. ~/.config/
+```
+
+### Volver atrás (restaurar backup)
+
+```bash
+mv ~/.config ~/.config.tmp-$(date +%Y%m%d-%H%M%S)
+cp -a ~/.config.bak-YYYYMMDD-HHMMSS ~/.config
 ```
 
 ## Atajos de teclado (Sway) — completos y en tablas
