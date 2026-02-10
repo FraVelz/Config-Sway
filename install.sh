@@ -16,11 +16,15 @@ fi
 ts="$(date +%Y%m%d-%H%M%S)"
 bak="$HOME/.config.bak-$ts"
 
-echo "Backup: $DST -> $bak"
-cp -a "$DST" "$bak"
+if [ -d "$DST" ]; then
+  echo "Backup: $DST -> $bak"
+  cp -a "$DST" "$bak"
+else
+  echo "No existe $DST, creando..."
+  mkdir -p "$DST"
+fi
 
 echo "Copiando: $SRC/* -> $DST/"
-mkdir -p "$DST"
 cp -a "$SRC"/. "$DST"/
 
 echo "Listo. Si estás en Sway, recarga con: swaymsg reload"

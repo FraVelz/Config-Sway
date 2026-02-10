@@ -114,6 +114,18 @@ bindsym $mod+n exec makoctl dismiss -a
 bindsym $mod+Shift+n exec makoctl mode -a dnd
 
 # ============================================================================
+# PORTAL / DBUS (necesario para capturas en Wayland con xdg-desktop-portal-wlr)
+# ============================================================================
+# Asegura que systemd --user y DBus hereden DISPLAY/WAYLAND_DISPLAY/SWAYSOCK.
+# (Recomendación oficial para wlroots/Sway: evita que Flameshot "se quede colgado"
+# o que la captura falle y aparezcan errores de QPainter.)
+exec_always systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec_always sh -c 'hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK'
+
+# Flameshot: evita que se tilee y asegura overlay correcto (sobre todo multi-monitor)
+for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
+
+# ============================================================================
 # ASPECTO
 # ============================================================================
 default_border pixel 2

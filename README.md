@@ -152,8 +152,22 @@ cp -a ~/.config.bak-YYYYMMDD-HHMMSS ~/.config
 ## Requisitos (Arch)
 
 ```bash
-sudo pacman -S sway swaybg waybar mako kitty rofi flameshot nm-applet
+sudo pacman -S sway swaybg waybar mako kitty rofi flameshot nm-applet \
+  xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk grim
 # Opcional: brightnessctl, playerctl, blueman
+```
+
+## Flameshot en Wayland (Sway / wlroots)
+
+- Este repo incluye:
+  - `~/.config/xdg-desktop-portal/sway-portals.conf` (selecciona `wlr` para Screenshot/Screencast)
+  - Líneas en `~/.config/sway/config` para importar el entorno a systemd/DBus
+  - Regla `for_window` para que Flameshot no se “tilee”
+
+Si después de instalar sigues con problemas, reinicia los portales (en tu usuario):
+
+```bash
+systemctl --user restart xdg-desktop-portal xdg-desktop-portal-wlr
 ```
 
 ## Wallpaper (Sway)
