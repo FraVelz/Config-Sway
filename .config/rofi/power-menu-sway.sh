@@ -5,9 +5,26 @@ set -euo pipefail
 
 theme="$HOME/.config/rofi/styles/power-menu.rasi"
 
-lastlogin="$(last "$USER" | head -n1 | tr -s ' ' | cut -d' ' -f5,6,7)"
-uptime="$(uptime -p | sed -e 's/up //g')"
-host="$(hostname)"
+# Nota: mantenemos `set -euo pipefail`, pero estos datos son "nice to have".
+# En algunos sistemas `hostname` puede no existir, o `last` puede fallar si no hay wtmp.
+lastlogin="$(
+  (last "$USER" 2>/dev/null || true) \
+    | head -n1 \
+    | tr -s ' ' \
+    | cut -d' ' -f5,6,7
+)"
+uptime="$(
+  (uptime -p 2>/dev/null || true) \
+    | sed -e 's/^up //g'
+)"
+if command -v hostname >/dev/null 2>&1; then
+  host="$(hostname)"
+else
+  host="$(uname -n 2>/dev/null || echo "host")"
+fi
+
+lastlogin="${lastlogin:-desconocido}"
+uptime="${uptime:-desconocido}"
 
 apagar=' '
 reiniciar='󰦛 '
