@@ -74,6 +74,45 @@ function create-web(){
    pnpm astro add tailwind --yes
   pnpm run dev
 }
+
+# Función para verificar el título
+check_title() {
+  if [[ -z $1 ]]; then
+    echo "Uso: check_title \"Tu título aquí\""
+    return 1
+  fi
+  local text="$1"
+  local length=${#text}
+  echo "Título: \"$text\""
+  echo "Longitud: $length caracteres"
+  if (( length < 37 )); then
+    echo "⚠️ Demasiado corto. Recomendado: 50-60 caracteres"
+  elif (( length > 60 )); then
+    echo "⚠️ Demasiado largo. Recomendado: 50-60 caracteres"
+  else
+    echo "✅ Longitud óptima para título"
+  fi
+}
+
+# Función para verificar la descripción
+check_description() {
+  if [[ -z $1 ]]; then
+    echo "Uso: check_description \"Tu descripción aquí\""
+    return 1
+  fi
+  local text="$1"
+  local length=${#text}
+  echo "Descripción: \"$text\""
+  echo "Longitud: $length caracteres"
+  if (( length < 110 )); then
+    echo "⚠️ Demasiado corta. Recomendado: 110-160 caracteres"
+  elif (( length > 160 )); then
+    echo "⚠️ Demasiado larga. Recomendado: 110-160 caracteres"
+  else
+    echo "✅ Longitud óptima para descripción"
+  fi
+}
+
 # Agregar target (ip victima) a el waybar (por medio del archivo)
 
 function settarget(){
