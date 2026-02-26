@@ -3,7 +3,8 @@ set -euo pipefail
 
 # Power menu para Sway (adaptado de tu power-menu.sh)
 
-theme="$HOME/.config/rofi/styles/power-menu.rasi"
+theme="$HOME/.config/rofi/styles/_core/power-menu.rasi"
+bg="$HOME/.config/rofi/images/arch-linux-2.webp"
 
 # Nota: mantenemos `set -euo pipefail`, pero estos datos son "nice to have".
 # En algunos sistemas `hostname` puede no existir, o `last` puede fallar si no hay wtmp.
@@ -37,7 +38,8 @@ rofi_cmd() {
   rofi -dmenu \
     -p "$USER@$host" \
     -mesg " Desde: $lastlogin, Tiempo encendido: $uptime" \
-    -theme "${theme}"
+    -theme "${theme}" \
+    -theme-str "inputbar { background-image: url(\"$bg\", width); }"
 }
 
 run_rofi() {

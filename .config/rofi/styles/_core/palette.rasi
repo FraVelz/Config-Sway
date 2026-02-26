@@ -1,0 +1,11 @@
+/* Paleta de colores (se actualiza al cambiar de tema) */
+
+* {
+    background:            #1e1e2e;
+    background-alt:        #242438;
+    foreground:            #89b3fa;
+    selected:              #89b3fa;
+    active:                #40392e;
+    urgent:                #312b26;
+}
+

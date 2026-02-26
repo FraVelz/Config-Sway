@@ -62,6 +62,9 @@ TEMA="$(echo "${TEMA:-}" | xargs)"
 ELEGIDO="$TEMAS_DIR/$TEMA"
 [ -d "$ELEGIDO" ] || { print_error "Tema no encontrado: $TEMA"; exit 1; }
 
+# Guardar tema actual (para que otros scripts de rofi puedan leerlo)
+printf '%s\n' "$TEMA" > "$TEMAS_DIR/.current"
+
 ts="$(date +%Y%m%d-%H%M%S)"
 
 backup_dir() {
@@ -104,16 +107,38 @@ if [ -d "$ELEGIDO/waybar" ]; then
   fi
 fi
 
-if [ -d "$ELEGIDO/rofi-style" ]; then
-  backup_dir "$HOME/.config/rofi/styles"
-  copy_dir_contents "$ELEGIDO/rofi-style" "$HOME/.config/rofi/styles"
-fi
-
 # Sway (estilo de ventanas)
 if [ -f "$ELEGIDO/sway/theme.conf" ]; then
   backup_dir "$HOME/.config/sway/theme.conf"
   mkdir -p "$HOME/.config/sway"
   cp -a "$ELEGIDO/sway/theme.conf" "$HOME/.config/sway/theme.conf" 2>/dev/null || true
+
+  # Rofi: solo cambia la paleta de colores según el tema
+  rofi_palette="$HOME/.config/rofi/styles/_core/palette.rasi"
+  mkdir -p "$(dirname "$rofi_palette")"
+
+  bg="$(awk '$1=="set" && $2=="$bg"{print $3; exit}' "$ELEGIDO/sway/theme.conf" 2>/dev/null || true)"
+  fg="$(awk '$1=="set" && $2=="$fg"{print $3; exit}' "$ELEGIDO/sway/theme.conf" 2>/dev/null || true)"
+  active="$(awk '$1=="set" && $2=="$active"{print $3; exit}' "$ELEGIDO/sway/theme.conf" 2>/dev/null || true)"
+  inactive="$(awk '$1=="set" && $2=="$inactive"{print $3; exit}' "$ELEGIDO/sway/theme.conf" 2>/dev/null || true)"
+
+  bg="${bg:-#1e1e2e}"
+  fg="${fg:-#89b3fa}"
+  active="${active:-#89b3fa}"
+  inactive="${inactive:-#242438}"
+
+  cat >"$rofi_palette" <<EOF
+/* Paleta de colores (auto) - Tema: $TEMA */
+
+* {
+    background:            $bg;
+    background-alt:        $inactive;
+    foreground:            $fg;
+    selected:              $active;
+    active:                $active;
+    urgent:                $active;
+}
+EOF
 fi
 
 WALL=""
