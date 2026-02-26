@@ -127,21 +127,11 @@ for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen disa
 # ASPECTO
 # ==============================================================================
 
-default_border pixel 2
-default_floating_border pixel 2
 hide_edge_borders none
 
-set $bg           #1e1e2e
-set $fg           #cdd6f4
-set $active       #9ecddf
-set $inactive     #9ecddf11
-
-client.focused          $active   $active   $fg      $active   $active
-client.focused_inactive $inactive $inactive $fg      $inactive $inactive
-client.unfocused        $inactive $inactive $fg      $inactive $inactive
-
-gaps inner 5
-gaps outer 10
+# Estilo por tema (colores/bordes/gaps)
+# Se reemplaza desde ~/.config/themes/<tema>/sway/theme.conf mediante el theme switcher.
+include ~/.config/sway/theme.conf
 
 # ==============================================================================
 # ENTRADA
@@ -164,7 +154,7 @@ input type:touchpad {
 exec_always ~/.config/rofi/setwallpaper.sh
 
 exec nm-applet
-exec waybar -c ~/.config/waybar/config.jsonc
+exec sh -c 'CFG="$HOME/.config/waybar/config-sway.jsonc"; [ -f "$CFG" ] || CFG="$HOME/.config/waybar/config.jsonc"; exec waybar -c "$CFG"'
 
 exec mako
 exec bash ~/.config/rofi/autostart.sh

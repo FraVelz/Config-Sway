@@ -5,7 +5,7 @@ set -euo pipefail
 # Aplica: kitty, waybar (colors/style + genera config-sway), rofi-style (opcional) y wallpaper (swaybg)
 
 TEMAS_DIR="$HOME/.config/themes"
-ROFI_THEME="$HOME/.config/rofi/styles/theme-switcher.rasi"
+ROFI_THEME="$HOME/.config/rofi/styles/_core/theme-switcher.rasi"
 SWAY_WALL_FILE="$HOME/.config/sway/wallpaper"
 
 print_error() {
@@ -107,6 +107,13 @@ fi
 if [ -d "$ELEGIDO/rofi-style" ]; then
   backup_dir "$HOME/.config/rofi/styles"
   copy_dir_contents "$ELEGIDO/rofi-style" "$HOME/.config/rofi/styles"
+fi
+
+# Sway (estilo de ventanas)
+if [ -f "$ELEGIDO/sway/theme.conf" ]; then
+  backup_dir "$HOME/.config/sway/theme.conf"
+  mkdir -p "$HOME/.config/sway"
+  cp -a "$ELEGIDO/sway/theme.conf" "$HOME/.config/sway/theme.conf" 2>/dev/null || true
 fi
 
 WALL=""

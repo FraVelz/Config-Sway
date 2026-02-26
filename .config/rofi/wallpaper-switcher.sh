@@ -2,7 +2,7 @@
 set -euo pipefail
 
 FONDOS_DIR="$HOME/.config/wallpapers"
-THEME_PATH="$HOME/.config/rofi/styles/wallpaper-switcher.rasi"
+THEME_PATH="$HOME/.config/rofi/styles/_core/wallpaper-switcher.rasi"
 SWAY_WALL_FILE="$HOME/.config/sway/wallpaper"
 
 if ! command -v rofi >/dev/null 2>&1; then
