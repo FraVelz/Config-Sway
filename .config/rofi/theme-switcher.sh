@@ -51,7 +51,11 @@ done
 
 [ "$theme_count" -eq 0 ] && { print_error "No hay temas en $TEMAS_DIR"; exit 1; }
 
-TEMA="$(cat "$OPCIONES" | rofi -i -dmenu -show-icons -theme "$ROFI_THEME" 2>/dev/null || true)"
+TEMA="${1:-}"
+if [ -z "${TEMA:-}" ]; then
+  # Nota: evitamos pipe para que rofi lea siempre bien la entrada
+  TEMA="$(rofi -i -dmenu -show-icons -theme "$ROFI_THEME" <"$OPCIONES" 2>/dev/null || true)"
+fi
 TEMA="$(echo "${TEMA:-}" | xargs)"
 [ -z "${TEMA:-}" ] && exit 0
 
@@ -91,11 +95,11 @@ if [ -d "$ELEGIDO/waybar" ]; then
 
   if [ -f "$ELEGIDO/waybar/config.jsonc" ]; then
     sed \
-      -e 's/hyprland\\/workspaces/sway\\/workspaces/g' \
-      -e 's/hyprland\\/window/sway\\/window/g' \
-      -e 's/hyprctl dispatcher togglespecialworkspace monitor/kitty -e btop/g' \
-      -e 's#~\\/\\.config\\/rofi\\/wifi\\/script\\.sh#bash ~\\/\\.config\\/rofi\\/wifi\\.sh#g' \
-      -e 's#~\\/\\.config\\/rofi\\/wifi\\.sh#bash ~\\/\\.config\\/rofi\\/wifi\\.sh#g' \
+      -e 's#hyprland/workspaces#sway/workspaces#g' \
+      -e 's#hyprland/window#sway/window#g' \
+      -e 's#hyprctl dispatcher togglespecialworkspace monitor#kitty -e btop#g' \
+      -e 's#~/.config/rofi/wifi/script.sh#bash ~/.config/rofi/wifi.sh#g' \
+      -e 's#~/.config/rofi/wifi.sh#bash ~/.config/rofi/wifi.sh#g' \
       "$ELEGIDO/waybar/config.jsonc" > "$HOME/.config/waybar/config-sway.jsonc"
   fi
 fi
@@ -113,12 +117,16 @@ for ext in jpg png webp; do
   fi
 done
 
-if [ -n "${WALL:-}" ] && [ -f "${WALL:-}" ]; then
+if [ -z "${WALL:-}" ]; then
+  print_error "Este tema no tiene wallpaper.* en la raíz: $ELEGIDO"
+else
   mkdir -p "$(dirname "$SWAY_WALL_FILE")"
   printf '%s\n' "$WALL" > "$SWAY_WALL_FILE"
   if need swaybg; then
     killall swaybg 2>/dev/null || true
     swaybg -i "$WALL" -m fill >/dev/null 2>&1 & disown || true
+  else
+    print_error "Falta swaybg (no se pudo aplicar el wallpaper)"
   fi
 fi
 
