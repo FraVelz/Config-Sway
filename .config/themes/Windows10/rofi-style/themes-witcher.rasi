@@ -1,0 +1,64 @@
+/*
+ * Texto: #f38ba8;
+ * Fondo: #131313ee; 
+ * Fondo-Selecionado: #ffffff36;
+*/
+
+* {
+    font: "JetBrainsMono Nerd Font 22";
+    background-color: transparent; 
+    color: #f38ba8;
+}
+
+/* Ventana */
+window {
+    location: center;
+
+    background-color: #131313ee; 
+
+    border: 2px;
+    border-radius: 5%;
+    border-color: #f38ba8;
+
+    padding: 20px;
+}
+
+/* Sin input */
+inputbar {
+     children: [ prompt, entry ];
+}
+
+/* Lista */
+listview {
+    columns: 1;
+    lines: 6;
+
+    spacing: 20px;
+    scrollbar: false;
+}
+
+/* Cada opción */
+element {
+    min-width: 64px;
+    min-height: 64px;
+
+    padding: 5px;
+    border-radius: 50%;
+}
+
+/* Opción seleccionada */
+element selected {
+    background-color: #ffffff36;
+}
+
+/* Texto */
+element-text {
+    font: "JetBrainsMono Nerd Font 28";
+
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+    min-width: 30px;
+
+    border-radius: 50%;
+}
+

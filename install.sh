@@ -1,57 +1,52 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Instalador simple para estos dots de Sway.
-# NO borra nada: hace backup de ~/.config y de algunos dotfiles en $HOME y copia encima.
+# Instalador completo para estos dots de Sway.
+# - Instala paquetes necesarios (Arch, pacman)
+# - Hace backup de ~/.config y de algunos dotfiles en $HOME
+# - Copia la configuración del repo
+# - Al final ejecuta update.sh si existe
 
 REPO_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
-SRC="$REPO_DIR/.config"
-DST="$HOME/.config"
+# ---------------------------------------------------------------------------
+# 1) Paquetes necesarios (Arch Linux, pacman)
+# ---------------------------------------------------------------------------
+PKGS=(
+  # WM / entorno
+  sway swaybg waybar mako kitty rofi flameshot network-manager-applet
 
-HOME_SRC="$REPO_DIR/home"
+  # Portales Wayland / capturas
+  xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk grim
 
-if [ ! -d "$SRC" ]; then
-  echo "No existe: $SRC" >&2
-  exit 1
-fi
+  # Utils usados en la config
+  brightnessctl playerctl blueman swaylock
 
-ts="$(date +%Y%m%d-%H%M%S)"
-bak="$HOME/.config.bak-$ts"
-home_bak="$HOME/home-dots.bak-$ts"
+  # Terminal / UX
+  ranger lsd bat fastfetch
 
-if [ -d "$DST" ]; then
-  echo "Backup: $DST -> $bak"
-  cp -a "$DST" "$bak"
+  # Audio / notificaciones usadas en scripts
+  mpc alsa-utils libnotify
+)
+
+if command -v pacman >/dev/null 2>&1; then
+  echo "Instalando paquetes necesarios con pacman (sudo pacman -S --needed)..."
+  sudo pacman -S --needed "${PKGS[@]}"
 else
-  echo "No existe $DST, creando..."
-  mkdir -p "$DST"
+  echo "Aviso: pacman no está disponible, se omite instalación de paquetes." >&2
 fi
 
-echo "Copiando: $SRC/* -> $DST/"
-cp -a "$SRC"/. "$DST"/
+# ---------------------------------------------------------------------------
+# 4) Ejecutar update.sh al final (si existe)
+# ---------------------------------------------------------------------------
 
-# Si existe carpeta home/ en el repo, copia también dotfiles del $HOME, con backup previo.
-if [ -d "$HOME_SRC" ]; then
-  echo "Backup de dotfiles de $HOME en: $home_bak"
-  mkdir -p "$home_bak"
-
-  # Recorre solo primer nivel de home/ (ej. .zshrc, .gitconfig, etc.)
-  (
-    cd "$HOME_SRC"
-    find . -mindepth 1 -maxdepth 1 -print0
-  ) | while IFS= read -r -d '' entry; do
-    rel="${entry#./}"
-    # Si ya existe en $HOME, guarda copia
-    if [ -e "$HOME/$rel" ]; then
-      mkdir -p "$(dirname "$home_bak/$rel")"
-      cp -a "$HOME/$rel" "$home_bak/$rel"
-    fi
-  done
-
-  echo "Copiando: $HOME_SRC/. -> $HOME/"
-  cp -a "$HOME_SRC"/. "$HOME"/
+if [ -x "$REPO_DIR/update.sh" ]; then
+  echo "Ejecutando update.sh..."
+  "$REPO_DIR/update.sh"
+elif [ -f "$REPO_DIR/update.sh" ]; then
+  echo "Aviso: update.sh existe pero no es ejecutable. Ejecutándolo con bash..."
+  bash "$REPO_DIR/update.sh"
 fi
 
-echo "Listo. Si estás en Sway, recarga con: swaymsg reload"
 
+# Instalar los paquetes

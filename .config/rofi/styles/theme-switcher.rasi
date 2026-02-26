@@ -92,3 +92,7 @@ element-text {
     background-color:            transparent;
     text-color:                  inherit;
 }
+
+/**
+ * Autor: Fravelz
+ **/

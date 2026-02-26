@@ -1,0 +1,379 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 25,
+
+  "margin-left": 5,
+  "margin-right": 5,
+  "margin-top": 5,
+  "margin-bottom": 0,
+
+  "spacing": 1,
+  "reload_style_on_change": true,
+
+  //* Orden de los modulos *******************************************
+
+  "modules-left": [  
+    "group/group-1",
+    "group/group-2",
+    "group/group-3"
+  ],
+
+  "modules-center": [
+    "group/group-4"
+  ],
+
+  "modules-right": [
+    "group/group-5",
+    "group/group-6",
+    "group/group-7"
+  ],
+  
+  "group/group-1": {
+    "orientation": "horizontal",
+
+    "modules": [ 
+      "custom/arch",
+      "sway/workspaces"
+    ]
+  },
+
+  "group/group-2": {
+    "orientation": "horizontal",
+    "modules": [
+      "mpris",
+      "custom/previous",
+      "custom/pause",
+      "custom/next"
+    ]
+  },
+
+  "group/group-3": {
+    "orientation": "horizontal",
+    "modules": [
+      "custom/pacman",
+      "custom/pkg-aur"
+    ]
+  },
+
+  "group/group-4": {
+    "orientation": "horizontal",
+    "modules": [ "clock" ]
+  },
+  
+  "group/group-5": {
+    "orientation": "horizontal",
+    "modules": [
+      "battery",
+      "network"
+    ]
+  },
+
+  "group/group-6": {
+    "orientation": "horizontal",
+    "modules": [
+      "tray",
+      "custom/ip"
+    ]
+  },
+
+  "group/group-7": {
+    "orientation": "horizontal",
+    "modules": [
+      "wireplumber",
+      "backlight",
+      "cpu",
+      "temperature"
+    ]
+  },
+
+  "group/group-8": {
+    "orientation": "horizontal",
+    "modules": [ "sway/window" ]
+  },
+
+  //* Configuracion de Modulos ***************************************
+
+  "sway/workspaces": {
+    "on-click": "activate",
+    "activate-only": false,
+    "all-outputs": true,
+    "format": "{name}",
+
+    "format-icons": {
+      "1": "*", "2": "*", "3": "*", "4": "*", "5": "*", 
+      "6": "*", "7": "*", "8": "*", "9": "*", "10": "*",
+
+       "urgent": "*",
+       "active": "*",
+       "default": "*"
+    },
+    
+    "persistent_workspaces": { "[]": 3 }
+  },
+
+  "sway/window": {
+    "format": "{}",
+    "max-length": 18,
+    "separate-outputs": true
+  },
+
+  "river/tags": {
+    "num-tags": 7,
+    "tag-labels": ["", "", "", "", "", "", "", "", "", ""]
+  },
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 5,
+    "show-passive-items": true
+  },
+
+
+  "clock": {
+    "format": "{:%H:%M - %h %d}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "format-alt": "{:%Y-%m-%d}"
+  },
+
+  "temperature": {
+    "thermal-zone": 2,
+    "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    "format-critical": "{temperatureC}°C {icon} ",
+    "critical-threshold": 80,
+    "interval": 2,
+    "format": " {temperatureC:>2}°C ",
+    "format-icons": ["0", "", ""],
+    "on-click": "kitty -e btop"
+  },
+
+  "cpu": {
+    "interval": 2,
+    "format": " {usage:>2}% ",
+    "on-click": "kitty -e btop"
+  },
+
+  "backlight": {
+    // "device": "acpi_video1",
+    "format": "{icon} {percent:>3}%",
+    "format-icons": [ "", "", "", "", "", "", "", "", ""]
+  },
+
+  "bluetooth": {
+    "format": "{icon}",
+    "format-icons": ["󰂯 ", "󰤾 ", "󰥀 ", "󰥄 ", "󰥈 "],
+
+    "tooltip-format-off": "Bluetooth is off",
+    "tooltip-format-on": "Bluetooth is on",
+
+    "format-connected": "{icon} {num_connections}",
+    "format-connected-battery": "{icon} {device_battery_percentage}%",
+
+    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_battery_percentage}%",
+
+    "on-click": "blueman-manager"
+  },
+
+  "network": {
+    "interval": 3,
+    "format-wifi": " {bandwidthTotalBytes:>2}",
+    "format-ethernet": "󰌗 {ipaddr}", 
+    "format-linked": "󰌙 {ifname} (Sin IP)", 
+    "format-disconnected": "󰖪", 
+    "format-alt": "󰛳 {ifname}", 
+    "tooltip-format-wifi": " {bandwidthDownBytes}  {bandwidthUpBytes}", 
+    "tooltip-format-ethernet": "󰌗 {ifname} | IP: {ipaddr}/{cidr} | GW: {gwaddr}", 
+    "tooltip-format-disconnected": "󰖪 Disconnected", 
+    "tooltip-format-linked": "󰌙 {ifname}: Not ip",
+    "max-length": 30, 
+    "on-click": "~/.config/rofi/wifi/script.sh", 
+    "format-icons": {
+      "wifi": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"], 
+      "ethernet": ["󰌗"], 
+      "disconnected": ["󰖪"] 
+    }
+  },
+
+  "wireplumber": {
+    "format": "{icon} {volume:>2}% ",
+    "format-muted": "󰖁 {volume:>2}% ",
+    "format-bluetooth": "{icon} {volume:>2}% 󰂯 ",
+    "format-bluetooth-muted": "󰖁 {icon} 󰂯 ",
+    "format-icons": ["", " ", " "],
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  },
+
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "󰈈",
+      "deactivated": "󰈉"
+    }
+  },
+
+   // Module Custom
+
+   "custom/pkg-aur": {
+    "exec": "yay -Qua | wc -l",
+    "interval": 1800,
+    "format": "󰏔 {}",
+    "tooltip": true,
+    "tooltip-format": "AUR packages"
+  },
+
+  "custom/arch": {
+    "format": "{icon}",
+    "format-icons": " ",
+    "exec-on-event": "true",
+    "tooltip-format": "Arch Linux"
+  },
+
+  "custom/pacman": {
+    "format": "  {}",
+    "interval": 3600, // cada hora se hace el chequeo (comando)
+    "exec": "checkupdates | wc -l", // # el chequeo de actualizaciones
+    "exec-if": "exit 0", // sin limite de chequeos
+
+    // Actualizar al hacer click
+    "on-click": "foot -e 'sudo pacman -Syu'; pkill ZepNet-SIGRTMIN+8 waybar",
+
+    "signal": 8
+  },
+
+  "custom/notification": {
+    "tooltip": false,
+    "format": " 󰂚",
+
+    "format-icons": {
+      "notification": "󰂚<span foreground='red'><sup></sup></span>",
+      "none": "",
+      "dnd-notification": "<span foreground='red'><sup></sup></span>",
+      "dnd-none": "",
+      "inhibited-notification": "<span foreground='red'><sup></sup></span>",
+      "inhibited-none": "",
+      "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+      "dnd-inhibited-none": ""
+    },
+
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  },
+
+  "keyboard-state": {
+    "numlock": false,
+    "capslock": true,
+    "format": "{icon}",
+
+    "format-icons": {
+      "locked": " On",
+      "unlocked": " Off"
+    }
+  },
+
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 18,
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close",
+    "ignore-list": ["wezterm", "foot", "footclient"]
+  },
+
+  "custom/ip": {
+    "exec": "~/.config/waybar/ip.sh",
+    "interval": 2,
+    "format": "{}"
+  },
+
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    
+    "format": "{icon} {capacity}% ",
+    "format-full": "{icon} ",
+    "format-plugged": " {capacity}% <span font='Font Awesome 5 Free'>\uf0e7</span> ",
+    "format-alt": "{icon} ",
+    "tooltip-format": "{capacity}%, about {time} left",
+    "format-icons": [" ", " ", " ", " "]
+  },
+
+   "backlight/slider": {
+     "min": 0,
+     "max": 100,
+     "orientation": "horizontal",
+     "device": "intel_backlight"
+   },
+
+   "mpris": {
+     "format": "{player_icon} {title} - {artist} ",
+     "format-paused": "{status_icon} {title} - {artist}",
+
+     "player-icons": {
+       "default": "<span foreground='#cba6f7'>󰝚 </span>",
+       "spotify": "<span foreground='#a6e3a1'>󰓇 </span>",
+       "firefox": "<span foreground='#f38ba8'>󰗃 </span>"
+     },
+
+     "status-icons": {
+       "paused": "<span color='#b4befe'>\u200A\u200A󰏤\u2009\u2009</span>"
+     },
+
+     "tooltip-format": "Playing: {title} - {artist}",
+     "tooltip-format-paused": "Paused: {title} - {artist}",
+     "min-length": 5,
+     "max-length": 15
+   },
+
+  //* Modulo Experimental para reproductor de musica de playerctl ****
+  //* Este mudolo tiene: Next, Pause, Previous  **********************
+
+  "custom/next": {
+    "format": "󰙡 ",
+    "on-click": "playerctl --player=spotify next && playerctl --player=youtube-music next",
+    "tooltip": false
+  },
+
+  "custom/pause": {
+    "format": "{icon}",
+//  "exec": "playerctl -l 2>/dev/null | head -n 1",
+    "on-click": "playerctl --player=spotify play-pause",
+    "tooltip": false,
+    "format-icons": [ "", "" ]
+  },
+
+  "custom/previous": {
+    "format": "󰙣",
+    "on-click": "playerctl --player=spotify previous && playerctl --player=youtube-music previous",
+    "tooltip": false
+  },
+
+  "network#speed": {
+    "interval": 1,
+    "format": "{ifname}%%",
+    "format-wifi": " {bandwidthDownBytes}  {bandwidthUpBytes}",
+    "format-ethernet": " {bandwidthDownBytes}  {bandwidthUpBytes} ",
+    "format-disconnected": "󰌙",
+    "tooltip-format": "{ipaddr}",
+    "format-linked": "󰈁 {ifname} (No IP)",
+    "tooltip-format-wifi": "{essid} {icon} {signalStrength}%",
+    "tooltip-format-ethernet": "{ifname} 󰌘",
+    "tooltip-format-disconnected": "󰌙 Disconnected",
+    "max-length": 16,
+    "min-length": 14
+  }
+} 
+
+//* Modificador: Fravelz ***************************//
+
+//* ********************************************** *//
+//* Creditos (Autor Original, Estilo Cappuccine):  *//
+//*          ZepharDev Nvim (REPO: Hyprcraft)      *//
+//* ********************************************** *//

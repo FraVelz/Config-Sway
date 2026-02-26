@@ -1,25 +1,26 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-# Tiempo de Espera :v
-sleep 0.5
+# Layout "hacker" para Sway (adaptación de mode-hacker.sh de Hyprland)
+# Crea: izquierda kitty (shell), derecha arriba tty-clock, derecha abajo cava.
 
-# 1) Abrir primera ventana. (x)
-hyprctl dispatch -- exec kitty --title a &
-sleep 0.25
+sleep 0.3
 
-# 2) Abrir 'a' dividiendo el conjunto (a,b) (arriba, abajo).
-hyprctl dispatch layoutmsg preselect r
-hyprctl dispatch -- exec kitty --override font_size=12 --title c -- tty-clock -c -C 4
-sleep 0.30
+if ! command -v swaymsg >/dev/null 2>&1; then
+  notify-send "Mode hacker (Sway)" "swaymsg no disponible" 2>/dev/null || true
+  exit 0
+fi
 
-# 3) Abrir 'b'
-hyprctl dispatch -- exec kitty --title d -- cava &
+swaymsg 'exec kitty --title x' >/dev/null 2>&1 || true
+sleep 0.35
 
-# Quedaria todo asi:
-# ________
-#|   | a  |
-#| x |----|
-#|   | b  |
-#|___|____|
+# Crear columna derecha
+swaymsg 'split horizontal' >/dev/null 2>&1 || true
+swaymsg 'exec kitty --override font_size=12 --title clock -- tty-clock -c -C 4' >/dev/null 2>&1 || true
+sleep 0.35
+
+# Dividir derecha en vertical y abrir cava abajo
+swaymsg 'split vertical' >/dev/null 2>&1 || true
+swaymsg 'exec kitty --title cava -- cava' >/dev/null 2>&1 || true
 
 # Autor: Fravelz

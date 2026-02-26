@@ -34,7 +34,7 @@
 
     "modules": [ 
       "custom/arch",
-      "hyprland/workspaces"
+      "sway/workspaces"
     ]
   },
 
@@ -90,12 +90,12 @@
 
   "group/group-8": {
     "orientation": "horizontal",
-    "modules": [ "hyprland/window" ]
+    "modules": [ "sway/window" ]
   },
 
   //* Configuracion de Modulos ***************************************
 
-  "hyprland/workspaces": {
+  "sway/workspaces": {
     "on-click": "activate",
     "activate-only": false,
     "all-outputs": true,
@@ -113,7 +113,7 @@
     "persistent_workspaces": { "[]": 3 }
   },
 
-  "hyprland/window": {
+  "sway/window": {
     "format": "{}",
     "max-length": 18,
     "separate-outputs": true
@@ -145,13 +145,13 @@
     "interval": 2,
     "format": " {temperatureC:>2}°C ",
     "format-icons": ["0", "", ""],
-    "on-click": "hyprctl dispatcher togglespecialworkspace monitor"
+    "on-click": "kitty -e btop"
   },
 
   "cpu": {
     "interval": 2,
     "format": " {usage:>2}% ",
-    "on-click": "hyprctl dispatcher togglespecialworkspace monitor"
+    "on-click": "kitty -e btop"
   },
 
   "memory": {
@@ -421,9 +421,4 @@
   }
 } 
 
-//* Modificador: Fravelz ***************************//
-
-//* ********************************************** *//
-//* Creditos (Autor Original, Estilo Cappuccine):  *//
-//*          ZepharDev Nvim (REPO: Hyprcraft)      *//
-//* ********************************************** *//
+// Autor: Fravelz 

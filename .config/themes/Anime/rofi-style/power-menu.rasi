@@ -1,0 +1,65 @@
+/*
+ * Texto: #89b4fa;
+ * Fondo: #1e1e2eee; 
+ * Fondo-Selecionado: #89b4fa30;
+*/
+
+* {
+    font: "JetBrainsMono Nerd Font 22";
+    background-color: transparent; 
+    color: #89b4faff;
+}
+
+/* Ventana */
+window {
+    location: center;
+
+    background-color: #1e1e2eee; 
+
+    border: 2px;
+    border-radius: 50%;
+    border-color: #89b4fa;
+
+    padding: 20px;
+}
+
+/* Sin input */
+inputbar {
+    enabled: false;
+}
+
+/* Lista */
+listview {
+    columns: 5;
+    lines: 1;
+
+    spacing: 20px;
+    scrollbar: false;
+}
+
+/* Cada opción */
+element {
+    min-width: 64px;
+    min-height: 64px;
+
+    padding: 5px;
+    border-radius: 50%;
+}
+
+/* Opción seleccionada */
+element selected {
+    background-color: #89b4fa30;
+}
+
+/* Texto */
+element-text {
+    font: "JetBrainsMono Nerd Font 28";
+
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+    min-width: 30px;
+
+    border-radius: 50%;
+}
+
+/* Autor: Fravelz */

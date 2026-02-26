@@ -209,14 +209,6 @@ error-message {
     text-color:            @foreground;
 }
 
-/* Informacion **************************************************** */
-
 /**
- * Modificado por: Fravelz
- *
- * Autor: Aditya Shakya (adi1090x)
- * Github: @adi1090x
- * 
- * Rofi Theme File
- * Rofi Version: 1.7.3
+ * Autor: Fravelz
  **/

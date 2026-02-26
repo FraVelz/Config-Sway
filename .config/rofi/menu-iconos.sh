@@ -121,6 +121,10 @@ EMOJI=$(cat <<EOF
 🙀 Gato sorprendido
 😿 Gato triste
 😾 Gato enojado
+🗣️ persona hablando / “hablar”
+💬 burbuja de diálogo / mensaje
+🗨️ burbuja de diálogo izquierda
+🗯️ burbuja de cómic con exclamación
 👋 Mano saludando
 🤚 Dorso de mano levantado
 🖐️ Mano extendida con cinco dedos
