@@ -111,24 +111,31 @@ if [ -f "$ELEGIDO/sway/theme.conf" ]; then
   mkdir -p "$HOME/.config/sway"
   cp -a "$ELEGIDO/sway/theme.conf" "$HOME/.config/sway/theme.conf" 2>/dev/null || true
 
-  # Rofi: solo cambia la paleta de colores según el tema
+  # Rofi: si el tema trae rofi-style, lo aplicamos; si no, generamos paleta desde theme.conf
   rofi_palette="$HOME/.config/rofi/styles/_core/palette.rasi"
-  mkdir -p "$(dirname "$rofi_palette")"
+  rofi_theme_dir="$ELEGIDO/rofi-style"
+  rofi_theme_palette="$rofi_theme_dir/_core/palette.rasi"
 
-  bg="$(awk '$1=="set" && $2=="$bg"{print $3; exit}' "$ELEGIDO/sway/theme.conf" 2>/dev/null || true)"
-  fg="$(awk '$1=="set" && $2=="$fg"{print $3; exit}' "$ELEGIDO/sway/theme.conf" 2>/dev/null || true)"
-  active="$(awk '$1=="set" && $2=="$active"{print $3; exit}' "$ELEGIDO/sway/theme.conf" 2>/dev/null || true)"
-  inactive="$(awk '$1=="set" && $2=="$inactive"{print $3; exit}' "$ELEGIDO/sway/theme.conf" 2>/dev/null || true)"
-  font_line="$(awk '$1=="font"{ $1=""; sub(/^ /,""); print; exit }' "$ELEGIDO/sway/theme.conf" 2>/dev/null || true)"
+  if [ -f "$rofi_theme_palette" ]; then
+    mkdir -p "$(dirname "$rofi_palette")"
+    cp -a "$rofi_theme_palette" "$rofi_palette" 2>/dev/null || true
+  else
+    mkdir -p "$(dirname "$rofi_palette")"
 
-  bg="${bg:-#1e1e2e}"
-  fg="${fg:-#89b3fa}"
-  active="${active:-#89b3fa}"
-  inactive="${inactive:-#242438}"
-  rofi_font="${font_line#pango:}"
-  rofi_font="${rofi_font:-JetBrains Mono Nerd Font 14}"
+    bg="$(awk '$1=="set" && $2=="$bg"{print $3; exit}' "$ELEGIDO/sway/theme.conf" 2>/dev/null || true)"
+    fg="$(awk '$1=="set" && $2=="$fg"{print $3; exit}' "$ELEGIDO/sway/theme.conf" 2>/dev/null || true)"
+    active="$(awk '$1=="set" && $2=="$active"{print $3; exit}' "$ELEGIDO/sway/theme.conf" 2>/dev/null || true)"
+    inactive="$(awk '$1=="set" && $2=="$inactive"{print $3; exit}' "$ELEGIDO/sway/theme.conf" 2>/dev/null || true)"
+    font_line="$(awk '$1=="font"{ $1=""; sub(/^ /,""); print; exit }' "$ELEGIDO/sway/theme.conf" 2>/dev/null || true)"
 
-  cat >"$rofi_palette" <<EOF
+    bg="${bg:-#1e1e2e}"
+    fg="${fg:-#89b3fa}"
+    active="${active:-#89b3fa}"
+    inactive="${inactive:-#242438}"
+    rofi_font="${font_line#pango:}"
+    rofi_font="${rofi_font:-JetBrains Mono Nerd Font 14}"
+
+    cat >"$rofi_palette" <<EOF
 /* Paleta de colores (auto) - Tema: $TEMA */
 
 * {
@@ -141,6 +148,7 @@ if [ -f "$ELEGIDO/sway/theme.conf" ]; then
     urgent:                $active;
 }
 EOF
+  fi
 fi
 
 WALL=""

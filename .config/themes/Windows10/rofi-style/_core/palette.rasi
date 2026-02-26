@@ -1,0 +1,12 @@
+/* Paleta de colores (tema) - Windows10 */
+
+* {
+    font:                  "Noto Sans 16";
+    background:            #0e141c;
+    background-alt:        #4c5a6a;
+    foreground:            #f3f6fb;
+    selected:              #0078d7;
+    active:                #0078d7;
+    urgent:                #0078d7;
+}
+

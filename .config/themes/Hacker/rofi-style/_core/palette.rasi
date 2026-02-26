@@ -1,0 +1,12 @@
+/* Paleta de colores (tema) - Hacker */
+
+* {
+    font:                  "JetBrains Mono Nerd Font 14";
+    background:            #212121;
+    background-alt:        #45475a;
+    foreground:            #a6e3a1;
+    selected:              #a6e3a1;
+    active:                #a6e3a1;
+    urgent:                #a6e3a1;
+}
+

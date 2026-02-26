@@ -8,13 +8,9 @@ configuration {
 
 * {
     font: "JetBrainsMono NF Bold 14";
-    background: #1A1B26;
-    background-alt: #1A1B26E0;
-    foreground: #c0caf5;
-    selected: #7aa2f7;
-    active: #9ece6a;
-    urgent: #f7768e;
 }
+
+@import "~/.config/rofi/styles/_core/palette.rasi"
 
 window {
     enabled:                     true;

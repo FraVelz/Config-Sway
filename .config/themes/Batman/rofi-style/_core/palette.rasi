@@ -1,0 +1,12 @@
+/* Paleta de colores (tema) - Batman */
+
+* {
+    font:                  "JetBrains Mono Nerd Font 14";
+    background:            #212121;
+    background-alt:        #45475a;
+    foreground:            #dfdfdf;
+    selected:              #dfdfdf;
+    active:                #dfdfdf;
+    urgent:                #dfdfdf;
+}
+

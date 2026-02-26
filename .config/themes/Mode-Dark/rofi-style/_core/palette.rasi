@@ -1,0 +1,12 @@
+/* Paleta de colores (tema) - Mode-Dark */
+
+* {
+    font:                  "JetBrains Mono Nerd Font 14";
+    background:            #0a0a0a;
+    background-alt:        #45475a;
+    foreground:            #f38ba8;
+    selected:              #f38ba8;
+    active:                #f38ba8;
+    urgent:                #f38ba8;
+}
+
