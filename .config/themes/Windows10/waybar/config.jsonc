@@ -1,24 +1,23 @@
 {
   "layer": "top",
   "position": "bottom",
+  "height": 34,
 
-  "spacing": 1,
+  "spacing": 0,
   "reload_style_on_change": true,
 
   //* Orden de los modulos *******************************************
 
-  "modules-left": [  
-    "group/group-1"
+  "modules-left": [
+    "group/group-1",
+    "group/group-2"
   ],
 
-  "modules-center": [
-    "group/group-4"
-  ],
+  "modules-center": [],
 
   "modules-right": [
     "group/group-5",
-    "group/group-6",
-    "group/group-7"
+    "group/group-6"
   ],
   
   "group/group-1": {
@@ -33,53 +32,25 @@
   "group/group-2": {
     "orientation": "horizontal",
     "modules": [
-      "mpris",
-      "custom/previous",
-      "custom/pause",
-      "custom/next"
+      "wlr/taskbar"
     ]
   },
 
-  "group/group-3": {
-    "orientation": "horizontal",
-    "modules": [
-      "custom/pacman",
-      "custom/pkg-aur"
-    ]
-  },
-
-  "group/group-4": {
-    "orientation": "horizontal",
-    "modules": [ "clock" ]
-  },
-  
   "group/group-5": {
     "orientation": "horizontal",
     "modules": [
-      "battery",
-      "network"
+      "tray",
+      "network",
+      "wireplumber",
+      "battery"
     ]
   },
 
   "group/group-6": {
     "orientation": "horizontal",
     "modules": [
-      "wireplumber",
-      "backlight"
+      "clock"
     ]
-  },
-
-  "group/group-7": {
-    "orientation": "horizontal",
-    "modules": [
-      "cpu",
-      "temperature"
-    ]
-  },
-
-  "group/group-8": {
-    "orientation": "horizontal",
-    "modules": [ "sway/window" ]
   },
 
   //* Configuracion de Modulos ***************************************
@@ -121,7 +92,7 @@
 
 
   "clock": {
-    "format": "{:%I:%M %p\n%d/%m/%Y}",
+    "format": "{:%H:%M\n%d/%m/%Y}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
     "format-alt": "{:%Y-%m-%d}"
   },
@@ -187,7 +158,7 @@
         "tooltip-format-disconnected": "󰖪 Disconnected", 
         "tooltip-format-linked": "󰌙 {ifname}: Not ip",
         "max-length": 30, 
-        "on-click": "~/.config/rofi/wifi/script.sh", 
+        "on-click": "bash ~/.config/rofi/wifi.sh",
         "format-icons": {
             "wifi": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"], 
             "ethernet": ["󰌗"], 
@@ -323,7 +294,7 @@
 
   "wlr/taskbar": {
     "format": "{icon}",
-    "icon-size": 18,
+    "icon-size": 20,
     "tooltip-format": "{title}",
     "on-click": "activate",
     "on-click-middle": "close",
