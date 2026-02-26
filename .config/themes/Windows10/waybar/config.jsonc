@@ -158,7 +158,6 @@
         "tooltip-format-disconnected": "󰖪 Disconnected", 
         "tooltip-format-linked": "󰌙 {ifname}: Not ip",
         "max-length": 30, 
-        "on-click": "bash ~/.config/rofi/wifi.sh",
         "format-icons": {
             "wifi": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"], 
             "ethernet": ["󰌗"], 
@@ -243,7 +242,7 @@
     "format-icons": " ",
     "exec-on-event": "true",
     "tooltip-format": false,
-    "on-click": "~/.config/rofi/selector-app.sh"
+    "on-click": "~/.config/rofi/scripts/selector-app.sh"
   },
 
   "custom/pacman": {

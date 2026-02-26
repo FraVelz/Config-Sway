@@ -198,7 +198,6 @@
         "tooltip-format-disconnected": "󰖪 Disconnected", 
         "tooltip-format-linked": "󰌙 {ifname}: Not ip",
         "max-length": 30, 
-        "on-click": "bash ~/.config/rofi/wifi.sh", 
         "format-icons": {
             "wifi": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"], 
             "ethernet": ["󰌗"], 

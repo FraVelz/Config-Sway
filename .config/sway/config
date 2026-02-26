@@ -25,12 +25,12 @@ bindsym $mod+Shift+r reload
 # bindsym $mod+Shift+c exec tu-script-centrar
 
 # === MENÚS ROFI (Sway) ========================================================
-bindsym $mod+d exec ~/.config/rofi/selector-app.sh
-bindsym $mod+q exec bash ~/.config/rofi/power-menu.sh
-bindsym $mod+a exec bash ~/.config/rofi/theme-switcher.sh
-bindsym $mod+w exec bash ~/.config/rofi/wallpaper-switcher.sh
-bindsym $mod+e exec ~/.config/rofi/menu-iconos.sh
-bindsym $mod+Shift+Return exec bash ~/.config/rofi/mode-hacker.sh
+bindsym $mod+d exec ~/.config/rofi/scripts/selector-app.sh
+bindsym $mod+q exec ~/.config/rofi/scripts/power-menu.sh
+bindsym $mod+a exec ~/.config/rofi/scripts/theme-switcher.sh
+bindsym $mod+w exec ~/.config/rofi/scripts/wallpaper-switcher.sh
+bindsym $mod+e exec ~/.config/rofi/scripts/menu-iconos.sh
+bindsym $mod+Shift+Return exec ~/.config/scripts/mode-hacker.sh
 
 # === MOVER FOCO (HJKL) ========================================================
 bindsym $mod+$left focus left
@@ -151,12 +151,12 @@ input type:touchpad {
 # AUTOSTART
 # ==============================================================================
 
-exec_always ~/.config/rofi/setwallpaper.sh
+exec_always ~/.config/scripts/setwallpaper.sh
 
 exec nm-applet
 exec sh -c 'CFG="$HOME/.config/waybar/config-sway.jsonc"; [ -f "$CFG" ] || CFG="$HOME/.config/waybar/config.jsonc"; exec waybar -c "$CFG"'
 
 exec mako
-exec bash ~/.config/rofi/autostart.sh
+exec bash ~/.config/scripts/autostart.sh
 
 # Autor: Fravelz

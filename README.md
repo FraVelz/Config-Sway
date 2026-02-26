@@ -9,7 +9,6 @@ Configuración de **Sway** alineada con los atajos y preferencias de **Hyprland*
 | Config principal de Sway (en tu sistema) | `~/.config/sway/config`              |
 | Waybar para Sway (en tu sistema)         | `~/.config/waybar/config-sway.jsonc` |
 | Repo (fuente de verdad)                  | `./.config/`                         |
-| Config suelta (legacy)                   | `./config`                           |
 
 ## Instalar desde este repo
 
@@ -63,12 +62,12 @@ cp -a ~/.config.bak-YYYYMMDD-HHMMSS ~/.config
 
 | Atajo               | Acción                                                 | Script                                           |
 | ------------------- | ------------------------------------------------------ | ------------------------------------------------ |
-| `Super+D`           | Lanzador de apps                                       | `~/.config/rofi/selector-app.sh`                 |
-| `Super+Q`           | Power menu (apagar/reiniciar/bloquear/suspender/salir) | `bash ~/.config/rofi/power-menu-sway.sh`         |
-| `Super+A`           | Cambiar tema (aplica kitty/waybar/wallpaper, etc.)     | `bash ~/.config/rofi/theme-switcher-sway.sh`     |
-| `Super+W`           | Cambiar wallpaper (Sway)                               | `bash ~/.config/rofi/wallpaper-switcher-sway.sh` |
-| `Super+E`           | Menú de iconos/emoji                                   | `~/.config/rofi/menu-iconos.sh`                  |
-| `Super+Shift+Enter` | Layout “hacker”                                        | `bash ~/.config/rofi/mode-hacker-sway.sh`        |
+| `Super+D`           | Lanzador de apps                                       | `~/.config/rofi/scripts/selector-app.sh`         |
+| `Super+Q`           | Power menu (apagar/reiniciar/bloquear/suspender/salir) | `~/.config/rofi/scripts/power-menu.sh`           |
+| `Super+A`           | Cambiar tema (aplica kitty/waybar/wallpaper, etc.)     | `~/.config/rofi/scripts/theme-switcher.sh`       |
+| `Super+W`           | Cambiar wallpaper (Sway)                               | `~/.config/rofi/scripts/wallpaper-switcher.sh`   |
+| `Super+E`           | Menú de iconos/emoji                                   | `~/.config/rofi/scripts/menu-iconos.sh`          |
+| `Super+Shift+Enter` | Layout “hacker”                                        | `~/.config/scripts/mode-hacker.sh`               |
 
 ### Ventanas / layout
 
@@ -201,15 +200,20 @@ Usa `sway/workspaces` y `sway/window` en lugar de los módulos de Hyprland. El e
 
 El clic del módulo de red abre el menú WiFi:
 
-- `bash ~/.config/rofi/wifi.sh`
+- `bash ~/.config/rofi/scripts/wifi.sh`
 
 ## Notas
 
 - Si antes usabas Hyprland, este repo se centra en Sway. (Tus archivos antiguos no los toca si no están dentro del set “gestionado” por el instalador).
 - **Centrar ventana:** Sway no tiene comando nativo; en el config hay un atajo comentado por si quieres enganchar un script propio.
-- **Scripts para Sway:** en `~/.config/rofi/` hay scripts listos para Sway:
-  - `autostart-sway.sh`
-  - `power-menu-sway.sh`
-  - `theme-switcher-sway.sh`
-  - `wallpaper-switcher-sway.sh`
-  - `mode-hacker-sway.sh`
+- **Scripts para Sway:** en `~/.config/rofi/scripts/`:
+  - `power-menu.sh`
+  - `theme-switcher.sh`
+  - `wallpaper-switcher.sh`
+  - `wifi.sh`
+  - `menu-iconos.sh`
+
+- **Scripts generales (no rofi):** en `~/.config/scripts/`:
+  - `autostart.sh`
+  - `mode-hacker.sh`
+  - `setwallpaper.sh`

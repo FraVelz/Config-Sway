@@ -35,11 +35,18 @@ cerrar_seccion='󰍂 '
 cancelar=' '
 
 rofi_cmd() {
-  rofi -dmenu \
-    -p "$USER@$host" \
-    -mesg " Desde: $lastlogin, Tiempo encendido: $uptime" \
-    -theme "${theme}" \
-    -theme-str "inputbar { background-image: url(\"$bg\", width); }"
+  local -a args=(
+    rofi -dmenu
+    -p "$USER@$host"
+    -mesg " Desde: $lastlogin, Tiempo encendido: $uptime"
+    -theme "${theme}"
+  )
+
+  if [ -f "$bg" ]; then
+    args+=(-theme-str "inputbar { background-image: url(\"$bg\", width); }")
+  fi
+
+  "${args[@]}"
 }
 
 run_rofi() {

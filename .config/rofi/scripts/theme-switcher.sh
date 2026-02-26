@@ -101,8 +101,6 @@ if [ -d "$ELEGIDO/waybar" ]; then
       -e 's#hyprland/workspaces#sway/workspaces#g' \
       -e 's#hyprland/window#sway/window#g' \
       -e 's#hyprctl dispatcher togglespecialworkspace monitor#kitty -e btop#g' \
-      -e 's#~/.config/rofi/wifi/script.sh#bash ~/.config/rofi/wifi.sh#g' \
-      -e 's#~/.config/rofi/wifi.sh#bash ~/.config/rofi/wifi.sh#g' \
       "$ELEGIDO/waybar/config.jsonc" > "$HOME/.config/waybar/config-sway.jsonc"
   fi
 fi
