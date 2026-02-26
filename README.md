@@ -173,7 +173,7 @@ systemctl --user restart xdg-desktop-portal xdg-desktop-portal-wlr
 ## Wallpaper (Sway)
 
 - Sway guarda el wallpaper actual en `~/.config/sway/wallpaper` (un archivo con la ruta a la imagen).
-- Si ese archivo no existe, **hace fallback** a `~/.config/hypr/wallpaper.png` si existe.
+- Si ese archivo no existe, **hace fallback** a `~/.config/wallpapers/default-wallpaper.webp` si existe.
 
 ## Iniciar Sway
 
@@ -205,9 +205,9 @@ El clic del módulo de red abre el menú WiFi:
 
 ## Notas
 
-- **Hyprland** no se ha modificado: toda tu config en `~/.config/hypr/` sigue igual.
+- Si antes usabas Hyprland, este repo se centra en Sway. (Tus archivos antiguos no los toca si no están dentro del set “gestionado” por el instalador).
 - **Centrar ventana:** Sway no tiene comando nativo; en el config hay un atajo comentado por si quieres enganchar un script propio.
-- **Scripts Hypr → Sway:** en `~/.config/rofi/` se añadieron versiones para Sway:
+- **Scripts para Sway:** en `~/.config/rofi/` hay scripts listos para Sway:
   - `autostart-sway.sh`
   - `power-menu-sway.sh`
   - `theme-switcher-sway.sh`

@@ -38,8 +38,8 @@ for theme_dir in "$TEMAS_DIR"/*; do
 
   preview=""
   for ext in jpg png webp; do
-    if [ -f "$theme_dir/hypr/wallpaper.$ext" ]; then
-      preview="$theme_dir/hypr/wallpaper.$ext"
+    if [ -f "$theme_dir/wallpaper.$ext" ]; then
+      preview="$theme_dir/wallpaper.$ext"
       break
     fi
   done
@@ -107,8 +107,8 @@ fi
 
 WALL=""
 for ext in jpg png webp; do
-  if [ -f "$ELEGIDO/hypr/wallpaper.$ext" ]; then
-    WALL="$ELEGIDO/hypr/wallpaper.$ext"
+  if [ -f "$ELEGIDO/wallpaper.$ext" ]; then
+    WALL="$ELEGIDO/wallpaper.$ext"
     break
   fi
 done

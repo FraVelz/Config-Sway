@@ -16,7 +16,8 @@ if [ ! -d "$FONDOS_DIR" ]; then
 fi
 
 OPTIONS_FILE="$(mktemp)"
-trap 'rm -f "$OPTIONS_FILE"' EXIT
+ROFI_ERR="$(mktemp)"
+trap 'rm -f "$OPTIONS_FILE" "$ROFI_ERR"' EXIT
 
 shopt -s nullglob
 for img in "$FONDOS_DIR"/*; do
@@ -29,7 +30,17 @@ if [ ! -s "$OPTIONS_FILE" ]; then
   exit 0
 fi
 
-FONDO="$(cat "$OPTIONS_FILE" | rofi -dmenu -show-icons -p \"> \" -theme "$THEME_PATH" || true)"
+set +e
+FONDO="$(rofi -i -dmenu -show-icons -p "> " -theme "$THEME_PATH" <"$OPTIONS_FILE" 2>"$ROFI_ERR")"
+rc=$?
+set -e
+
+if [ "$rc" -ne 0 ] && [ -s "$ROFI_ERR" ]; then
+  err="$(tr -s '\n' ' ' < "$ROFI_ERR" | cut -c1-220)"
+  notify-send "Wallpaper" "Rofi error: $err" 2>/dev/null || true
+fi
+
+FONDO="${FONDO:-}"
 [ -z "${FONDO:-}" ] && exit 0
 
 WALL="$FONDOS_DIR/$FONDO"

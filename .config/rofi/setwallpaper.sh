@@ -7,10 +7,10 @@ W="$(cat ~/.config/sway/wallpaper 2>/dev/null || true)"
 if [ -n "$W" ] && [ -f "$W" ]; then
     killall swaybg 2>/dev/null || true
     swaybg -i "$W" -m fill >/dev/null 2>&1 &
-# Si no, usar wallpaper alternativo
-elif [ -f ~/.config/hypr/wallpaper.png ]; then
+# Si no, usar wallpaper alternativo del directorio de wallpapers
+elif [ -f ~/.config/wallpapers/arch-linux-logo.webp ]; then
     killall swaybg 2>/dev/null || true
-    swaybg -i ~/.config/hypr/wallpaper.png -m fill >/dev/null 2>&1 &
+    swaybg -i ~/.config/wallpapers/arch-linux-logo.webp -m fill >/dev/null 2>&1 &
 # Si nada, usar color sólido
 else
     killall swaybg 2>/dev/null || true
