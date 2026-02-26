@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Instalador simple para estos dots de Sway.
-# NO borra nada: hace backup de ~/.config y de algunos dotfiles en $HOME y copia encima.
+# Instalador simple para dots de Sway
+# NO borra nada: hace backup por defecto, pero se puede desactivar con --no-backup
 
 REPO_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -11,48 +11,86 @@ DST="$HOME/.config"
 
 HOME_SRC="$REPO_DIR/home"
 
+# ===========================
+# Manejo de flags
+# ===========================
+NO_BACKUP=0
+for arg in "$@"; do
+    case "$arg" in
+        --no-backup)
+            NO_BACKUP=1
+            ;;
+        *)
+            echo "Opción desconocida: $arg" >&2
+            exit 1
+            ;;
+    esac
+done
+
+# ===========================
+# Validaciones
+# ===========================
 if [ ! -d "$SRC" ]; then
   echo "No existe: $SRC" >&2
   exit 1
 fi
 
+# Timestamps para backups
 ts="$(date +%Y%m%d-%H%M%S)"
 bak="$HOME/.config.bak-$ts"
 home_bak="$HOME/home-dots.bak-$ts"
 
-if [ -d "$DST" ]; then
-  echo "Backup: $DST -> $bak"
-  cp -a "$DST" "$bak"
+# ===========================
+# Backup de .config
+# ===========================
+if [ "$NO_BACKUP" -eq 0 ]; then
+    if [ -d "$DST" ]; then
+      echo "Backup: $DST -> $bak"
+      cp -a "$DST" "$bak"
+    else
+      echo "No existe $DST, creando..."
+      mkdir -p "$DST"
+    fi
 else
-  echo "No existe $DST, creando..."
-  mkdir -p "$DST"
+    # Solo crear destino si no existe
+    mkdir -p "$DST"
 fi
 
+# ===========================
+# Copia principal de .config
+# ===========================
 echo "Copiando: $SRC/* -> $DST/"
 cp -a "$SRC"/. "$DST"/
 
-# Si existe carpeta home/ en el repo, copia también dotfiles del $HOME, con backup previo.
+# ===========================
+# Backup de dotfiles de home
+# ===========================
 if [ -d "$HOME_SRC" ]; then
-  echo "Backup de dotfiles de $HOME en: $home_bak"
-  mkdir -p "$home_bak"
+    if [ "$NO_BACKUP" -eq 0 ]; then
+        echo "Backup de dotfiles de $HOME en: $home_bak"
+        mkdir -p "$home_bak"
 
-  # Recorre solo primer nivel de home/ (ej. .zshrc, .gitconfig, etc.)
-  (
-    cd "$HOME_SRC"
-    find . -mindepth 1 -maxdepth 1 -print0
-  ) | while IFS= read -r -d '' entry; do
-    rel="${entry#./}"
-    # Si ya existe en $HOME, guarda copia
-    if [ -e "$HOME/$rel" ]; then
-      mkdir -p "$(dirname "$home_bak/$rel")"
-      cp -a "$HOME/$rel" "$home_bak/$rel"
+        (
+          cd "$HOME_SRC"
+          find . -mindepth 1 -maxdepth 1 -print0
+        ) | while IFS= read -r -d '' entry; do
+          rel="${entry#./}"
+          if [ -e "$HOME/$rel" ]; then
+            mkdir -p "$(dirname "$home_bak/$rel")"
+            cp -a "$HOME/$rel" "$home_bak/$rel"
+          fi
+        done
     fi
-  done
 
-  echo "Copiando: $HOME_SRC/. -> $HOME/"
-  cp -a "$HOME_SRC"/. "$HOME"/
+    echo "Copiando: $HOME_SRC/. -> $HOME/"
+    cp -a "$HOME_SRC"/. "$HOME"/
 fi
 
-echo "Listo. Si estás en Sway, recarga con: swaymsg reload"
+# ===========================
+# Recargar Sway
+# ===========================
 
-# Autor: Fravelz 
+swaymsg reload
+echo "Listo."
+
+# Autor: Fravelz

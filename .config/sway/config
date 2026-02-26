@@ -16,6 +16,7 @@ bindsym $mod+z exec flameshot gui
 # === VENTANAS =================================================================
 #bindsym $mod+u floating toggle bindsym $mod+c kill bindsym $mod+m exit bindsym $mod+p fullscreen toggle
 bindsym $mod+o layout toggle split
+bindsym $mod+c kill
 
 # Recargar configuración
 bindsym $mod+Shift+r reload
@@ -160,20 +161,7 @@ input type:touchpad {
 # AUTOSTART
 # ==============================================================================
 
-exec_always sh -c '
-W="$(cat ~/.config/sway/wallpaper 2>/dev/null || true)"
-
-if [ -n "$W" ] && [ -f "$W" ]; then
-    killall swaybg 2>/dev/null || true
-    swaybg -i "$W" -m fill >/dev/null 2>&1 &
-elif [ -f ~/.config/hypr/wallpaper.png ]; then
-    killall swaybg 2>/dev/null || true
-    swaybg -i ~/.config/hypr/wallpaper.png -m fill >/dev/null 2>&1 &
-else
-    killall swaybg 2>/dev/null || true
-    swaybg -c "#1e1e2e" >/dev/null 2>&1 &
-fi
-'
+exec_always ~/.config/rofi/setwallpaper.sh
 
 exec nm-applet
 exec waybar -c ~/.config/waybar/config.jsonc
