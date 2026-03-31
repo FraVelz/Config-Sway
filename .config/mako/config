@@ -1,5 +1,6 @@
 # =============================================================================
-# Mako - Notificaciones para Wayland (Hyprdots)
+# Mako — no se usa en la config por defecto de este repo (sesión Sway: swaync).
+# Conservado por si quieres volver a mako y desactivar swaync.
 # Colores waybar/colors.css (Catppuccin). Reinicia mako para aplicar:
 #   killall mako; mako &
 # =============================================================================

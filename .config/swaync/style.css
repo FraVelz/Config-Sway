@@ -1,0 +1,20 @@
+/* Paleta Catppuccin Mocha (alineada con ~/.config/waybar/colors.css).
+ * Tras instalar swaync, si algo se ve raro, copia /etc/xdg/swaync/style.css
+ * aquí y ajusta las variables de abajo. */
+
+@define-color cc-bg rgba(30, 30, 46, 0.92);
+
+@define-color noti-border-color rgba(205, 214, 244, 0.12);
+@define-color noti-bg rgba(49, 50, 68, 0.95);
+@define-color noti-bg-opaque rgb(49, 50, 68);
+@define-color noti-bg-darker rgb(24, 24, 37);
+@define-color noti-bg-hover rgb(69, 71, 90);
+@define-color noti-bg-hover-opaque rgb(69, 71, 90);
+@define-color noti-bg-focus rgba(88, 91, 112, 0.65);
+@define-color noti-close-bg rgba(205, 214, 244, 0.08);
+@define-color noti-close-bg-hover rgba(205, 214, 244, 0.14);
+
+@define-color text-color rgb(205, 214, 244);
+@define-color text-color-disabled rgb(127, 132, 156);
+
+@define-color bg-selected rgb(137, 180, 250);

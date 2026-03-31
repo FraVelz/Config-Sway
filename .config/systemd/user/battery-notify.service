@@ -1,0 +1,6 @@
+[Unit]
+Description=Battery threshold notifications (80%% charge / 20%% low)
+
+[Service]
+Type=oneshot
+ExecStart=%h/.config/scripts/battery-notify.sh

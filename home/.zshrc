@@ -12,6 +12,16 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+function open_code {
+  sleep 1 && code .
+}
+
+function  ggpush {
+  git add .
+  git commit -m "$1"
+  git push
+}
+
 # Pronmpt configuration
 
 function dir_icon {
@@ -41,7 +51,7 @@ function a(){
 # Personalizar segundos del contador:
 #   1) Por defecto (si no pasas segundo arg): cambia el "3" en la línea de abajo.
 #   2) En cada llamada: create-web mi-proyecto 10   → 10 s
-function create-web(){
+function create-astro(){
   local name="${1:?Uso: create-web <nombre-proyecto> [segundos-countdown]}"
   local countdown_sec="${2:-3}"
   local step_ms=100
@@ -73,6 +83,47 @@ function create-web(){
   fi
    pnpm astro add tailwind --yes
   pnpm run dev
+}
+
+function create-next() {
+  local name="${1:?Uso: create-next <nombre-proyecto> [segundos-countdown]}"
+  local countdown_sec="${2:-3}"
+  local step_ms=100
+  local remaining_ms=$(( countdown_sec * 1000 ))
+  local url="http://localhost:3000"
+
+  # Crear el proyecto Next.js de forma automática
+  # Flags: --ts (TypeScript), --tailwind, --eslint, --app (App Router), --src-dir, --import-alias
+  pnpm create next-app "$name" --ts --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm || return 1
+  
+  cd "$name" || return 1
+
+  echo ""
+  echo "🚀 Proyecto Next.js (React) creado con éxito."
+  echo "Abriendo editor en ${countdown_sec} s..."
+  echo ""
+
+  # Lógica del countdown (idéntica a la tuya)
+  while (( remaining_ms >= 0 )); do
+    local s=$(( remaining_ms / 1000 ))
+    local ms=$(( remaining_ms % 1000 ))
+    printf '\r  ⏱  %d.%03d s → 0.000 s    ' "$s" "$ms"
+    (( remaining_ms <= 0 )) && break
+    sleep 0.1
+    (( remaining_ms -= step_ms ))
+  done
+
+  printf '\r  ✓ Listo. Abriendo VS Code. Servidor: %s   \n' "$url"
+
+  # Intentar abrir VS Code
+  if command -v code &>/dev/null; then
+    code .
+  else
+    echo "⚠️  VS Code ('code') no encontrado en el PATH."
+  fi
+
+  # Iniciar servidor de desarrollo
+  pnpm dev
 }
 
 # Función para verificar el título
@@ -233,5 +284,7 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+export PATH="$HOME/.local/bin:$PATH"
 
 # Autor: Fravelz 

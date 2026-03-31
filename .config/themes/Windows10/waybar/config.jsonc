@@ -39,6 +39,7 @@
   "group/group-5": {
     "orientation": "horizontal",
     "modules": [
+      "custom/notification",
       "tray",
       "network",
       "wireplumber",

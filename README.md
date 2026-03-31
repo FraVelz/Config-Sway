@@ -143,12 +143,17 @@ Los scripts de rofi viven en `~/.config/rofi/scripts/` (y los scripts generales 
 | `XF86AudioPlay`         | Play/Pause         | `playerctl play-pause`                           |
 | `XF86AudioPrev`         | Pista anterior     | `playerctl previous`                             |
 
-### Notificaciones (Mako)
+### Notificaciones (SwayNC)
 
-| Atajo           | Acción            | Comando               |
-| --------------- | ----------------- | --------------------- |
-| `Super+N`       | Descartar todas   | `makoctl dismiss -a`  |
-| `Super+Shift+N` | Alternar modo DND | `makoctl mode -a dnd` |
+Centro de notificaciones con historial (panel lateral), agrupación y textos en español; config en `~/.config/swaync/`. Waybar muestra el icono de campana si está `swaync-client` (clic: abrir panel, clic derecho: alternar no molestar).
+
+| Atajo              | Acción                         | Comando                    |
+| ------------------ | ------------------------------ | -------------------------- |
+| `Super+N`          | Cerrar todas las notificaciones | `swaync-client -C -sw`     |
+| `Super+Shift+N`    | Alternar no molestar (DND)   | `swaync-client -d -sw`     |
+| `Super+Ctrl+N`     | Abrir/cerrar panel (historial) | `swaync-client -t -sw`   |
+
+No ejecutes **mako** u otro daemon de notificaciones a la vez que **swaync** (conflicto por libnotify).
 
 ### Ratón (Sway)
 
@@ -247,6 +252,15 @@ systemctl --user restart xdg-desktop-portal xdg-desktop-portal-wlr
   - si no, usar `~/.config/wallpapers/arch-linux-logo.webp` si existe,
   - si no, usar un color sólido.
 
+## Alertas de batería (80% / 20%)
+
+- **Script:** `~/.config/scripts/battery-notify.sh` — lee la primera batería en sysfs (`/sys/class/power_supply/*/type == Battery`), usa `notify-send` (requiere **libnotify** y un daemon compatible, p. ej. **swaync**).
+- **Umbrales:** aviso al **≥80%** solo mientras **carga** (“puedes desenchufar”); aviso al **≤20%** solo mientras **descarga** (“batería baja”). Con histéresis para no repetir el aviso hasta salir de la zona (por defecto reset al bajar de 75% o subir de 25% según corresponda).
+- **Timer systemd (usuario):** `~/.config/systemd/user/battery-notify.timer` ejecuta el script cada **60 s**. Tras `./update.sh` se hace `daemon-reload` y `enable --now` del timer (si hay sesión `systemd --user`).
+- **Variables opcionales** (para afinar sin editar el script): `BATTERY_NOTIFY_HIGH`, `BATTERY_NOTIFY_LOW`, `BATTERY_NOTIFY_HIGH_RESET`, `BATTERY_NOTIFY_LOW_RESET`.
+- **Comprobar estado:** `systemctl --user status battery-notify.timer` y `systemctl --user list-timers --all | grep battery`.
+- **Equipos sin batería** (torre): el script sale sin error y no notifica.
+
 ## Iniciar Sway
 
 - Desde **TTY:** ejecutar `sway` (mejor desde un script o el gestor de sesión).
@@ -268,7 +282,7 @@ Puedes ponerlas en `~/.config/environment.d/sway.conf` (formato `KEY=value`, una
 En Arch, `install.sh` instala lo principal. Si quieres hacerlo manual:
 
 ```bash
-sudo pacman -S sway swaybg waybar mako kitty rofi flameshot network-manager-applet \
+sudo pacman -S sway swaybg waybar swaync kitty rofi flameshot network-manager-applet \
   xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk grim rsync \
   brightnessctl playerctl blueman swaylock ranger lsd bat fastfetch mpc alsa-utils libnotify
 ```

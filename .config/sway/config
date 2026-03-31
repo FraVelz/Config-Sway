@@ -106,9 +106,12 @@ bindsym XF86AudioPause exec playerctl play-pause
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPrev exec playerctl previous
 
-# === NOTIFICACIONES (mako) ====================================================
-bindsym $mod+n exec makoctl dismiss -a
-bindsym $mod+Shift+n exec makoctl mode -a dnd
+# === NOTIFICACIONES (SwayNC) ==================================================
+# Ver ~/.config/swaync/ — no ejecutar mako u otro daemon a la vez.
+# Super+N: cerrar todas | Super+Shift+N: no molestar | Super+Ctrl+N: panel/historial
+bindsym $mod+n exec swaync-client -C -sw
+bindsym $mod+Shift+n exec swaync-client -d -sw
+bindsym $mod+Ctrl+n exec swaync-client -t -sw
 
 # ==============================================================================
 # PORTAL / DBUS (necesario para capturas en Wayland con xdg-desktop-portal-wlr)
@@ -156,7 +159,7 @@ exec_always ~/.config/scripts/setwallpaper.sh
 exec nm-applet
 exec sh -c 'CFG="$HOME/.config/waybar/config-sway.jsonc"; [ -f "$CFG" ] || CFG="$HOME/.config/waybar/config.jsonc"; exec waybar -c "$CFG"'
 
-exec mako
+exec swaync
 exec bash ~/.config/scripts/autostart.sh
 
 # Autor: Fravelz

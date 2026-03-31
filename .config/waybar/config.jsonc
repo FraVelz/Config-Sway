@@ -64,6 +64,7 @@
   "group/group-5": {
     "orientation": "horizontal",
     "modules": [
+      "custom/notification",
       "bluetooth",
       "battery",
       "network"

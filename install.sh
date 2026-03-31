@@ -14,7 +14,7 @@ need() { command -v "$1" >/dev/null 2>&1; }
 # ---------------------------------------------------------------------------
 PKGS=(
   # WM / entorno
-  sway swaybg waybar mako kitty rofi flameshot network-manager-applet
+  sway swaybg waybar swaync kitty rofi flameshot network-manager-applet
 
   # Portales Wayland / capturas
   xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk grim
