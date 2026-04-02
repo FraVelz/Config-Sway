@@ -22,6 +22,8 @@ Instala dependencias con `pacman` y luego ejecuta `update.sh` para aplicar los d
 ./install.sh
 ```
 
+**Rofi calculadora (`Super+=`):** el script [`selector-calc.sh`](.config/rofi/scripts/selector-calc.sh) abre solo el modo `calc` con [`rofi-calc.sh`](.config/rofi/scripts/rofi-calc.sh). En Arch conviene **`rofi-git`** (AUR) para que `ROFI_INPUT` llegue bien al modo script. Opcional: `./install.sh --rofi-git` o `yay -S rofi-git`.
+
 ### Opción recomendada (cualquier distro): `update.sh`
 
 Aplica los dotfiles del repo a tu `$HOME`.
@@ -74,7 +76,8 @@ Los scripts de rofi viven en `~/.config/rofi/scripts/` (y los scripts generales 
 
 | Atajo               | Acción                                                 | Script |
 | ------------------- | ------------------------------------------------------ | ------ |
-| `Super+D`           | Lanzador de apps                                       | `~/.config/rofi/scripts/selector-app.sh` |
+| `Super+D`           | Lanzador de apps (`drun`, tema `selector-app.rasi`)    | `~/.config/rofi/scripts/selector-app.sh` |
+| `Super+=`           | Calculadora Rofi (expresión → resultado; copia al portapapeles) | `~/.config/rofi/scripts/selector-calc.sh` |
 | `Super+Q`           | Power menu (apagar/reiniciar/bloquear/suspender/salir) | `~/.config/rofi/scripts/power-menu.sh` |
 | `Super+A`           | Cambiar tema (aplica sway/kitty/waybar/rofi/wallpaper) | `~/.config/rofi/scripts/theme-switcher.sh` |
 | `Super+W`           | Cambiar wallpaper (Sway)                               | `~/.config/rofi/scripts/wallpaper-switcher.sh` |
@@ -147,13 +150,15 @@ Los scripts de rofi viven en `~/.config/rofi/scripts/` (y los scripts generales 
 
 Centro de notificaciones con historial (panel lateral), agrupación y textos en español; config en `~/.config/swaync/`. Waybar muestra el icono de campana si está `swaync-client` (clic: abrir panel, clic derecho: alternar no molestar).
 
+**Estilos:** el CSS final se arma con `_swaync-upstream.css` (copia del `style.css` de SwayNC), más **`colors-base.css`** o **`themes/<tema>/swaync/colors.css`**, y **`_swaync-pop.css`**: refuerzo de **notificaciones flotantes** (`notify-send`) con borde más marcado, sombra y halo de color (`--noti-accent-ring` acorde a cada tema), tipografía más grande y negrita en el título. Tras `./update.sh` se regenera `style.css` con esa base. Cada tema sustituye colores con **Super+A**; si tras un `./update.sh` vuelves al estilo base, vuelve a aplicar el tema con el switcher.
+
 | Atajo              | Acción                         | Comando                    |
 | ------------------ | ------------------------------ | -------------------------- |
 | `Super+N`          | Cerrar todas las notificaciones | `swaync-client -C -sw`     |
 | `Super+Shift+N`    | Alternar no molestar (DND)   | `swaync-client -d -sw`     |
 | `Super+Ctrl+N`     | Abrir/cerrar panel (historial) | `swaync-client -t -sw`   |
 
-No ejecutes **mako** u otro daemon de notificaciones a la vez que **swaync** (conflicto por libnotify).
+No ejecutes otro daemon de notificaciones a la vez que **swaync** (conflicto por libnotify).
 
 ### Ratón (Sway)
 
@@ -175,6 +180,7 @@ Cada tema vive en `~/.config/themes/<tema>/` y puede incluir:
 - **`wallpaper.(png|jpg|webp)`**: wallpaper del tema.
 - **`rofi-style/`** (opcional): estilos/paleta de rofi por tema.
   - En este repo, lo importante es la **paleta**: `rofi-style/_core/palette.rasi` (para cambiar colores sin tocar el layout).
+- **`swaync/`** (opcional): `colors.css` (variables `:root` y `@define-color` para el panel y las notificaciones; alineado con los colores del waybar del tema). Opcional `config.json` si quieres textos/widgets distintos solo en ese tema.
 
 El theme switcher guarda el tema actual en:
 
@@ -261,6 +267,16 @@ systemctl --user restart xdg-desktop-portal xdg-desktop-portal-wlr
 - **Comprobar estado:** `systemctl --user status battery-notify.timer` y `systemctl --user list-timers --all | grep battery`.
 - **Equipos sin batería** (torre): el script sale sin error y no notifica.
 
+## Comprobar la instalación (tras `./update.sh`)
+
+1. **Sincronizar el repo:** `cd /ruta/a/Config-Sway && ./update.sh`
+2. **Paquetes:** `sudo pacman -S --needed swaync waybar rofi bc` (o `./install.sh`). Para la calculadora Rofi (`Super+=`): `./install.sh --rofi-git` o `yay -S rofi-git`.
+3. **Sway:** en la sesión, `swaymsg reload` o vuelve a entrar en Sway.
+4. **SwayNC:** `systemctl --user status` no debe estar fallando; `swaync-client -t -sw` debe abrir el panel; `notify-send prueba` debe mostrar una notificación.
+5. **Waybar:** icono de campana visible; clic abre SwayNC; clic derecho alterna no molestar (según `swaync-client`).
+6. **Rofi:** `Super+D` lista aplicaciones. `Super+=` abre la calculadora; escribe `10+10` y debe aparecer el resultado (recomendado **`rofi-git`**). Comprueba con `rofi -version` (build git).
+7. **Versión de Rofi:** `rofi -version` — debería indicar commit/git si instalaste desde AUR.
+
 ## Iniciar Sway
 
 - Desde **TTY:** ejecutar `sway` (mejor desde un script o el gestor de sesión).
@@ -279,10 +295,18 @@ Puedes ponerlas en `~/.config/environment.d/sway.conf` (formato `KEY=value`, una
 
 ## Requisitos (Arch)
 
-En Arch, `install.sh` instala lo principal. Si quieres hacerlo manual:
+En Arch, `install.sh` instala lo principal. Para **Rofi calculadora** (`Super+=`), conviene **`./install.sh --rofi-git`** (o `yay -S rofi-git`).
+
+Si quieres hacerlo todo manual con `pacman`:
 
 ```bash
 sudo pacman -S sway swaybg waybar swaync kitty rofi flameshot network-manager-applet \
   xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk grim rsync \
-  brightnessctl playerctl blueman swaylock ranger lsd bat fastfetch mpc alsa-utils libnotify
+  brightnessctl playerctl blueman swaylock ranger lsd bat fastfetch mpc alsa-utils libnotify bc
+```
+
+Y sustituye `rofi` por la versión AUR cuando quieras el modo script de la calculadora fiable:
+
+```bash
+yay -S rofi-git
 ```

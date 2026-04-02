@@ -70,6 +70,14 @@ if [ -n "${old_managed:-}" ]; then
 fi
 
 printf '%s\n' "$new_managed" > "$managed_list_file"
+# SwayNC: ensamblar style.css (upstream + colores base; theme-switcher aplica el tema)
+if [ -f "$DST_CONFIG/swaync/_swaync-upstream.css" ] && [ -f "$DST_CONFIG/swaync/colors-base.css" ]; then
+  if [ -f "$DST_CONFIG/swaync/_swaync-pop.css" ]; then
+    cat "$DST_CONFIG/swaync/_swaync-upstream.css" "$DST_CONFIG/swaync/colors-base.css" "$DST_CONFIG/swaync/_swaync-pop.css" > "$DST_CONFIG/swaync/style.css"
+  else
+    cat "$DST_CONFIG/swaync/_swaync-upstream.css" "$DST_CONFIG/swaync/colors-base.css" > "$DST_CONFIG/swaync/style.css"
+  fi
+fi
 
 if [ -d "$SRC_HOME" ]; then
   home_managed_file="$HOME/.home-dots-managed"
@@ -128,6 +136,9 @@ if need systemctl; then
 fi
 if need swaymsg; then
   swaymsg reload >/dev/null 2>&1 || true
+fi
+if need swaync-client; then
+  swaync-client -R -rs -sw 2>/dev/null || true
 fi
 if need waybar; then
   killall waybar 2>/dev/null || true

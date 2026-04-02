@@ -1,0 +1,33 @@
+/* SwayNC — Hacker (verde terminal, waybar/colors.css). */
+
+:root {
+  --cc-bg: rgba(20, 22, 20, 0.94);
+  --noti-border-color: rgba(166, 227, 161, 0.42);
+  --noti-bg: 36, 38, 36;
+  --noti-bg-alpha: 0.95;
+  --noti-bg-darker: rgb(18, 20, 18);
+  --noti-bg-hover: rgb(52, 58, 52);
+  --noti-bg-focus: rgba(166, 227, 161, 0.2);
+  --noti-close-bg: rgba(166, 227, 161, 0.1);
+  --noti-close-bg-hover: rgba(166, 227, 161, 0.2);
+  --text-color: rgb(166, 227, 161);
+  --text-color-disabled: rgb(110, 150, 115);
+  --bg-selected: rgb(166, 227, 161);
+  --noti-accent-ring: rgba(166, 227, 161, 0.52);
+  --font-size-body: 16px;
+  --font-size-summary: 18px;
+}
+
+@define-color cc-bg rgba(20, 22, 20, 0.94);
+@define-color noti-border-color rgba(166, 227, 161, 0.42);
+@define-color noti-bg rgba(36, 38, 36, 0.95);
+@define-color noti-bg-opaque rgb(36, 38, 36);
+@define-color noti-bg-darker rgb(18, 20, 18);
+@define-color noti-bg-hover rgb(52, 58, 52);
+@define-color noti-bg-hover-opaque rgb(52, 58, 52);
+@define-color noti-bg-focus rgba(166, 227, 161, 0.2);
+@define-color noti-close-bg rgba(166, 227, 161, 0.1);
+@define-color noti-close-bg-hover rgba(166, 227, 161, 0.2);
+@define-color text-color rgb(166, 227, 161);
+@define-color text-color-disabled rgb(110, 150, 115);
+@define-color bg-selected rgb(166, 227, 161);

@@ -12,7 +12,12 @@
   "fit-to-screen": true,
   "hide-on-clear": false,
   "text-empty": "Sin notificaciones",
-  "widgets": ["inhibitors", "title", "dnd", "notifications"],
+  "widgets": [
+    "inhibitors",
+    "title",
+    "dnd",
+    "notifications"
+  ],
   "widget-config": {
     "title": {
       "text": "Notificaciones",
@@ -22,5 +27,6 @@
     "dnd": {
       "text": "No molestar"
     }
-  }
+  },
+  "cssPriority": "user"
 }

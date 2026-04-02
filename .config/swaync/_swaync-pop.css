@@ -1,0 +1,32 @@
+/* Notificaciones flotantes (notify-send): más visibles en todos los temas.
+ * Requiere --noti-accent-ring en el fragmento de colores (tema / colors-base). */
+
+.floating-notifications .notification {
+  border: 2px solid var(--noti-border-color);
+  box-shadow:
+    0 0 0 1px var(--noti-accent-ring),
+    0 12px 44px rgba(0, 0, 0, 0.58),
+    0 0 56px var(--noti-accent-ring);
+}
+
+.floating-notifications .notification-row .notification-background {
+  padding: 8px 14px;
+}
+
+.floating-notifications .notification .notification-default-action .notification-content .text-box .summary {
+  font-weight: 800;
+  font-size: calc(var(--font-size-summary) + 2px);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.floating-notifications .notification .notification-default-action .notification-content .text-box .body {
+  font-weight: 600;
+  font-size: calc(var(--font-size-body) + 1px);
+  opacity: 0.98;
+}
+
+.control-center .control-center-list .notification {
+  box-shadow:
+    0 2px 14px rgba(0, 0, 0, 0.35),
+    0 0 0 1px var(--noti-accent-ring);
+}

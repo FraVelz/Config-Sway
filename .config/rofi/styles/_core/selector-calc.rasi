@@ -1,0 +1,93 @@
+/* Rofi solo modo calc (script rofi-calc.sh) — layout simple: input + lista */
+
+* {
+    font:                  "JetBrains Mono Nerd Font 14";
+}
+
+@import "~/.config/rofi/styles/_core/palette.rasi"
+
+window {
+    transparency:          "real";
+    location:              center;
+    anchor:                center;
+    fullscreen:            false;
+    width:                 520px;
+    border:                2px;
+    border-color:          @foreground;
+    border-radius:         15px;
+    background-color:      @background;
+}
+
+mainbox {
+    enabled:               true;
+    spacing:               12px;
+    padding:               20px;
+    background-color:      transparent;
+    orientation:           vertical;
+    children:              [ "inputbar", "listview" ];
+}
+
+inputbar {
+    enabled:               true;
+    spacing:               10px;
+    padding:               15px;
+    border-radius:         10px;
+    background-color:      @background-alt;
+    text-color:            @foreground;
+    children:              [ "textbox-prompt-colon", "entry" ];
+}
+
+textbox-prompt-colon {
+    enabled:               true;
+    expand:                false;
+    str:                   "";
+    background-color:      inherit;
+    text-color:            inherit;
+}
+
+entry {
+    enabled:               true;
+    background-color:      inherit;
+    text-color:            inherit;
+    cursor:                text;
+    placeholder:           "10+10";
+    placeholder-color:     inherit;
+}
+
+listview {
+    enabled:               true;
+    columns:               1;
+    lines:                 6;
+    cycle:                 true;
+    dynamic:               true;
+    scrollbar:             false;
+    layout:                vertical;
+    spacing:               8px;
+    background-color:      transparent;
+    text-color:            @foreground;
+}
+
+element {
+    enabled:               true;
+    spacing:               12px;
+    padding:               10px;
+    border-radius:         10px;
+    background-color:      transparent;
+    text-color:            @foreground;
+    cursor:                pointer;
+}
+
+element selected.normal {
+    background-color:      @selected;
+    text-color:            @background;
+}
+
+element-icon {
+    size:                  28px;
+    background-color:      transparent;
+}
+
+element-text {
+    vertical-align:        0.5;
+    horizontal-align:      0.0;
+}

@@ -1,0 +1,33 @@
+/* SwayNC — Batman (gris / texto claro, waybar/colors.css). */
+
+:root {
+  --cc-bg: rgba(22, 22, 22, 0.94);
+  --noti-border-color: rgba(223, 223, 223, 0.32);
+  --noti-bg: 40, 40, 40;
+  --noti-bg-alpha: 0.95;
+  --noti-bg-darker: rgb(19, 19, 19);
+  --noti-bg-hover: rgb(58, 58, 58);
+  --noti-bg-focus: rgba(137, 220, 235, 0.2);
+  --noti-close-bg: rgba(223, 223, 223, 0.08);
+  --noti-close-bg-hover: rgba(223, 223, 223, 0.16);
+  --text-color: rgb(223, 223, 223);
+  --text-color-disabled: rgb(150, 150, 150);
+  --bg-selected: rgb(137, 220, 235);
+  --noti-accent-ring: rgba(137, 220, 235, 0.48);
+  --font-size-body: 16px;
+  --font-size-summary: 18px;
+}
+
+@define-color cc-bg rgba(22, 22, 22, 0.94);
+@define-color noti-border-color rgba(223, 223, 223, 0.32);
+@define-color noti-bg rgba(40, 40, 40, 0.95);
+@define-color noti-bg-opaque rgb(40, 40, 40);
+@define-color noti-bg-darker rgb(19, 19, 19);
+@define-color noti-bg-hover rgb(58, 58, 58);
+@define-color noti-bg-hover-opaque rgb(58, 58, 58);
+@define-color noti-bg-focus rgba(137, 220, 235, 0.2);
+@define-color noti-close-bg rgba(223, 223, 223, 0.08);
+@define-color noti-close-bg-hover rgba(223, 223, 223, 0.16);
+@define-color text-color rgb(223, 223, 223);
+@define-color text-color-disabled rgb(150, 150, 150);
+@define-color bg-selected rgb(137, 220, 235);

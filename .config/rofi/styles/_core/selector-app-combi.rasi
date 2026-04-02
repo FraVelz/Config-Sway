@@ -1,14 +1,4 @@
-/* Configuracion ************************************************** */
-
-configuration {
-	modi:                 "drun,run,window";
-    show-icons:           true;
-    display-drun:         "Aplicaciones";
-    display-run:          "Comandos";
-    display-window:       "Ventanas";
-	drun-display-format:  "{name}";
-	window-format:        "{w} · {c} · {t}";
-}
+/* Combi (drun + rofi-calc): mismo layout que selector-app.rasi — modi en selector-app.sh */
 
 /* Propiedades Globales ******************************************* */
 

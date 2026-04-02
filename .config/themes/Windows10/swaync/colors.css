@@ -1,0 +1,33 @@
+/* SwayNC — Windows10 (azul #0078d7, waybar/colors.css). */
+
+:root {
+  --cc-bg: rgba(24, 36, 50, 0.93);
+  --noti-border-color: rgba(0, 120, 215, 0.45);
+  --noti-bg: 32, 48, 66;
+  --noti-bg-alpha: 0.95;
+  --noti-bg-darker: rgb(16, 24, 34);
+  --noti-bg-hover: rgb(44, 62, 86);
+  --noti-bg-focus: rgba(0, 120, 215, 0.28);
+  --noti-close-bg: rgba(243, 246, 251, 0.1);
+  --noti-close-bg-hover: rgba(243, 246, 251, 0.18);
+  --text-color: rgb(243, 246, 251);
+  --text-color-disabled: rgb(160, 175, 195);
+  --bg-selected: rgb(0, 120, 215);
+  --noti-accent-ring: rgba(0, 120, 215, 0.5);
+  --font-size-body: 16px;
+  --font-size-summary: 18px;
+}
+
+@define-color cc-bg rgba(24, 36, 50, 0.93);
+@define-color noti-border-color rgba(0, 120, 215, 0.45);
+@define-color noti-bg rgba(32, 48, 66, 0.95);
+@define-color noti-bg-opaque rgb(32, 48, 66);
+@define-color noti-bg-darker rgb(16, 24, 34);
+@define-color noti-bg-hover rgb(44, 62, 86);
+@define-color noti-bg-hover-opaque rgb(44, 62, 86);
+@define-color noti-bg-focus rgba(0, 120, 215, 0.28);
+@define-color noti-close-bg rgba(243, 246, 251, 0.1);
+@define-color noti-close-bg-hover rgba(243, 246, 251, 0.18);
+@define-color text-color rgb(243, 246, 251);
+@define-color text-color-disabled rgb(160, 175, 195);
+@define-color bg-selected rgb(0, 120, 215);

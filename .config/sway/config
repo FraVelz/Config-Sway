@@ -26,6 +26,7 @@ bindsym $mod+Shift+r reload
 
 # === MENÚS ROFI (Sway) ========================================================
 bindsym $mod+d exec ~/.config/rofi/scripts/selector-app.sh
+bindsym $mod+equal exec ~/.config/rofi/scripts/selector-calc.sh
 bindsym $mod+q exec ~/.config/rofi/scripts/power-menu.sh
 bindsym $mod+a exec ~/.config/rofi/scripts/theme-switcher.sh
 bindsym $mod+w exec ~/.config/rofi/scripts/wallpaper-switcher.sh
@@ -107,7 +108,7 @@ bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPrev exec playerctl previous
 
 # === NOTIFICACIONES (SwayNC) ==================================================
-# Ver ~/.config/swaync/ — no ejecutar mako u otro daemon a la vez.
+# Ver ~/.config/swaync/ — no ejecutar otro daemon de notificaciones a la vez.
 # Super+N: cerrar todas | Super+Shift+N: no molestar | Super+Ctrl+N: panel/historial
 bindsym $mod+n exec swaync-client -C -sw
 bindsym $mod+Shift+n exec swaync-client -d -sw

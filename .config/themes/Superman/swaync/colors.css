@@ -1,0 +1,33 @@
+/* SwayNC — Superman (rosa / amarillo acento, waybar/colors.css). */
+
+:root {
+  --cc-bg: rgba(22, 22, 22, 0.94);
+  --noti-border-color: rgba(249, 227, 175, 0.4);
+  --noti-bg: 40, 40, 40;
+  --noti-bg-alpha: 0.95;
+  --noti-bg-darker: rgb(19, 19, 19);
+  --noti-bg-hover: rgb(58, 58, 58);
+  --noti-bg-focus: rgba(249, 227, 175, 0.18);
+  --noti-close-bg: rgba(243, 139, 168, 0.12);
+  --noti-close-bg-hover: rgba(243, 139, 168, 0.22);
+  --text-color: rgb(243, 139, 168);
+  --text-color-disabled: rgb(170, 130, 150);
+  --bg-selected: rgb(249, 227, 175);
+  --noti-accent-ring: rgba(249, 227, 175, 0.5);
+  --font-size-body: 16px;
+  --font-size-summary: 18px;
+}
+
+@define-color cc-bg rgba(22, 22, 22, 0.94);
+@define-color noti-border-color rgba(249, 227, 175, 0.4);
+@define-color noti-bg rgba(40, 40, 40, 0.95);
+@define-color noti-bg-opaque rgb(40, 40, 40);
+@define-color noti-bg-darker rgb(19, 19, 19);
+@define-color noti-bg-hover rgb(58, 58, 58);
+@define-color noti-bg-hover-opaque rgb(58, 58, 58);
+@define-color noti-bg-focus rgba(249, 227, 175, 0.18);
+@define-color noti-close-bg rgba(243, 139, 168, 0.12);
+@define-color noti-close-bg-hover rgba(243, 139, 168, 0.22);
+@define-color text-color rgb(243, 139, 168);
+@define-color text-color-disabled rgb(170, 130, 150);
+@define-color bg-selected rgb(249, 227, 175);

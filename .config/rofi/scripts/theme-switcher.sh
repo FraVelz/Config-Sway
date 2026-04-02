@@ -105,6 +105,31 @@ if [ -d "$ELEGIDO/waybar" ]; then
   fi
 fi
 
+# SwayNC (CSS: _swaync-upstream + colors del tema o colors-base)
+if [ -f "$HOME/.config/swaync/_swaync-upstream.css" ] && [ -f "$HOME/.config/swaync/colors-base.css" ]; then
+  backup_dir "$HOME/.config/swaync/style.css"
+  mkdir -p "$HOME/.config/swaync"
+  if [ -f "$ELEGIDO/swaync/config.json" ]; then
+    cp -a "$ELEGIDO/swaync/config.json" "$HOME/.config/swaync/config.json" 2>/dev/null || true
+  fi
+  if [ -f "$HOME/.config/swaync/_swaync-pop.css" ]; then
+    if [ -f "$ELEGIDO/swaync/colors.css" ]; then
+      cat "$HOME/.config/swaync/_swaync-upstream.css" "$ELEGIDO/swaync/colors.css" "$HOME/.config/swaync/_swaync-pop.css" > "$HOME/.config/swaync/style.css"
+    else
+      cat "$HOME/.config/swaync/_swaync-upstream.css" "$HOME/.config/swaync/colors-base.css" "$HOME/.config/swaync/_swaync-pop.css" > "$HOME/.config/swaync/style.css"
+    fi
+  else
+    if [ -f "$ELEGIDO/swaync/colors.css" ]; then
+      cat "$HOME/.config/swaync/_swaync-upstream.css" "$ELEGIDO/swaync/colors.css" > "$HOME/.config/swaync/style.css"
+    else
+      cat "$HOME/.config/swaync/_swaync-upstream.css" "$HOME/.config/swaync/colors-base.css" > "$HOME/.config/swaync/style.css"
+    fi
+  fi
+  if need swaync-client; then
+    swaync-client -R -rs -sw 2>/dev/null || true
+  fi
+fi
+
 # Sway (estilo de ventanas)
 if [ -f "$ELEGIDO/sway/theme.conf" ]; then
   backup_dir "$HOME/.config/sway/theme.conf"
