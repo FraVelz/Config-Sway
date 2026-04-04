@@ -45,14 +45,14 @@ function a(){
   ranger
 }
 
-# create-web: Astro + countdown (ms) → editor → pnpm dev
-# Uso: create-web <nombre-proyecto> [segundos-countdown]
+# create-astro: Astro + Tailwind + React + ESLint/Prettier → countdown → editor → pnpm dev
+# Uso: create-astro <nombre-proyecto> [segundos-countdown]
 #
 # Personalizar segundos del contador:
 #   1) Por defecto (si no pasas segundo arg): cambia el "3" en la línea de abajo.
-#   2) En cada llamada: create-web mi-proyecto 10   → 10 s
+#   2) En cada llamada: create-astro mi-proyecto 10   → 10 s
 function create-astro(){
-  local name="${1:?Uso: create-web <nombre-proyecto> [segundos-countdown]}"
+  local name="${1:?Uso: create-astro <nombre-proyecto> [segundos-countdown]}"
   local countdown_sec="${2:-3}"
   local step_ms=100
   local remaining_ms=$(( countdown_sec * 1000 ))
@@ -61,7 +61,90 @@ function create-astro(){
   pnpm create astro@latest "$name" -- --template minimal --yes || return 1
   cd "$name" || return 1
 
-  echo "Página web creada."
+  pnpm astro add tailwind react --yes || return 1
+  pnpm add -D eslint @eslint/js typescript-eslint eslint-plugin-astro globals eslint-config-prettier eslint-plugin-prettier prettier prettier-plugin-astro prettier-plugin-tailwindcss eslint-plugin-react eslint-plugin-react-hooks || return 1
+
+  cat > eslint.config.mjs <<'EOF'
+import js from "@eslint/js";
+import globals from "globals";
+import tseslint from "typescript-eslint";
+import astro from "eslint-plugin-astro";
+import eslintConfigPrettier from "eslint-config-prettier";
+import eslintPluginPrettier from "eslint-plugin-prettier";
+import react from "eslint-plugin-react";
+import reactHooks from "eslint-plugin-react-hooks";
+
+export default tseslint.config(
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...astro.configs["flat/recommended"],
+  ...astro.configs["flat/jsx-a11y-recommended"],
+  {
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+  },
+  {
+    files: ["**/*.{js,jsx,ts,tsx}"],
+    ...react.configs.flat["jsx-runtime"],
+    plugins: {
+      ...react.configs.flat["jsx-runtime"].plugins,
+      ...reactHooks.configs.flat.recommended.plugins,
+    },
+    rules: {
+      ...react.configs.flat["jsx-runtime"].rules,
+      ...reactHooks.configs.flat.recommended.rules,
+    },
+    settings: {
+      react: { version: "detect" },
+    },
+  },
+  eslintConfigPrettier,
+  {
+    plugins: { prettier: eslintPluginPrettier },
+    rules: { "prettier/prettier": "error" },
+  },
+  {
+    ignores: ["dist/**", ".astro/**", "node_modules/**"],
+  },
+);
+EOF
+
+  cat > .prettierrc.mjs <<'EOF'
+/** @type {import("prettier").Config} */
+const config = {
+  plugins: ["prettier-plugin-astro", "prettier-plugin-tailwindcss"],
+  overrides: [{ files: "**/*.astro", options: { parser: "astro" } }],
+};
+export default config;
+EOF
+
+  cat > .prettierignore <<'EOF'
+dist
+.astro
+node_modules
+pnpm-lock.yaml
+EOF
+
+  node <<'NODE'
+const fs = require("fs");
+const path = "package.json";
+const p = JSON.parse(fs.readFileSync(path, "utf8"));
+Object.assign(p.scripts || {}, {
+  check: "astro check",
+  lint: "eslint .",
+  "lint:fix": "eslint . --fix",
+  format: "prettier --write .",
+  "format:check": "prettier --check .",
+  style: "pnpm format && pnpm lint:fix",
+});
+fs.writeFileSync(path, JSON.stringify(p, null, 2) + "\n");
+NODE
+
+  echo "Página web creada (Tailwind, React, ESLint, Prettier)."
   echo "Abriendo editor en ${countdown_sec} s (countdown en ms)..."
   echo ""
 
@@ -81,7 +164,6 @@ function create-astro(){
   else
     echo "code (VS Code) no encontrado; omite abrir editor."
   fi
-   pnpm astro add tailwind --yes
   pnpm run dev
 }
 
@@ -95,15 +177,67 @@ function create-next() {
   # Crear el proyecto Next.js de forma automática
   # Flags: --ts (TypeScript), --tailwind, --eslint, --app (App Router), --src-dir, --import-alias
   pnpm create next-app "$name" --ts --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm || return 1
-  
+
   cd "$name" || return 1
 
+  pnpm add -D prettier eslint-config-prettier eslint-plugin-prettier prettier-plugin-tailwindcss || return 1
+
+  cat > eslint.config.mjs <<'EOF'
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+import eslintConfigPrettier from "eslint-config-prettier";
+import eslintPluginPrettier from "eslint-plugin-prettier";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  eslintConfigPrettier,
+  {
+    plugins: { prettier: eslintPluginPrettier },
+    rules: { "prettier/prettier": "error" },
+  },
+  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
+]);
+
+export default eslintConfig;
+EOF
+
+  cat > .prettierrc.mjs <<'EOF'
+/** @type {import("prettier").Config} */
+const config = {
+  plugins: ["prettier-plugin-tailwindcss"],
+};
+export default config;
+EOF
+
+  cat > .prettierignore <<'EOF'
+.next
+out
+build
+node_modules
+pnpm-lock.yaml
+EOF
+
+  node <<'NODE'
+const fs = require("fs");
+const path = "package.json";
+const p = JSON.parse(fs.readFileSync(path, "utf8"));
+Object.assign(p.scripts || {}, {
+  lint: "eslint .",
+  "lint:fix": "eslint . --fix",
+  format: "prettier --write .",
+  "format:check": "prettier --check .",
+  style: "prettier --write . && eslint . --fix",
+});
+fs.writeFileSync(path, JSON.stringify(p, null, 2) + "\n");
+NODE
+
   echo ""
-  echo "🚀 Proyecto Next.js (React) creado con éxito."
+  echo "Proyecto Next.js creado (Tailwind, ESLint, Prettier + plugin Tailwind)."
   echo "Abriendo editor en ${countdown_sec} s..."
   echo ""
 
-  # Lógica del countdown (idéntica a la tuya)
   while (( remaining_ms >= 0 )); do
     local s=$(( remaining_ms / 1000 ))
     local ms=$(( remaining_ms % 1000 ))
@@ -115,14 +249,12 @@ function create-next() {
 
   printf '\r  ✓ Listo. Abriendo VS Code. Servidor: %s   \n' "$url"
 
-  # Intentar abrir VS Code
   if command -v code &>/dev/null; then
     code .
   else
-    echo "⚠️  VS Code ('code') no encontrado en el PATH."
+    echo "VS Code ('code') no encontrado en el PATH."
   fi
 
-  # Iniciar servidor de desarrollo
   pnpm dev
 }
 
