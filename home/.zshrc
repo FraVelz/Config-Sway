@@ -189,6 +189,9 @@ function create-next() {
   mkdir -p ./src/services
   mkdir -p ./src/lib
 
+  mkdir -p ./docs/es
+  mkdir -p ./docs/en
+
   cat > ./src/lib/utils.ts <<'EOF'
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
