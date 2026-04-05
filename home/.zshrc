@@ -182,8 +182,15 @@ function create-next() {
 
   pnpm add -D prettier eslint-config-prettier eslint-plugin-prettier prettier-plugin-tailwindcss clsx tailwind-merge || return 1
 
+  mkdir -p ./src/components/layout
+  mkdir -p ./src/components/ui
+  mkdir -p ./src/features
+  mkdir -p ./src/hooks
+  mkdir -p ./src/services
+  mkdir -p ./src/lib
+
   cat > ./src/lib/utils.ts <<'EOF'
-  import { clsx, type ClassValue } from "clsx";
+import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 /**
