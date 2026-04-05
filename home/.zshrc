@@ -180,9 +180,117 @@ function create-next() {
 
   cd "$name" || return 1
 
-  pnpm add -D prettier eslint-config-prettier eslint-plugin-prettier prettier-plugin-tailwindcss || return 1
+  pnpm add -D prettier eslint-config-prettier eslint-plugin-prettier prettier-plugin-tailwindcss clsx tailwind-merge || return 1
 
-  cat > eslint.config.mjs <<'EOF'
+  cat > ./src/lib/utils.ts <<'EOF'
+  import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+/**
+ * Merges class names and resolves Tailwind CSS conflicts.
+ */
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(...inputs));
+}
+EOF
+
+  cat > README.en.md <<'EOF'
+# {Project title}
+
+[Version en español](README.md)
+
+text description short.
+
+![description](path/to/image.png)
+
+---
+
+## Table of Contents
+
+{Table of Contents generate by Markdown All in One}
+
+---
+
+## {Titles...}
+
+---
+
+## Documentation
+
+text documentation.
+
+---
+
+## Contributing
+
+1. Fork the repository
+2. Create a branch for your feature (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## Contact
+
+For suggestions or bug reports, create an issue in the GitHub repository.
+
+---
+
+**Development:** Fravelz
+
+**License:** {Licence}
+EOF
+
+  cat > README.md <<'EOF'
+# {Titulo del proyecto}
+
+[English Version](README.en.md)
+
+Texto de descripcion corto.
+
+![Descripción](ruta/a/imagen.png)
+
+---
+
+## Tabla de Contenidos
+
+{Tabla de Contenidos generada por Markdown All in One}
+
+---
+
+## {Titulos...}
+
+---
+
+## Documentación
+
+Texto de documentación.
+
+---
+
+## Contribución
+
+1. Haz un fork del repositorio
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Haz commit de tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+---
+
+## Contacto
+
+Para sugerencias o reportes de bugs, crea un issue en el repositorio de GitHub.
+
+---
+
+**Desarrollo:** Fravelz
+
+**Licencia:** {Licence}
+EOF
+
+  cat > .eslint.mjs <<'EOF'
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
@@ -205,9 +313,11 @@ EOF
 
   cat > .prettierrc.mjs <<'EOF'
 /** @type {import("prettier").Config} */
+
 const config = {
   plugins: ["prettier-plugin-tailwindcss"],
 };
+
 export default config;
 EOF
 
@@ -228,7 +338,7 @@ Object.assign(p.scripts || {}, {
   "lint:fix": "eslint . --fix",
   format: "prettier --write .",
   "format:check": "prettier --check .",
-  style: "prettier --write . && eslint . --fix",
+  style: "pnpm format && pnpm lint:fix",
 });
 fs.writeFileSync(path, JSON.stringify(p, null, 2) + "\n");
 NODE
