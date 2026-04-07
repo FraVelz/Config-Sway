@@ -207,6 +207,29 @@ export function cn(...inputs: ClassValue[]) {
 }
 EOF
 
+  cat > vitest.config.ts <<'EOF'
+import { defineConfig } from 'vitest/config'
+import path from 'path'
+
+export default defineConfig({
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './vitest.setup.ts',
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './'),
+    },
+  },
+})
+EOF
+
+  cat > vitest.setup.ts <<'EOF'
+import '@testing-library/jest-dom'
+EOF
+
+
   cat > README.en.md <<'EOF'
 # {Project title}
 
@@ -352,6 +375,10 @@ Object.assign(p.scripts || {}, {
   format: "prettier --write .",
   "format:check": "prettier --check .",
   style: "pnpm format && pnpm lint:fix",
+  "test": "vitest",
+  "test:ui": "vitest --ui",
+  "test:run": "vitest run"
+}
 });
 fs.writeFileSync(path, JSON.stringify(p, null, 2) + "\n");
 NODE
