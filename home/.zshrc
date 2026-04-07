@@ -180,7 +180,10 @@ function create-next() {
 
   cd "$name" || return 1
 
-  pnpm add -D prettier eslint-config-prettier eslint-plugin-prettier prettier-plugin-tailwindcss clsx tailwind-merge || return 1
+  # prettier+eslint and config+plugin for work hand los dos, y {plugin de tw para organizar clases}
+  pnpm add -D prettier eslint-config-prettier eslint-plugin-prettier prettier-plugin-tailwindcss || return 1
+  # testing (with types of ts) and library for contructor utility cn
+  pnpm add -D vitest @testing-library/react @testing-library/jest-dom jsdom clsx tailwind-merge || return 1
 
   mkdir -p ./src/components/layout
   mkdir -p ./src/components/ui
