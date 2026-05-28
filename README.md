@@ -50,6 +50,11 @@ Para aplicar **sin backup**:
 ./update.sh --no-backup
 ```
 
+## Documentación
+
+- [Estabilidad de memoria (Arch)](docs/estabilidad-memoria.md) — tuning earlyoom, zram, swappiness y servicios.
+- Aplicar en el sistema: `sudo ./scripts/setup-estabilidad-memoria.sh --phase all --reboot`
+
 ## Atajos de teclado (Sway) — completos y en tablas
 
 ### Leyenda

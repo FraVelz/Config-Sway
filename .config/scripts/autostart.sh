@@ -15,11 +15,11 @@ fi
 swaymsg 'workspace number 1; exec firefox' >/dev/null 2>&1 || true
 sleep 1
 
-# VSCode en workspace 2
-swaymsg 'workspace number 2; exec code' >/dev/null 2>&1 || true
+# Terminal en workspace magic (Super+S)
+swaymsg 'workspace magic; exec kitty' >/dev/null 2>&1 || true
 sleep 1
 
-# Kitty en workspace 3
-swaymsg 'workspace number 3; exec kitty' >/dev/null 2>&1 || true
+# Enfocar Firefox al terminar el autostart
+swaymsg 'workspace number 1' >/dev/null 2>&1 || true
 
 # Autor: Fravelz
