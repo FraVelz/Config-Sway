@@ -133,6 +133,7 @@ if need systemctl; then
   systemctl --user restart xdg-desktop-portal xdg-desktop-portal-wlr 2>/dev/null || true
   systemctl --user daemon-reload 2>/dev/null || true
   systemctl --user enable --now battery-notify.timer 2>/dev/null || true
+  systemctl --user enable --now shutdown-countdown.timer 2>/dev/null || true
 fi
 if need swaymsg; then
   swaymsg reload >/dev/null 2>&1 || true

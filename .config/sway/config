@@ -127,6 +127,9 @@ exec_always sh -c 'hash dbus-update-activation-environment 2>/dev/null && dbus-u
 # Flameshot: evita que se tilee y asegura overlay correcto (sobre todo multi-monitor)
 for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
 
+# Contador de apagado: flotante, tamaño lo ajusta el script según la pantalla
+for_window [title="shutdown-countdown"] floating enable, sticky enable, focus_on_window_activation none, move position center, border pixel 3, default_border normal
+
 # ==============================================================================
 # ASPECTO
 # ==============================================================================

@@ -1,0 +1,7 @@
+[Unit]
+Description=Overlay 3 min y apagado a las 21:00 (hora local)
+PartOf=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.config/scripts/shutdown-countdown.sh

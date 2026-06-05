@@ -1,4 +1,10 @@
 {
+  "scripts": {
+    "notification-sound": {
+      "exec": "~/.config/scripts/notification-sound.sh",
+      "run-on": "receive"
+    }
+  },
   "ignore-gtk-theme": true,
   "positionX": "right",
   "positionY": "top",

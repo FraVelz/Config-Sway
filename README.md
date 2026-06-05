@@ -55,6 +55,20 @@ Para aplicar **sin backup**:
 - [Estabilidad de memoria (Arch)](docs/estabilidad-memoria.md) — tuning earlyoom, zram, swappiness y servicios.
 - Aplicar en el sistema: `sudo ./scripts/setup-estabilidad-memoria.sh --phase all --reboot`
 
+### Notificaciones con sonido
+
+SwayNC ejecuta `~/.config/scripts/notification-sound.sh` al recibir cada notificación (sonido por defecto: `message.oga`; críticas: `bell.oga`). Tras cambiar la config: `swaync-client --reload-config`.
+
+### Apagado automático (21:00 hora local)
+
+Timer de usuario `shutdown-countdown.timer`: a las **20:57** abre un overlay flotante (Kitty) con cuenta atrás de **3 minutos**; a las **21:00** apaga el PC. Usa la **hora del sistema** (Colombia si `timedatectl` está en `America/Bogota`).
+
+- Cancelar esa noche: pulsa **`c`** en el overlay.
+- Desactivar: `systemctl --user disable --now shutdown-countdown.timer`
+- Probar ahora: `systemctl --user start shutdown-countdown.service`
+
+Variables opcionales en el servicio: `SHUTDOWN_HOUR`, `SHUTDOWN_MINUTE`, `WARN_SECONDS`.
+
 ## Atajos de teclado (Sway) — completos y en tablas
 
 ### Leyenda

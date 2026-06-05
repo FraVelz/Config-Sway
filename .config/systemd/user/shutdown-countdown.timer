@@ -1,0 +1,10 @@
+[Unit]
+Description=Apagado diario a las 21:00 — aviso 3 min antes (20:57 hora local)
+
+[Timer]
+OnCalendar=*-*-* 20:57:00
+Persistent=true
+AccuracySec=1s
+
+[Install]
+WantedBy=timers.target
