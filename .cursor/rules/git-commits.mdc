@@ -1,0 +1,39 @@
+---
+description: Git commits by the agent — no AI co-author trailers
+alwaysApply: true
+---
+
+# Git commits
+
+When creating or amending commits on behalf of the user:
+
+- **Never** add `Co-authored-by:`, `Signed-off-by:` for Cursor, or any AI/IDE co-author line unless the user explicitly asks for it.
+- The commit message must contain only what the user requested (Conventional Commits subject/body, etc.).
+- **Always** commit with a message file, not inline `-m`, to reduce stray trailers:
+
+  ```bash
+  git commit -F /tmp/commit-msg.txt
+  ```
+
+- **Always** verify immediately after commit:
+
+  ```bash
+  git log -1 --format=%B
+  ```
+
+  If the output contains `Co-authored-by: Cursor` (or any Cursor/AI trailer), fix **before** `git push`.
+  If `git commit --amend -F` still re-injects the trailer, rewrite the message file without that line, then amend:
+
+  ```bash
+  grep -v '^Co-authored-by: Cursor' /tmp/commit-msg.txt > /tmp/commit-msg-clean.txt
+  git commit --amend -F /tmp/commit-msg-clean.txt
+  git log -1 --format=%B
+  ```
+
+- If the environment injected a Cursor trailer and the commit **was already pushed**, do **not** amend a single commit only — rewrite history for **all** affected commits (e.g. `git filter-branch --msg-filter 'grep -v "^Co-authored-by: Cursor"'` or `git filter-repo`), then `git push --force-with-lease` **only** when the user explicitly requests it.
+
+## `/auto-commit` and agents
+
+- Follow [`.cursor/commands/auto-commit.md`](../commands/auto-commit.md) for message style only.
+- **Do not** run `/auto-commit` as a blind “commit and push” without the verification step above.
+- **Never** push a commit that still shows a Cursor co-author trailer in `git log -1 --format=%B`.

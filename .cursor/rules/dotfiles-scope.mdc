@@ -1,0 +1,40 @@
+---
+description: Dónde colocar configs, scripts y docs en Config-Sway
+alwaysApply: true
+---
+
+# Alcance de archivos (dotfiles)
+
+Coloca cada cambio donde **realmente vive** en el sistema destino.
+
+## Árbol de decisión
+
+1. **Config de app X** → `.config/<app>/` (sway, waybar, rofi, kitty, swaync, nvim…).
+2. **Script invocado por Sway/Rofi/systemd user** → `.config/scripts/`.
+3. **Unidad/timer systemd --user** → `.config/systemd/user/`.
+4. **Recurso solo de un tema** → `.config/themes/<Tema>/` (sway, waybar, kitty, rofi-style, wallpaper).
+5. **Tema activo / defaults compartidos** → `.config/sway/theme.conf`, `.config/waybar/`, etc. (theme-switcher copia desde themes).
+6. **Tuning de sistema (/etc)** → `system/etc/...` + doc en `docs/` + script en `scripts/` (requiere sudo).
+7. **Dotfile en `$HOME`** (`.zshrc`) → `home/`.
+8. **Documentación** → `docs/` o sección en `README.md`.
+
+## Reglas
+
+- **No** editar solo `~/.config/` local sin reflejar el cambio en el repo si es gestionado por `update.sh`.
+- Cambios mínimos: no tocar temas/archivos no relacionados con la tarea.
+- Tras modificar SwayNC CSS parcial: `update.sh` ensambla `style.css` desde `_swaync-*.css`.
+- Nuevos top-level en `.config/` quedan gestionados por rsync; ver `~/.config/.config-sway-managed`.
+
+## Ejemplos
+
+```bash
+# ✅ Timer de apagado
+.config/systemd/user/shutdown-countdown.timer
+.config/scripts/shutdown-countdown.sh
+
+# ✅ Atajo flotante
+.config/sway/config
+
+# ❌ Script suelto en raíz del repo (salvo install/update/setup de sistema)
+./mi-script.sh
+```

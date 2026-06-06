@@ -1,0 +1,36 @@
+---
+description: Contexto del repo Config-Sway (Sway dotfiles, Arch, flujo install/update)
+alwaysApply: true
+---
+
+# Config-Sway
+
+Dotfiles de **Sway/Wayland** para Arch Linux. Fuente de verdad: `./.config/` → `~/.config/`, `./home/` → `~/`.
+
+## Estructura clave
+
+| Ruta repo | Destino | Notas |
+|-----------|---------|--------|
+| `.config/sway/` | `~/.config/sway/` | Atajos, autostart, reglas `for_window` |
+| `.config/scripts/` | `~/.config/scripts/` | Bash (autostart, timers, temas) |
+| `.config/systemd/user/` | `~/.config/systemd/user/` | Timers de usuario (batería, apagado) |
+| `.config/themes/<tema>/` | `~/.config/themes/<tema>/` | sway, waybar, kitty, rofi, wallpaper |
+| `system/` | `/etc/` (manual/sudo) | earlyoom, zram, cpupower — ver `scripts/setup-estabilidad-memoria.sh` |
+| `docs/` | Referencia | No se rsync a `$HOME` automáticamente |
+
+## Aplicar cambios
+
+- `./update.sh` — sync gestionado + reload Sway/Waybar/SwayNC + timers systemd user.
+- `./install.sh` — pacman deps + `update.sh`.
+- Cambios en `/etc`: documentar en `docs/` y usar scripts en `scripts/` con sudo.
+
+## Convenciones Sway
+
+- Bordes por defecto: `default_border pixel` en temas — **no** usar `default_border normal` salvo petición explícita (añade barra de título).
+- Overlays flotantes: `floating enable`, `sticky enable`; tamaño vía script, no `resize` fijo en sway si el script ya calcula pantalla.
+- Hora local del sistema (`America/Bogota` en este equipo).
+
+## Respuestas
+
+- Chat al usuario en **español**.
+- Commits: ver `git-commits.mdc` y `.cursor/commands/auto-commit.md`.

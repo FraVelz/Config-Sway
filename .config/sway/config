@@ -14,7 +14,7 @@ bindsym $mod+f exec firefox
 bindsym $mod+z exec flameshot gui
 
 # === VENTANAS =================================================================
-#bindsym $mod+u floating toggle bindsym $mod+c kill bindsym $mod+m exit bindsym $mod+p fullscreen toggle
+bindsym $mod+u floating toggle
 bindsym $mod+o layout toggle split
 bindsym $mod+c kill
 
