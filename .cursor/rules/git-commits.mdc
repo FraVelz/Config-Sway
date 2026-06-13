@@ -35,5 +35,6 @@ When creating or amending commits on behalf of the user:
 ## `/auto-commit` and agents
 
 - Follow [`.cursor/commands/auto-commit.md`](../commands/auto-commit.md) for message style only.
+- **Never** restore deleted files or lines before committing unless the user explicitly asks; deletions are usually intentional.
 - **Do not** run `/auto-commit` as a blind “commit and push” without the verification step above.
 - **Never** push a commit that still shows a Cursor co-author trailer in `git log -1 --format=%B`.

@@ -9,7 +9,8 @@ Cumplir [`.cursor/rules/git-commits.mdc`](../rules/git-commits.mdc): sin `Co-aut
 ## Antes de commitear
 
 1. `git status` / `git diff` / `git log -12 --oneline`
-2. No incluir secretos ni backups (`*.bak`, `.env`).
+2. **Respetar borrados:** si el diff elimina líneas o archivos, **no restaurarlos** ni "arreglar" el contenido antes del commit salvo petición explícita del usuario. Un borrado suele ser intencional.
+3. No incluir secretos ni backups (`*.bak`, `.env`).
 
 ## Estilo de mensaje (este repo)
 
