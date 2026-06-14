@@ -11,7 +11,7 @@ set $right l
 # === APLICACIONES =============================================================
 bindsym $mod+Return exec kitty
 bindsym $mod+f exec firefox
-bindsym $mod+z exec flameshot gui
+bindsym $mod+z exec env QT_QPA_PLATFORM=wayland flameshot gui
 
 # === VENTANAS =================================================================
 bindsym $mod+u floating toggle
@@ -121,8 +121,8 @@ bindsym $mod+Ctrl+n exec swaync-client -t -sw
 # Asegura que systemd --user y DBus hereden DISPLAY/WAYLAND_DISPLAY/SWAYSOCK.
 # (Recomendación oficial para wlroots/Sway: evita que Flameshot "se quede colgado"
 # o que la captura falle y aparezcan errores de QPainter.)
-exec_always systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
-exec_always sh -c 'hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK'
+exec_always systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec_always sh -c 'hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP'
 
 # Flameshot: evita que se tilee y asegura overlay correcto (sobre todo multi-monitor)
 for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
@@ -164,6 +164,7 @@ exec nm-applet
 exec sh -c 'CFG="$HOME/.config/waybar/config-sway.jsonc"; [ -f "$CFG" ] || CFG="$HOME/.config/waybar/config.jsonc"; exec waybar -c "$CFG"'
 
 exec swaync
+exec bash ~/.config/scripts/fix-audio-defaults.sh
 exec bash ~/.config/scripts/autostart.sh
 
 # Autor: Fravelz

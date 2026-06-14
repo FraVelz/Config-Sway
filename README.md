@@ -165,6 +165,21 @@ Los scripts de rofi viven en `~/.config/rofi/scripts/` (y los scripts generales 
 | `XF86AudioPlay`         | Play/Pause         | `playerctl play-pause`                           |
 | `XF86AudioPrev`         | Pista anterior     | `playerctl previous`                             |
 
+### Audio sin salida (DroidCam / snd-aloop)
+
+Si tienes **DroidCam** (`/etc/modules-load.d/droidcam.conf` carga `snd-aloop`), PipeWire puede elegir **Loopback** como salida por defecto en lugar de los altavoces del portátil. El repo incluye:
+
+- `~/.config/wireplumber/wireplumber.conf.d/50-droidcam-loopback-priority.conf` — baja la prioridad del dispositivo Loopback
+- `~/.config/scripts/fix-audio-defaults.sh` — al iniciar Sway, fuerza altavoces/mic reales si Loopback quedó por defecto
+
+Comprobar: `wpctl status` (la salida marcada con `*` debe ser **Speaker**, no Loopback). Arreglo manual inmediato:
+
+```bash
+pactl set-default-sink alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Speaker__sink
+```
+
+Si usas auriculares HDMI, elige la salida correcta con `pavucontrol` o `wpctl status` + `wpctl set-default <id>`.
+
 ### Notificaciones (SwayNC)
 
 Centro de notificaciones con historial (panel lateral), agrupación y textos en español; config en `~/.config/swaync/`. Waybar muestra el icono de campana si está `swaync-client` (clic: abrir panel, clic derecho: alternar no molestar).
@@ -259,15 +274,21 @@ El clic del módulo de red abre el menú WiFi:
 
 Este repo incluye:
 
-- `~/.config/xdg-desktop-portal/sway-portals.conf` (selecciona `wlr` para Screenshot/Screencast)
-- Líneas en `~/.config/sway/config` para importar el entorno a systemd/DBus
+- `~/.config/xdg-desktop-portal/portals.conf` y `sway-portals.conf` (Screenshot/ScreenCast vía `wlr`)
+- Unidad `~/.config/systemd/user/xdg-desktop-portal.service` sin depender de `graphical-session.target` (Sway desde TTY)
+- `~/.config/flameshot/flameshot.ini` con bandeja desactivada (`disabledTrayIcon=true`; evita errores de QDBusTrayIcon)
+- Líneas en `~/.config/sway/config` para importar el entorno a systemd/DBus y `QT_QPA_PLATFORM=wayland` en `Super+Z`
 - Regla `for_window` para que Flameshot no se “tilee”
 
 Si sigues con problemas, reinicia los portales (en tu usuario):
 
 ```bash
+systemctl --user daemon-reload
 systemctl --user restart xdg-desktop-portal xdg-desktop-portal-wlr
+systemctl --user status xdg-desktop-portal
 ```
+
+Comprueba que `org.freedesktop.portal.Desktop` esté activo (`busctl --user list | grep portal.Desktop`). Si el portal principal no arranca, suele ser porque Sway no activa `graphical-session.target`; la unidad de usuario del repo corrige eso.
 
 ## Wallpaper (Sway)
 
