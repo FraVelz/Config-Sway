@@ -2,6 +2,8 @@
 # Reproduce sonido al recibir notificaciones (invocado por swaync).
 set -euo pipefail
 
+[ "${SWAYNC_APP_NAME:-}" = "shutdown-countdown" ] && exit 0
+
 play() {
   local file="$1"
   [ -f "$file" ] || return 0

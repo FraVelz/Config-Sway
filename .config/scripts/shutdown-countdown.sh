@@ -83,19 +83,9 @@ position_overlay() {
   sleep 0.15
 }
 
-play_sound() {
-  local file="${1:-/usr/share/sounds/freedesktop/stereo/bell.oga}"
-  [ -f "$file" ] || return 0
-  if command -v pw-play >/dev/null 2>&1; then
-    pw-play "$file" >/dev/null 2>&1 &
-  elif command -v paplay >/dev/null 2>&1; then
-    paplay "$file" >/dev/null 2>&1 &
-  fi
-}
-
 notify() {
   command -v notify-send >/dev/null 2>&1 || return 0
-  notify-send "$@"
+  notify-send -a shutdown-countdown -h boolean:suppress-sound:true "$@"
 }
 
 target_epoch() {
@@ -154,7 +144,7 @@ draw_screen() {
 }
 
 run_countdown() {
-  local target now remaining mins secs cancelled=0 last_beep=-1 urgent=0
+  local target now remaining mins secs cancelled=0 urgent=0
 
   if [ -f "$LOCK" ]; then
     old_pid="$(cat "$LOCK" 2>/dev/null || true)"
@@ -179,7 +169,6 @@ run_countdown() {
 
   notify -u critical "Apagado programado" \
     "Quedan ${remaining}s para guardar todo. Apagado a las ${SHUTDOWN_HOUR}:$(printf '%02d' "$SHUTDOWN_MINUTE") (hora local)."
-  play_sound /usr/share/sounds/freedesktop/stereo/complete.oga
 
   stty -echo -icanon time 0 min 0 2>/dev/null || true
 
@@ -188,14 +177,6 @@ run_countdown() {
     secs=$((remaining % 60))
     urgent=0
     [ "$remaining" -le 30 ] && urgent=1
-
-    if [ "$mins" -eq 0 ] && [ "$secs" -le 10 ] && [ "$secs" -ne "$last_beep" ]; then
-      play_sound /usr/share/sounds/freedesktop/stereo/bell.oga
-      last_beep="$secs"
-    elif [ "$secs" -eq 0 ] && [ "$mins" -ne "$last_beep" ] && [ "$mins" -gt 0 ]; then
-      play_sound /usr/share/sounds/freedesktop/stereo/message.oga
-      last_beep="$mins"
-    fi
 
     draw_screen "$mins" "$secs" "$urgent"
 
@@ -211,7 +192,6 @@ run_countdown() {
 
   if [ "$cancelled" -eq 1 ]; then
     notify "Apagado cancelado" "No se apagará el equipo esta noche."
-    play_sound /usr/share/sounds/freedesktop/stereo/message.oga
     exit 0
   fi
 
@@ -221,7 +201,6 @@ run_countdown() {
   sleep 2
 
   notify -u critical "Apagando" "Son las ${SHUTDOWN_HOUR}:$(printf '%02d' "$SHUTDOWN_MINUTE"). Apagando el equipo..."
-  play_sound /usr/share/sounds/freedesktop/stereo/complete.oga
 
   if command -v loginctl >/dev/null 2>&1; then
     loginctl poweroff || systemctl poweroff
