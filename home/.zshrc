@@ -12,6 +12,12 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+# Reorganización Documentos
+export DOC_WEB="$HOME/Documentos/web"
+export DOC_ACTIVE="$DOC_WEB/active"
+export DOC_PORTFOLIO="$DOC_WEB/portfolio"
+export DOC_PERSONAL="$HOME/Documentos/personal"
+
 function open_code {
   sleep 1 && code .
 }
@@ -41,7 +47,7 @@ function parse_git_branch {
 }
 
 function a(){
-  cd ~/Documentos/WEB/
+  cd "$DOC_WEB"
   ranger
 }
 
@@ -451,13 +457,15 @@ check_description() {
 function settarget(){
     ip_address=$1
     machine_name=$2
-    echo "$ip_address $machine_name" > /home/fravelz/.config/bin/target
+    mkdir -p "$HOME/.config/bin"
+    echo "$ip_address $machine_name" > "$HOME/.config/bin/target"
 }
 
 # Limpiar target (ip victima) a el waybar (por medio del archivo)
 
 function cleartarget(){
-    echo '' > /home/fravelz/.config/bin/target
+    mkdir -p "$HOME/.config/bin"
+    echo '' > "$HOME/.config/bin/target"
 }
 
 # Yo guardo todos mis archivos en la nuve entonces los tengo estructurados 
@@ -465,7 +473,7 @@ function cleartarget(){
 # mis archivos
 
 function home(){
-  cd ~/Documentos/notas/Notas-Personales-Markdown
+  cd "$DOC_PERSONAL/notes/Notas-Personales-Markdown"
 }
 
 # comando para taildwindcss
@@ -560,7 +568,7 @@ fastfetch
 # Autor: Fravelz
 
 # pnpm
-export PNPM_HOME="/home/fravelz/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;

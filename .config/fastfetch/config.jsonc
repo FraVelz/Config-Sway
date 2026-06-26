@@ -3,7 +3,7 @@
 
     "logo": {
       "type": "file",
-      "source": "/home/fravelz/.config/fastfetch/logo.txt",
+      "source": "~/.config/fastfetch/logo.txt",
 
       "color": { "1": "cyan", "2": "yellow", "3": "white", "4": "green", "5": "magenta" }
     },

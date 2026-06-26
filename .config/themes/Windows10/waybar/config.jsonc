@@ -253,7 +253,7 @@
     "exec-if": "exit 0", // sin limite de chequeos
 
     // Actualizar al hacer click
-    "on-click": "foot -e 'sudo pacman -Syu'; pkill ZepNet-SIGRTMIN+8 waybar",
+    "on-click": "kitty -e sudo pacman -Syu; pkill ZepNet-SIGRTMIN+8 waybar",
 
     "signal": 8
   },

@@ -199,7 +199,7 @@
         "tooltip-format-disconnected": "󰖪 Disconnected", 
         "tooltip-format-linked": "󰌙 {ifname}: Not ip",
         "max-length": 30, 
-        "on-click": "~/.config/rofi/wifi/script.sh", 
+        "on-click": "~/.config/rofi/scripts/wifi.sh", 
         "format-icons": {
             "wifi": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"], 
             "ethernet": ["󰌗"], 
@@ -293,7 +293,7 @@
     "exec-if": "exit 0", // sin limite de chequeos
 
     // Actualizar al hacer click
-    "on-click": "foot -e 'sudo pacman -Syu'; pkill ZepNet-SIGRTMIN+8 waybar",
+    "on-click": "kitty -e sudo pacman -Syu; pkill ZepNet-SIGRTMIN+8 waybar",
 
     "signal": 8
   },
