@@ -1,0 +1,79 @@
+{
+  "scripts": {
+    "notification-sound": {
+      "exec": "~/.config/scripts/notification-sound.sh",
+      "run-on": "receive"
+    }
+  },
+  "ignore-gtk-theme": true,
+  "positionX": "right",
+  "positionY": "top",
+  "notification-grouping": true,
+  "timeout": 10,
+  "timeout-low": 5,
+  "timeout-critical": 0,
+  "control-center-width": 420,
+  "notification-window-width": 420,
+  "relative-timestamps": true,
+  "fit-to-screen": true,
+  "hide-on-clear": false,
+  "text-empty": "Sin notificaciones",
+  "widgets": [
+    "title",
+    "dnd",
+    "notifications",
+    "buttons-grid"
+  ],
+  "widget-config": {
+    "title": {
+      "text": "Centro de actividades",
+      "clear-all-button": true,
+      "button-text": "Borrar todo"
+    },
+    "dnd": {
+      "text": "No molestar"
+    },
+    "buttons-grid": {
+      "buttons-per-row": 4,
+      "actions": [
+        {
+          "label": "Wi‑Fi",
+          "type": "toggle",
+          "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && nmcli radio wifi on || nmcli radio wifi off'",
+          "update-command": "sh -c '[[ $(nmcli radio wifi) == \"enabled\" ]] && echo true || echo false'"
+        },
+        {
+          "label": "Bluetooth",
+          "type": "toggle",
+          "command": "sh -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && bluetoothctl power on || bluetoothctl power off'",
+          "update-command": "sh -c 'bluetoothctl show 2>/dev/null | grep -q \"Powered: yes\" && echo true || echo false'"
+        },
+        {
+          "label": "Red",
+          "command": "nm-connection-editor"
+        },
+        {
+          "label": "Audio",
+          "command": "pavucontrol"
+        },
+        {
+          "label": "Captura",
+          "command": "flameshot gui"
+        },
+        {
+          "label": "Ajustes",
+          "command": "swaync-client -t -sw"
+        },
+        {
+          "label": "Apagar",
+          "command": "~/.config/rofi/scripts/power-menu.sh"
+        },
+        {
+          "label": "Claro/Oscuro",
+          "command": "~/.config/scripts/win-mode.sh"
+        }
+      ]
+    }
+  },
+  "cssPriority": "user"
+}

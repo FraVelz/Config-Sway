@@ -1,0 +1,11 @@
+/* Paleta Windows10-Dark */
+
+* {
+    font:                  "Noto Sans 14";
+    background:            #1f1f1fee;
+    background-alt:        #2b2b2b;
+    foreground:            #ffffff;
+    selected:              #0078d7;
+    active:                #0078d7;
+    urgent:                #e81123;
+}

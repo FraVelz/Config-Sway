@@ -83,6 +83,10 @@ if [ -f "$DST_CONFIG/scripts/teclado-rofi.sh" ]; then
     ln -sfn "$DST_CONFIG/scripts/teclado-idioma.sh" "$HOME/.local/bin/teclado-${lang}"
   done
 fi
+chmod +x "$DST_CONFIG/scripts/win-mode.sh" 2>/dev/null || true
+if [ -f "$DST_CONFIG/scripts/win-mode.sh" ]; then
+  ln -sfn "$DST_CONFIG/scripts/win-mode.sh" "$HOME/.local/bin/win-mode"
+fi
 if [ -f "$DST_CONFIG/scripts/teclado/fcitx5/profile" ]; then
   cp -a "$DST_CONFIG/scripts/teclado/fcitx5/profile" "$HOME/.config/fcitx5/profile"
   cp -a "$DST_CONFIG/scripts/teclado/fcitx5/config" "$HOME/.config/fcitx5/config"

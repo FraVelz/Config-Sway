@@ -1,0 +1,120 @@
+/* Windows 10 Start — anclado abajo-izquierda, esquinas rectas */
+
+configuration {
+    modi:                 "drun";
+    show-icons:           true;
+    display-drun:         "Apps";
+    drun-display-format:  "{name}";
+}
+
+@import "~/.config/rofi/styles/_core/palette.rasi"
+
+window {
+    transparency:          "real";
+    location:              southwest;
+    anchor:                southwest;
+    fullscreen:            false;
+    width:                 420px;
+    x-offset:              0px;
+    y-offset:              -42px;
+    enabled:               true;
+    border:                1px;
+    border-color:          @selected;
+    border-radius:         0px;
+    cursor:                "default";
+    background-color:      @background;
+}
+
+mainbox {
+    enabled:               true;
+    spacing:               0px;
+    padding:               0px;
+    background-color:      transparent;
+    orientation:           vertical;
+    children:              [ "inputbar", "listview" ];
+}
+
+inputbar {
+    enabled:               true;
+    spacing:               10px;
+    padding:               12px 14px;
+    border:                0px 0px 1px 0px;
+    border-color:          @background-alt;
+    border-radius:         0px;
+    background-color:      @background-alt;
+    text-color:            @foreground;
+    children:              [ "textbox-prompt-colon", "entry" ];
+}
+
+textbox-prompt-colon {
+    enabled:               true;
+    expand:                false;
+    str:                   "";
+    background-color:      inherit;
+    text-color:            inherit;
+}
+
+entry {
+    enabled:               true;
+    background-color:      inherit;
+    text-color:            inherit;
+    cursor:                text;
+    placeholder:           "Buscar en la web y en apps";
+    placeholder-color:     inherit;
+}
+
+listview {
+    enabled:               true;
+    columns:               1;
+    lines:                 10;
+    cycle:                 true;
+    dynamic:               true;
+    scrollbar:             false;
+    layout:                vertical;
+    fixed-height:          true;
+    fixed-columns:         true;
+    spacing:               0px;
+    padding:               6px 0px;
+    background-color:      transparent;
+    text-color:            @foreground;
+    cursor:                "default";
+}
+
+element {
+    enabled:               true;
+    spacing:               12px;
+    padding:               10px 14px;
+    border-radius:         0px;
+    background-color:      transparent;
+    text-color:            @foreground;
+    cursor:                pointer;
+}
+
+element selected.normal {
+    background-color:      @selected;
+    text-color:            #ffffff;
+}
+
+element-icon {
+    background-color:      transparent;
+    size:                  28px;
+    cursor:                inherit;
+}
+
+element-text {
+    background-color:      transparent;
+    text-color:            inherit;
+    vertical-align:        0.5;
+    horizontal-align:      0.0;
+}
+
+message {
+    background-color:      transparent;
+}
+
+textbox {
+    padding:               12px;
+    border-radius:         0px;
+    background-color:      @background-alt;
+    text-color:            @foreground;
+}

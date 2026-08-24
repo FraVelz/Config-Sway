@@ -113,6 +113,8 @@ if [ -f "$HOME/.config/swaync/_swaync-upstream.css" ] && [ -f "$HOME/.config/swa
   mkdir -p "$HOME/.config/swaync"
   if [ -f "$ELEGIDO/swaync/config.json" ]; then
     cp -a "$ELEGIDO/swaync/config.json" "$HOME/.config/swaync/config.json" 2>/dev/null || true
+  elif [ -f "$HOME/.config/swaync/config-default.json" ]; then
+    cp -a "$HOME/.config/swaync/config-default.json" "$HOME/.config/swaync/config.json" 2>/dev/null || true
   fi
   if [ -f "$HOME/.config/swaync/_swaync-pop.css" ]; then
     if [ -f "$ELEGIDO/swaync/colors.css" ]; then
@@ -176,6 +178,15 @@ if [ -f "$ELEGIDO/sway/theme.conf" ]; then
 }
 EOF
   fi
+
+  # Estilos Rofi del tema (Start / power) → _core
+  rofi_core="$HOME/.config/rofi/styles/_core"
+  mkdir -p "$rofi_core"
+  for rasi in selector-app.rasi power-menu.rasi theme-switcher.rasi; do
+    if [ -f "$rofi_theme_dir/$rasi" ]; then
+      cp -a "$rofi_theme_dir/$rasi" "$rofi_core/$rasi" 2>/dev/null || true
+    fi
+  done
 fi
 
 WALL=""

@@ -1,10 +1,12 @@
 @import "colors.css";
 
-/* Windows 10-like taskbar */
+/* Windows 10 taskbar — left aligned, sharp corners, acrylic */
+
 * {
   min-height: 0;
-  font-family: "Segoe UI", "Noto Sans", "Inter", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 15px;
+  font-family: "Segoe UI", "Noto Sans", sans-serif;
+  font-size: 14px;
+  border-radius: 0;
 }
 
 #waybar {
@@ -17,25 +19,41 @@
   color: @text;
   padding: 0 8px;
   margin: 0;
+  border-radius: 0;
 }
 
 #waybar .module:hover {
   background-color: @hover;
 }
 
-/* Start button */
 #custom-win {
-  font-size: 15px;
-  padding: 0 10px;
+  font-size: 16px;
+  padding: 0 12px;
   margin: 0;
   background: transparent;
+  color: @text;
 }
 
 #custom-win:hover {
   background-color: @hover;
+  color: @accent;
 }
 
-/* Workspaces as "desktop" indicator */
+#custom-search {
+  font-size: 13px;
+  padding: 0 14px;
+  margin: 0;
+  background-color: @mantle;
+  color: @text_dim;
+  min-width: 160px;
+  border-radius: 0;
+}
+
+#custom-search:hover {
+  background-color: @hover;
+  color: @text;
+}
+
 #workspaces button {
   padding: 0 8px;
   margin: 0;
@@ -55,7 +73,6 @@
   color: @text;
 }
 
-/* Taskbar apps (wlr/taskbar) */
 #taskbar button {
   padding: 0 8px;
   margin: 0;
@@ -72,18 +89,19 @@
   box-shadow: inset 0 -2px @accent;
 }
 
-/* Tray and right-side indicators */
 #tray,
 #network,
 #wireplumber,
 #battery,
+#custom-notification,
 #clock {
   padding: 0 8px;
+  border-radius: 0;
 }
 
 #clock {
   padding: 0 10px;
-  font-size: 13px;
+  font-size: 12px;
   min-width: 84px;
 }
 
@@ -100,5 +118,6 @@
 tooltip {
   background: @crust;
   border: 1px solid @outline;
+  border-radius: 0;
   color: @text;
 }

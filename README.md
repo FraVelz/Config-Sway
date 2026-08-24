@@ -104,6 +104,14 @@ Los scripts de rofi viven en `~/.config/rofi/scripts/` (y los scripts generales 
 | `Alt+Shift+S`       | Menú de teclados/idiomas (ES/EN/中文/RU/한국어)        | `~/.local/bin/teclado-rofi` |
 | `Super+Shift+Enter` | Layout “hacker”                                        | `~/.config/scripts/mode-hacker.sh` |
 
+**Windows 10 (claro/oscuro):** temas `Windows10-Dark` y `Windows10-Light`. Con uno de ellos activo, en terminal:
+
+```bash
+win-mode    # alterna Light ↔ Dark (solo si el tema actual es Win10)
+```
+
+En esos temas: click en el icono Win / “Buscar” abre el Start (Rofi abajo-izquierda); la campana abre el Action Center (SwayNC + quick actions).
+
 ### Ventanas / layout
 
 | Atajo           | Acción                                      |
@@ -214,12 +222,15 @@ Cada tema vive en `~/.config/themes/<tema>/` y puede incluir:
 - **`kitty/`**: config de Kitty.
 - **`wallpaper.(png|jpg|webp)`**: wallpaper del tema.
 - **`rofi-style/`** (opcional): estilos/paleta de rofi por tema.
-  - En este repo, lo importante es la **paleta**: `rofi-style/_core/palette.rasi` (para cambiar colores sin tocar el layout).
-- **`swaync/`** (opcional): `colors.css` (variables `:root` y `@define-color` para el panel y las notificaciones; alineado con los colores del waybar del tema). Opcional `config.json` si quieres textos/widgets distintos solo en ese tema.
+  - Paleta: `rofi-style/_core/palette.rasi`.
+  - Layouts opcionales: `selector-app.rasi`, `power-menu.rasi` (el switcher los copia a `rofi/styles/_core/` si existen).
+- **`swaync/`** (opcional): `colors.css` (variables `:root` y `@define-color` para el panel y las notificaciones; alineado con los colores del waybar del tema). Opcional `config.json` si quieres textos/widgets distintos solo en ese tema (p. ej. Action Center Win10 con `buttons-grid`). Si el tema no trae `config.json`, se restaura `swaync/config-default.json`.
 
 El theme switcher guarda el tema actual en:
 
 - `~/.config/themes/.current`
+
+Temas Windows 10: `Windows10-Dark` / `Windows10-Light`. Toggle: `~/.local/bin/win-mode` (requiere uno de esos como tema actual).
 
 ## Rofi: scripts, estilos y colores por tema
 

@@ -1,0 +1,11 @@
+/* Paleta Windows10-Light */
+
+* {
+    font:                  "Noto Sans 14";
+    background:            #f3f3f3ee;
+    background-alt:        #ffffff;
+    foreground:            #1a1a1a;
+    selected:              #0078d7;
+    active:                #0078d7;
+    urgent:                #e81123;
+}

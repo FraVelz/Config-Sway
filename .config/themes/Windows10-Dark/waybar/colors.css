@@ -1,0 +1,17 @@
+/* Windows10-Dark Waybar palette */
+
+@define-color base rgba(31, 31, 31, 0.90);
+@define-color mantle rgba(23, 23, 23, 0.92);
+@define-color crust #171717;
+
+@define-color text #ffffff;
+@define-color text_dim rgba(207, 207, 207, 0.90);
+
+@define-color accent #0078d7;
+@define-color accent_hover #1a86e0;
+
+@define-color hover rgba(255, 255, 255, 0.08);
+@define-color outline rgba(255, 255, 255, 0.12);
+
+@define-color danger #e81123;
+@define-color success #3bd16f;

@@ -1,0 +1,55 @@
+/* SwayNC — Windows10-Dark (Action Center acrylic) */
+
+:root {
+  --border-radius: 0;
+  --cc-bg: rgba(31, 31, 31, 0.92);
+  --noti-border-color: rgba(0, 120, 215, 0.45);
+  --noti-bg: 43, 43, 43;
+  --noti-bg-alpha: 0.95;
+  --noti-bg-darker: rgb(23, 23, 23);
+  --noti-bg-hover: rgb(55, 55, 55);
+  --noti-bg-focus: rgba(0, 120, 215, 0.28);
+  --noti-close-bg: rgba(255, 255, 255, 0.1);
+  --noti-close-bg-hover: rgba(255, 255, 255, 0.18);
+  --text-color: rgb(255, 255, 255);
+  --text-color-disabled: rgb(180, 180, 180);
+  --bg-selected: rgb(0, 120, 215);
+  --noti-accent-ring: rgba(0, 120, 215, 0.5);
+  --font-size-body: 15px;
+  --font-size-summary: 16px;
+}
+
+@define-color cc-bg rgba(31, 31, 31, 0.92);
+@define-color noti-border-color rgba(0, 120, 215, 0.45);
+@define-color noti-bg rgba(43, 43, 43, 0.95);
+@define-color noti-bg-opaque rgb(43, 43, 43);
+@define-color noti-bg-darker rgb(23, 23, 23);
+@define-color noti-bg-hover rgb(55, 55, 55);
+@define-color noti-bg-hover-opaque rgb(55, 55, 55);
+@define-color noti-bg-focus rgba(0, 120, 215, 0.28);
+@define-color noti-close-bg rgba(255, 255, 255, 0.1);
+@define-color noti-close-bg-hover rgba(255, 255, 255, 0.18);
+@define-color text-color rgb(255, 255, 255);
+@define-color text-color-disabled rgb(180, 180, 180);
+@define-color bg-selected rgb(0, 120, 215);
+
+.control-center {
+  border-radius: 0;
+}
+
+.notification-row .notification-background .notification {
+  border-radius: 0;
+}
+
+.widget-buttons-grid flowboxchild > button {
+  border-radius: 0;
+  background-color: rgba(55, 55, 55, 0.95);
+  color: rgb(255, 255, 255);
+  padding: 12px;
+  margin: 4px;
+}
+
+.widget-buttons-grid flowboxchild > button.toggle:checked {
+  background-color: #0078d7;
+  color: #ffffff;
+}
