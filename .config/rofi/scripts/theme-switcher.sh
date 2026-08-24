@@ -28,6 +28,9 @@ fi
 
 need rofi || { print_error "Falta rofi"; exit 1; }
 
+# shellcheck source=/dev/null
+source "$HOME/.config/scripts/rofi-replace.sh" 2>/dev/null || true
+
 OPCIONES="$(mktemp)"
 trap 'rm -f "$OPCIONES"' EXIT
 
@@ -54,6 +57,7 @@ done
 TEMA="${1:-}"
 if [ -z "${TEMA:-}" ]; then
   # Nota: evitamos pipe para que rofi lea siempre bien la entrada
+  type rofi_replace >/dev/null 2>&1 && rofi_replace
   TEMA="$(rofi -i -dmenu -show-icons -theme "$ROFI_THEME" <"$OPCIONES" 2>/dev/null || true)"
 fi
 TEMA="$(echo "${TEMA:-}" | xargs)"
@@ -179,11 +183,12 @@ if [ -f "$ELEGIDO/sway/theme.conf" ]; then
 EOF
   fi
 
-  # Estilos Rofi del tema (Start / power). No sobrescribir theme-switcher.rasi:
-  # el carrusel horizontal vive en styles/_core y solo cambia con palette.rasi.
+  # Estilos Rofi del tema (Start). No sobrescribir theme-switcher.rasi ni
+  # power-menu.rasi: el carrusel y el menú de energía viven en styles/_core
+  # y solo cambian de color con palette.rasi.
   rofi_core="$HOME/.config/rofi/styles/_core"
   mkdir -p "$rofi_core"
-  for rasi in selector-app.rasi power-menu.rasi; do
+  for rasi in selector-app.rasi; do
     if [ -f "$rofi_theme_dir/$rasi" ]; then
       cp -a "$rofi_theme_dir/$rasi" "$rofi_core/$rasi" 2>/dev/null || true
     fi

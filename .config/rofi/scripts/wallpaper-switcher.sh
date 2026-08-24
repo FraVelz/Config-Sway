@@ -4,6 +4,8 @@ set -euo pipefail
 FONDOS_DIR="$HOME/.config/wallpapers"
 THEME_PATH="$HOME/.config/rofi/styles/_core/wallpaper-switcher.rasi"
 SWAY_WALL_FILE="$HOME/.config/sway/wallpaper"
+# shellcheck source=/dev/null
+source "$HOME/.config/scripts/rofi-replace.sh"
 
 if ! command -v rofi >/dev/null 2>&1; then
   echo "Error: rofi no está instalado" >&2
@@ -30,18 +32,23 @@ if [ ! -s "$OPTIONS_FILE" ]; then
   exit 0
 fi
 
+rofi_replace
+
 set +e
 FONDO="$(rofi -i -dmenu -show-icons -p "> " -theme "$THEME_PATH" <"$OPTIONS_FILE" 2>"$ROFI_ERR")"
 rc=$?
 set -e
 
-if [ "$rc" -ne 0 ] && [ -s "$ROFI_ERR" ]; then
-  err="$(tr -s '\n' ' ' < "$ROFI_ERR" | cut -c1-220)"
-  notify-send "Wallpaper" "Rofi error: $err" 2>/dev/null || true
+# Cancelar (Esc) o sin selección: silencio. Solo avisar errores reales (no Helper-WARNING / pidfile).
+if [ -z "${FONDO:-}" ]; then
+  if [ "$rc" -ne 0 ] && [ -s "$ROFI_ERR" ]; then
+    if ! grep -qiE 'Helper-WARNING|already running|ioctl' "$ROFI_ERR"; then
+      err="$(tr -s '\n' ' ' <"$ROFI_ERR" | cut -c1-220)"
+      notify-send "Wallpaper" "Rofi error: $err" 2>/dev/null || true
+    fi
+  fi
+  exit 0
 fi
-
-FONDO="${FONDO:-}"
-[ -z "${FONDO:-}" ] && exit 0
 
 WALL="$FONDOS_DIR/$FONDO"
 if [ ! -f "$WALL" ]; then

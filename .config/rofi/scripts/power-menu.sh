@@ -5,6 +5,8 @@ set -euo pipefail
 
 theme="$HOME/.config/rofi/styles/_core/power-menu.rasi"
 bg="$HOME/.config/rofi/images/arch-linux-2.webp"
+# shellcheck source=/dev/null
+source "$HOME/.config/scripts/rofi-replace.sh"
 
 # Nota: mantenemos `set -euo pipefail`, pero estos datos son "nice to have".
 # En algunos sistemas `hostname` puede no existir, o `last` puede fallar si no hay wtmp.
@@ -12,7 +14,7 @@ lastlogin="$(
   (last "$USER" 2>/dev/null || true) \
     | head -n1 \
     | tr -s ' ' \
-    | cut -d' ' -f5,6,7
+    | cut -d' ' -f5,6
 )"
 uptime="$(
   (uptime -p 2>/dev/null || true) \
@@ -69,7 +71,8 @@ logout_now() {
   fi
 }
 
-chosen="$(run_rofi)"
+rofi_replace
+chosen="$(run_rofi || true)"
 case "${chosen}" in
   "$apagar") systemctl poweroff ;;
   "$reiniciar") systemctl reboot ;;

@@ -4,6 +4,8 @@ set -euo pipefail
 
 CORE_THEME="$HOME/.config/rofi/styles/selector-app.rasi"
 IMG="$HOME/.config/rofi/images/arch-linux.png"
+# shellcheck source=/dev/null
+source "$HOME/.config/scripts/rofi-replace.sh"
 
 rofi_args=(
   -modi drun
@@ -14,10 +16,11 @@ rofi_args=(
   -theme "$CORE_THEME"
 )
 
+rofi_replace
 if [ -f "$IMG" ]; then
-  rofi "${rofi_args[@]}" -theme-str "imagebox { background-image: url(\"$IMG\", height); }"
+  rofi "${rofi_args[@]}" -theme-str "imagebox { background-image: url(\"$IMG\", height); }" || true
 else
-  rofi "${rofi_args[@]}"
+  rofi "${rofi_args[@]}" || true
 fi
 
 # Autor: Fravelz
