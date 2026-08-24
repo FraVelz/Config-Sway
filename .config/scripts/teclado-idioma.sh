@@ -3,6 +3,13 @@
 # El teclado físico de Sway se queda siempre en español (latam).
 set -euo pipefail
 
+SELF="$(readlink -f -- "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(cd -- "$(dirname -- "$SELF")" && pwd)"
+ENSURE_IM="$SCRIPT_DIR/teclado/fcitx5-ensure-im.py"
+if [ ! -f "$ENSURE_IM" ]; then
+  ENSURE_IM="$HOME/.config/scripts/teclado/fcitx5-ensure-im.py"
+fi
+
 CMD="$(basename -- "${1:-${0##*/}}")"
 shift 2>/dev/null || true
 QUIET="${TECLADO_QUIET:-0}"
@@ -18,8 +25,10 @@ case "$CMD" in
     IM="keyboard-ru"; LABEL="Русский" ;;
   teclado-ko|ko|4|hangul|kr)
     IM="hangul"; LABEL="한국어 Hangul" ;;
+  teclado-br|br|5|portugués|portugues|portuguese|brasil|brazil)
+    IM="keyboard-br"; LABEL="Português" ;;
   teclado-idioma.sh|teclado-idioma)
-    echo "Uso: teclado-idioma.sh es|en|zh|ru|ko" >&2
+    echo "Uso: teclado-idioma.sh es|en|zh|ru|ko|br" >&2
     exit 2
     ;;
   *)
@@ -48,8 +57,16 @@ if command -v swaymsg >/dev/null 2>&1; then
   swaymsg "input type:keyboard xkb_layout latam" >/dev/null 2>&1 || true
 fi
 
+switch_im() {
+  local want="$1"
+  if command -v python3 >/dev/null 2>&1 && [ -f "$ENSURE_IM" ]; then
+    python3 "$ENSURE_IM" --switch "$want" >/dev/null 2>&1 || true
+  fi
+  fcitx5-remote -s "$want" >/dev/null 2>&1 || true
+}
+
 if ensure_fcitx5; then
-  fcitx5-remote -s "$IM" >/dev/null 2>&1 || true
+  switch_im "$IM"
   if [ "$IM" = "keyboard-latam" ]; then
     fcitx5-remote -c >/dev/null 2>&1 || true
   else
@@ -57,6 +74,14 @@ if ensure_fcitx5; then
   fi
 fi
 
-[ "$QUIET" = 1 ] || notify-send "Teclado" "$LABEL (esta ventana)" 2>/dev/null || true
+cur="$(fcitx5-remote -n 2>/dev/null || true)"
+if [ "$QUIET" != 1 ]; then
+  if [ "$cur" = "$IM" ]; then
+    notify-send "Teclado" "$LABEL (esta ventana)" 2>/dev/null || true
+  else
+    notify-send "Teclado" "No se pudo activar $LABEL" 2>/dev/null || true
+  fi
+fi
+[ "$cur" = "$IM" ]
 
 # Autor: Fravelz

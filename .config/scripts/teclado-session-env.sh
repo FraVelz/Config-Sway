@@ -17,10 +17,14 @@ if command -v dbus-update-activation-environment >/dev/null 2>&1; then
 fi
 
 SRC="$HOME/.config/scripts/teclado/fcitx5"
+ENSURE_IM="$HOME/.config/scripts/teclado/fcitx5-ensure-im.py"
 
 mkdir -p "$HOME/.config/fcitx5"
 if [ -f "$SRC/config" ]; then
   cp -f "$SRC/config" "$HOME/.config/fcitx5/config"
+fi
+if [ -f "$SRC/profile" ]; then
+  cp -f "$SRC/profile" "$HOME/.config/fcitx5/profile"
 fi
 
 if command -v swaymsg >/dev/null 2>&1; then
@@ -28,9 +32,6 @@ if command -v swaymsg >/dev/null 2>&1; then
 fi
 
 if ! pgrep -x fcitx5 >/dev/null 2>&1; then
-  if [ -f "$SRC/profile" ]; then
-    cp -f "$SRC/profile" "$HOME/.config/fcitx5/profile"
-  fi
   if command -v fcitx5 >/dev/null 2>&1; then
     fcitx5 -d >/dev/null 2>&1 || true
     for _ in $(seq 1 20); do
@@ -43,6 +44,14 @@ elif command -v fcitx5-remote >/dev/null 2>&1; then
   if [ -f "$SRC/config" ]; then
     cp -f "$SRC/config" "$HOME/.config/fcitx5/config"
   fi
+  if [ -f "$SRC/profile" ]; then
+    cp -f "$SRC/profile" "$HOME/.config/fcitx5/profile"
+  fi
+fi
+
+# El profile en disco no se recarga solo: hay que empujar el grupo por D-Bus.
+if command -v python3 >/dev/null 2>&1 && [ -f "$ENSURE_IM" ] && [ -f "$SRC/profile" ]; then
+  python3 "$ENSURE_IM" --profile "$SRC/profile" >/dev/null 2>&1 || true
 fi
 
 if command -v fcitx5-remote >/dev/null 2>&1; then

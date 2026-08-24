@@ -31,7 +31,8 @@ menu() {
     "en  English" \
     "zh  中文 Pinyin" \
     "ru  Русский" \
-    "ko  한국어 Hangul"
+    "ko  한국어 Hangul" \
+    "br  Português"
 }
 
 rofi_args=(
@@ -44,7 +45,7 @@ rofi_args=(
   -me-accept-entry "MousePrimary,Return,KP_Enter"
 )
 if [ -f "$THEME" ]; then
-  rofi_args+=(-theme "$THEME" -theme-str "listview { lines: 5; }")
+  rofi_args+=(-theme "$THEME" -theme-str "listview { lines: 6; }")
 fi
 
 set +e
@@ -61,7 +62,7 @@ code="${choice%%[[:space:]]*}"
 code="${code,,}"
 
 case "$code" in
-  es|en|zh|ru|ko) exec "$SWITCH" "$code" ;;
+  es|en|zh|ru|ko|br) exec "$SWITCH" "$code" ;;
   *)
     # Por si el tema devuelve solo la etiqueta, sin el código.
     case "$choice" in
@@ -70,6 +71,7 @@ case "$code" in
       *Pinyin*|*中文*)     exec "$SWITCH" zh ;;
       *Русский*|*Russian*) exec "$SWITCH" ru ;;
       *Hangul*|*한국어*)   exec "$SWITCH" ko ;;
+      *Português*|*Portugues*|*Brasil*) exec "$SWITCH" br ;;
       *)
         notify-send "Teclado" "Opción no reconocida: [$choice]" 2>/dev/null || true
         exit 1

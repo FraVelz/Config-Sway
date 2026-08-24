@@ -101,7 +101,7 @@ Los scripts de rofi viven en `~/.config/rofi/scripts/` (y los scripts generales 
 | `Super+A`           | Cambiar tema (aplica sway/kitty/waybar/rofi/wallpaper) | `~/.config/rofi/scripts/theme-switcher.sh` |
 | `Super+W`           | Cambiar wallpaper (Sway)                               | `~/.config/rofi/scripts/wallpaper-switcher.sh` |
 | `Super+E`           | Menú de iconos/emoji                                   | `~/.config/rofi/scripts/menu-iconos.sh` |
-| `Alt+Shift+S`       | Menú de teclados/idiomas (ES/EN/中文/RU/한국어)        | `~/.local/bin/teclado-rofi` |
+| `Alt+Shift+S`       | Menú de teclados/idiomas (ES/EN/中文/RU/한국어/BR)     | `~/.local/bin/teclado-rofi` |
 | `Super+Shift+Enter` | Layout “hacker”                                        | `~/.config/scripts/mode-hacker.sh` |
 
 **Windows 10 (claro/oscuro):** temas `Windows10-Dark` y `Windows10-Light`. Con uno de ellos activo, en terminal:

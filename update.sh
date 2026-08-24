@@ -79,7 +79,7 @@ chmod +x "$DST_CONFIG/scripts/teclado-rofi.sh" \
 if [ -f "$DST_CONFIG/scripts/teclado-rofi.sh" ]; then
   ln -sfn "$DST_CONFIG/scripts/teclado-rofi.sh" "$HOME/.local/bin/teclado-rofi"
   ln -sfn "$DST_CONFIG/scripts/teclado-idioma.sh" "$HOME/.local/bin/teclado-idioma"
-  for lang in es en zh ru ko; do
+  for lang in es en zh ru ko br; do
     ln -sfn "$DST_CONFIG/scripts/teclado-idioma.sh" "$HOME/.local/bin/teclado-${lang}"
   done
 fi
