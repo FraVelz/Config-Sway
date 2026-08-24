@@ -87,6 +87,8 @@ copy_dir_contents() {
 if [ -d "$ELEGIDO/kitty" ]; then
   backup_dir "$HOME/.config/kitty"
   copy_dir_contents "$ELEGIDO/kitty" "$HOME/.config/kitty"
+  # Kitty no se reinicia: SIGUSR1 recarga config en ventanas abiertas
+  pkill -USR1 -x kitty 2>/dev/null || true
 fi
 
 if [ -d "$ELEGIDO/waybar" ]; then

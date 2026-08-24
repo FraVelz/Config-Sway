@@ -70,6 +70,23 @@ if [ -n "${old_managed:-}" ]; then
 fi
 
 printf '%s\n' "$new_managed" > "$managed_list_file"
+
+# Teclado/idiomas: wrappers en ~/.local/bin y perfil fcitx5 (sin borrar diccionarios)
+mkdir -p "$HOME/.local/bin" "$HOME/.config/fcitx5"
+chmod +x "$DST_CONFIG/scripts/teclado-rofi.sh" \
+  "$DST_CONFIG/scripts/teclado-idioma.sh" \
+  "$DST_CONFIG/scripts/teclado-session-env.sh" 2>/dev/null || true
+if [ -f "$DST_CONFIG/scripts/teclado-rofi.sh" ]; then
+  ln -sfn "$DST_CONFIG/scripts/teclado-rofi.sh" "$HOME/.local/bin/teclado-rofi"
+  ln -sfn "$DST_CONFIG/scripts/teclado-idioma.sh" "$HOME/.local/bin/teclado-idioma"
+  for lang in es en zh ru ko; do
+    ln -sfn "$DST_CONFIG/scripts/teclado-idioma.sh" "$HOME/.local/bin/teclado-${lang}"
+  done
+fi
+if [ -f "$DST_CONFIG/scripts/teclado/fcitx5/profile" ]; then
+  cp -a "$DST_CONFIG/scripts/teclado/fcitx5/profile" "$HOME/.config/fcitx5/profile"
+  cp -a "$DST_CONFIG/scripts/teclado/fcitx5/config" "$HOME/.config/fcitx5/config"
+fi
 # SwayNC: ensamblar style.css (upstream + colores base; theme-switcher aplica el tema)
 if [ -f "$DST_CONFIG/swaync/_swaync-upstream.css" ] && [ -f "$DST_CONFIG/swaync/colors-base.css" ]; then
   if [ -f "$DST_CONFIG/swaync/_swaync-pop.css" ]; then

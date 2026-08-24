@@ -26,7 +26,7 @@ bindsym $mod+Shift+r reload
 
 # === MENÚS ROFI (Sway) ========================================================
 bindsym $mod+d exec ~/.config/rofi/scripts/selector-app.sh
-bindsym $mod+equal exec ~/.config/rofi/scripts/selector-calc.sh
+bindsym $mod+equal exec ~/.local/bin/pyside-calc
 bindsym $mod+q exec ~/.config/rofi/scripts/power-menu.sh
 bindsym $mod+a exec ~/.config/rofi/scripts/theme-switcher.sh
 bindsym $mod+w exec ~/.config/rofi/scripts/wallpaper-switcher.sh
@@ -144,9 +144,10 @@ include ~/.config/sway/theme.conf
 # ENTRADA
 # ==============================================================================
 
+# Layout base latam; Alt+Shift+S cambia el layout activo en todos los teclados.
+# No usar grp:alt_shift_toggle: consume Alt+Shift y bloquea el menú.
 input type:keyboard {
-    xkb_layout us,latam
-    xkb_options grp:alt_shift_toggle
+    xkb_layout latam
 }
 
 input type:touchpad {
@@ -166,5 +167,8 @@ exec sh -c 'CFG="$HOME/.config/waybar/config-sway.jsonc"; [ -f "$CFG" ] || CFG="
 exec swaync
 exec bash ~/.config/scripts/fix-audio-defaults.sh
 exec bash ~/.config/scripts/autostart.sh
+
+include ~/.config/sway/teclado.conf
+include ~/.config/sway/jarvis.conf
 
 # Autor: Fravelz

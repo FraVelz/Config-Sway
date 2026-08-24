@@ -22,7 +22,7 @@ Instala dependencias con `pacman` y luego ejecuta `update.sh` para aplicar los d
 ./install.sh
 ```
 
-**Rofi calculadora (`Super+=`):** el script [`selector-calc.sh`](.config/rofi/scripts/selector-calc.sh) abre solo el modo `calc` con [`rofi-calc.sh`](.config/rofi/scripts/rofi-calc.sh). En Arch conviene **`rofi-git`** (AUR) para que `ROFI_INPUT` llegue bien al modo script. Opcional: `./install.sh --rofi-git` o `yay -S rofi-git`.
+**Calculadora (`Super+=`):** usa el proyecto separado [pyside-calc](https://github.com/FraVelz/pyside-calc) (`~/.local/bin/pyside-calc`). Ya no hay calculadora Rofi en este repo.
 
 ### Opción recomendada (cualquier distro): `update.sh`
 
@@ -89,18 +89,19 @@ Variables opcionales en el servicio: `SHUTDOWN_HOUR`, `SHUTDOWN_MINUTE`, `WARN_S
 | `Super+F`     | Abrir **Firefox**        |
 | `Super+Z`     | **Flameshot** (GUI)      |
 
-### Menús (Rofi)
+### Menús (Rofi) y calculadora
 
 Los scripts de rofi viven en `~/.config/rofi/scripts/` (y los scripts generales en `~/.config/scripts/`).
 
 | Atajo               | Acción                                                 | Script |
 | ------------------- | ------------------------------------------------------ | ------ |
 | `Super+D`           | Lanzador de apps (`drun`, tema `selector-app.rasi`)    | `~/.config/rofi/scripts/selector-app.sh` |
-| `Super+=`           | Calculadora Rofi (expresión → resultado; copia al portapapeles) | `~/.config/rofi/scripts/selector-calc.sh` |
+| `Super+=`           | Calculadora PySide (expresión → resultado; copia al portapapeles) | `~/.local/bin/pyside-calc` |
 | `Super+Q`           | Power menu (apagar/reiniciar/bloquear/suspender/salir) | `~/.config/rofi/scripts/power-menu.sh` |
 | `Super+A`           | Cambiar tema (aplica sway/kitty/waybar/rofi/wallpaper) | `~/.config/rofi/scripts/theme-switcher.sh` |
 | `Super+W`           | Cambiar wallpaper (Sway)                               | `~/.config/rofi/scripts/wallpaper-switcher.sh` |
 | `Super+E`           | Menú de iconos/emoji                                   | `~/.config/rofi/scripts/menu-iconos.sh` |
+| `Alt+Shift+S`       | Menú de teclados/idiomas (ES/EN/中文/RU/한국어)        | `~/.local/bin/teclado-rofi` |
 | `Super+Shift+Enter` | Layout “hacker”                                        | `~/.config/scripts/mode-hacker.sh` |
 
 ### Ventanas / layout
@@ -310,12 +311,12 @@ Comprueba que `org.freedesktop.portal.Desktop` esté activo (`busctl --user list
 ## Comprobar la instalación (tras `./update.sh`)
 
 1. **Sincronizar el repo:** `cd /ruta/a/Config-Sway && ./update.sh`
-2. **Paquetes:** `sudo pacman -S --needed swaync waybar rofi bc` (o `./install.sh`). Para la calculadora Rofi (`Super+=`): `./install.sh --rofi-git` o `yay -S rofi-git`.
+2. **Paquetes:** `sudo pacman -S --needed swaync waybar rofi bc` (o `./install.sh`). Calculadora `Super+=`: proyecto [pyside-calc](https://github.com/FraVelz/pyside-calc) → `~/.local/bin/pyside-calc`.
 3. **Sway:** en la sesión, `swaymsg reload` o vuelve a entrar en Sway.
 4. **SwayNC:** `systemctl --user status` no debe estar fallando; `swaync-client -t -sw` debe abrir el panel; `notify-send prueba` debe mostrar una notificación.
 5. **Waybar:** icono de campana visible; clic abre SwayNC; clic derecho alterna no molestar (según `swaync-client`).
-6. **Rofi:** `Super+D` lista aplicaciones. `Super+=` abre la calculadora; escribe `10+10` y debe aparecer el resultado (recomendado **`rofi-git`**). Comprueba con `rofi -version` (build git).
-7. **Versión de Rofi:** `rofi -version` — debería indicar commit/git si instalaste desde AUR.
+6. **Rofi:** `Super+D` lista aplicaciones.
+7. **Calculadora:** `Super+=` abre pyside-calc; escribe `10+10` y debe aparecer el resultado; Enter copia al portapapeles.
 
 ## Iniciar Sway
 
@@ -335,18 +336,13 @@ Puedes ponerlas en `~/.config/environment.d/sway.conf` (formato `KEY=value`, una
 
 ## Requisitos (Arch)
 
-En Arch, `install.sh` instala lo principal. Para **Rofi calculadora** (`Super+=`), conviene **`./install.sh --rofi-git`** (o `yay -S rofi-git`).
+En Arch, `install.sh` instala lo principal. La calculadora `Super+=` es el repo aparte **pyside-calc** (`~/.local/bin/pyside-calc`).
 
 Si quieres hacerlo todo manual con `pacman`:
 
 ```bash
 sudo pacman -S sway swaybg waybar swaync kitty rofi flameshot network-manager-applet \
   xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk grim rsync \
-  brightnessctl playerctl blueman swaylock ranger lsd bat fastfetch mpc alsa-utils libnotify bc
-```
-
-Y sustituye `rofi` por la versión AUR cuando quieras el modo script de la calculadora fiable:
-
-```bash
-yay -S rofi-git
+  brightnessctl playerctl blueman swaylock ranger lsd bat fastfetch mpc alsa-utils libnotify bc \
+  fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-chinese-addons fcitx5-hangul
 ```

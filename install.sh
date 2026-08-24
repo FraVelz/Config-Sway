@@ -9,15 +9,14 @@ REPO_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
 need() { command -v "$1" >/dev/null 2>&1; }
 
-INSTALL_ROFI_GIT=0
 for arg in "$@"; do
   case "$arg" in
-    --rofi-git) INSTALL_ROFI_GIT=1 ;;
     --help|-h)
-      echo "Uso: ./install.sh [--rofi-git]"
+      echo "Uso: ./install.sh"
       echo ""
-      echo "  --rofi-git  Después de pacman, instala rofi-git desde el AUR (yay o paru)."
-      echo "              Sustituye el paquete rofi y habilita ROFI_INPUT para rofi-calc (Super+=)."
+      echo "Instala dependencias con pacman y luego ejecuta update.sh."
+      echo "La calculadora Super+= es el proyecto aparte pyside-calc (~/.local/bin/pyside-calc)."
+      echo "Teclados/idiomas (Alt+Shift+S): fcitx5 + ~/.local/bin/teclado-rofi."
       exit 0
       ;;
   esac
@@ -44,6 +43,9 @@ PKGS=(
 
   # Audio / notificaciones usadas en scripts
   mpc alsa-utils libnotify bc
+
+  # Input method (chino/coreano + teclados; menú Alt+Shift+S)
+  fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-chinese-addons fcitx5-hangul
 )
 
 if need pacman; then
@@ -62,28 +64,8 @@ else
   echo "Aviso: pacman no está disponible, se omite instalación de paquetes." >&2
 fi
 
-# ---------------------------------------------------------------------------
-# 1b) Rofi desde AUR (recomendado para lanzador combi + calculadora)
-# ---------------------------------------------------------------------------
-if [ "$INSTALL_ROFI_GIT" -eq 1 ]; then
-  if need yay; then
-    echo "Instalando rofi-git desde AUR con yay (sustituye el paquete rofi)..."
-    yay -S rofi-git --needed --noconfirm || {
-      echo "Aviso: no se pudo instalar rofi-git (¿sudo/contraseña?). Ejecuta en una terminal:" >&2
-      echo "  yay -S rofi-git" >&2
-    }
-  elif need paru; then
-    echo "Instalando rofi-git desde AUR con paru..."
-    paru -S rofi-git --needed --noconfirm || {
-      echo "Aviso: no se pudo instalar rofi-git. Ejecuta: paru -S rofi-git" >&2
-    }
-  else
-    echo "Aviso: no hay yay ni paru. Instala un helper AUR y luego:" >&2
-    echo "  yay -S rofi-git" >&2
-  fi
-fi
-
 echo "Dependencias listas."
+echo "Calculadora Super+=: instala/configura ~/Documentos/personal/pyside-calc → ~/.local/bin/pyside-calc"
 echo "Para aplicar los dotfiles: $REPO_DIR/update.sh"
 
 # Opcional: ejecutar update.sh al final

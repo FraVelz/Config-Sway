@@ -1,0 +1,27 @@
+[Groups/0]
+Name=Default
+Default Layout=latam
+DefaultIM=keyboard-latam
+
+[Groups/0/Items/0]
+Name=keyboard-latam
+Layout=
+
+[Groups/0/Items/1]
+Name=keyboard-us
+Layout=
+
+[Groups/0/Items/2]
+Name=pinyin
+Layout=us
+
+[Groups/0/Items/3]
+Name=keyboard-ru
+Layout=
+
+[Groups/0/Items/4]
+Name=hangul
+Layout=us
+
+[GroupOrder]
+0=Default
