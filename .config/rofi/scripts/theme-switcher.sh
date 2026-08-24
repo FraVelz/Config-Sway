@@ -179,10 +179,11 @@ if [ -f "$ELEGIDO/sway/theme.conf" ]; then
 EOF
   fi
 
-  # Estilos Rofi del tema (Start / power) → _core
+  # Estilos Rofi del tema (Start / power). No sobrescribir theme-switcher.rasi:
+  # el carrusel horizontal vive en styles/_core y solo cambia con palette.rasi.
   rofi_core="$HOME/.config/rofi/styles/_core"
   mkdir -p "$rofi_core"
-  for rasi in selector-app.rasi power-menu.rasi theme-switcher.rasi; do
+  for rasi in selector-app.rasi power-menu.rasi; do
     if [ -f "$rofi_theme_dir/$rasi" ]; then
       cp -a "$rofi_theme_dir/$rasi" "$rofi_core/$rasi" 2>/dev/null || true
     fi
