@@ -14,17 +14,24 @@ Este repo está pensado para ser “**fuente de verdad**”: lo que esté dentro
 
 ## Cómo instalar / aplicar desde este repo
 
-### Opción recomendada (Arch): `install.sh`
+### Arch vacío (recomendado): `./install.sh`
 
-Instala dependencias con `pacman` y luego ejecuta `update.sh` para aplicar los dotfiles.
+Requisitos: usuario con **sudo**, red y `git`. No ejecutes el script como root.
 
 ```bash
-./install.sh
+git clone <url-de-este-repo> && cd Config-Sway
+./install.sh                 # desktop + SDDM astronaut + OMZ + yay + pyside-calc + update.sh
+./install.sh --memory        # además earlyoom/zram (opcional; zram aplica tras reboot)
+sudo reboot                  # login en SDDM → sesión Sway
 ```
 
-**Calculadora (`Super+=`):** usa el proyecto separado [pyside-calc](https://github.com/FraVelz/pyside-calc) (`~/.local/bin/pyside-calc`). Ya no hay calculadora Rofi en este repo.
+Flags: `--no-sddm`, `--no-yay`, `--no-omz`, `--no-calc`, `--help`.
 
-### Opción recomendada (cualquier distro): `update.sh`
+`install.sh` pide sudo (contraseña), instala paquetes, habilita NetworkManager/bluetooth/SDDM, copia el tema astronaut vendido en el repo, clona Oh My Zsh y plugins, instala yay, clona [pyside-calc](https://github.com/FraVelz/pyside-calc) en `~/Documentos/personal/pyside-calc` y luego corre `update.sh`.
+
+**Límites (no se auto-configuran):** teclado **latam**; apagado automático a las **21:00** (hora del sistema); **NVIDIA** hay que instalarlo a mano; `Alt+Space` (jarvis) solo funciona si existe `~/.local/bin/jarvis`.
+
+### Solo dotfiles (cualquier distro): `update.sh`
 
 Aplica los dotfiles del repo a tu `$HOME`.
 
@@ -321,8 +328,8 @@ Comprueba que `org.freedesktop.portal.Desktop` esté activo (`busctl --user list
 
 ## Comprobar la instalación (tras `./update.sh`)
 
-1. **Sincronizar el repo:** `cd /ruta/a/Config-Sway && ./update.sh`
-2. **Paquetes:** `sudo pacman -S --needed swaync waybar rofi bc` (o `./install.sh`). Calculadora `Super+=`: proyecto [pyside-calc](https://github.com/FraVelz/pyside-calc) → `~/.local/bin/pyside-calc`.
+1. **Arch nuevo:** `./install.sh` y reinicia a SDDM. **Solo configs:** `cd /ruta/a/Config-Sway && ./update.sh`
+2. **Paquetes extra a mano:** `./install.sh` (o la lista de `pacman` más abajo). Calculadora `Super+=`: [pyside-calc](https://github.com/FraVelz/pyside-calc) → `~/.local/bin/pyside-calc`.
 3. **Sway:** en la sesión, `swaymsg reload` o vuelve a entrar en Sway.
 4. **SwayNC:** `systemctl --user status` no debe estar fallando; `swaync-client -t -sw` debe abrir el panel; `notify-send prueba` debe mostrar una notificación.
 5. **Waybar:** icono de campana visible; clic abre SwayNC; clic derecho alterna no molestar (según `swaync-client`).
@@ -331,7 +338,8 @@ Comprueba que `org.freedesktop.portal.Desktop` esté activo (`busctl --user list
 
 ## Iniciar Sway
 
-- Desde **TTY:** ejecutar `sway` (mejor desde un script o el gestor de sesión).
+- Tras `./install.sh`: reinicia y elige Sway en **SDDM** (tema astronaut).
+- Desde **TTY** (`./install.sh --no-sddm`): ejecutar `sway`.
 - Variables de entorno recomendadas antes de lanzar Sway (si no las pone tu gestor de sesión):
 
 ```bash
@@ -347,13 +355,19 @@ Puedes ponerlas en `~/.config/environment.d/sway.conf` (formato `KEY=value`, una
 
 ## Requisitos (Arch)
 
-En Arch, `install.sh` instala lo principal. La calculadora `Super+=` es el repo aparte **pyside-calc** (`~/.local/bin/pyside-calc`).
+En Arch, `./install.sh` instala el desktop (Sway, PipeWire, NetworkManager, fuentes, Firefox, Neovim, SDDM, fcitx5, …), Oh My Zsh, yay y **pyside-calc**.
 
-Si quieres hacerlo todo manual con `pacman`:
+Si quieres los paquetes a mano con `pacman` (sin OMZ/yay/calc/SDDM theme):
 
 ```bash
 sudo pacman -S sway swaybg waybar swaync kitty rofi flameshot network-manager-applet \
-  xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk grim rsync \
-  brightnessctl playerctl blueman swaylock ranger lsd bat fastfetch mpc alsa-utils libnotify bc \
+  networkmanager xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk grim \
+  wl-clipboard mesa vulkan-intel vulkan-radeon xorg-xwayland qt6-wayland qt5-wayland \
+  sddm qt6-svg qt6-virtualkeyboard qt6-multimedia-ffmpeg rsync git base-devel \
+  brightnessctl playerctl blueman bluez bluez-utils swaylock pacman-contrib which \
+  ranger lsd bat fastfetch zsh firefox neovim python python-pip \
+  pipewire pipewire-pulse pipewire-alsa wireplumber mpc alsa-utils libnotify bc \
+  sound-theme-freedesktop sof-firmware polkit polkit-gnome xdg-user-dirs \
+  ttf-jetbrains-mono-nerd noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-nerd-fonts-symbols \
   fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-chinese-addons fcitx5-hangul
 ```

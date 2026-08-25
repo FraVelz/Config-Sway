@@ -161,6 +161,7 @@ input type:touchpad {
 
 exec_always ~/.config/scripts/setwallpaper.sh
 
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec nm-applet
 exec sh -c 'CFG="$HOME/.config/waybar/config-sway.jsonc"; [ -f "$CFG" ] || CFG="$HOME/.config/waybar/config.jsonc"; exec waybar -c "$CFG"'
 

@@ -61,9 +61,9 @@ pick_cpu_governor() {
 }
 
 phase1() {
-  log "Fase 1.1: Docker y PostgreSQL bajo demanda"
+  log "Fase 1.1: Docker y PostgreSQL bajo demanda (si existen)"
   systemctl stop docker postgresql 2>/dev/null || true
-  systemctl disable docker postgresql
+  systemctl disable docker postgresql 2>/dev/null || true
 
   log "Fase 1.2: earlyoom"
   if ! command -v earlyoom >/dev/null; then
@@ -99,6 +99,9 @@ phase1() {
 
 phase2() {
   log "Fase 2: zram-generator 8 GiB"
+  if ! pacman -Qi systemd-zram-generator >/dev/null 2>&1; then
+    pacman -S --needed --noconfirm systemd-zram-generator
+  fi
   install -Dm644 "$REPO_DIR/system/etc/systemd/zram-generator.conf" /etc/systemd/zram-generator.conf
   if [[ "$DO_REBOOT" -eq 1 ]]; then
     log "Reiniciando en 5 s (Ctrl+C para cancelar)..."
