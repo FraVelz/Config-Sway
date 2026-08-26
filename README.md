@@ -103,7 +103,7 @@ Los scripts de rofi viven en `~/.config/rofi/scripts/` (y los scripts generales 
 | Atajo               | Acción                                                 | Script |
 | ------------------- | ------------------------------------------------------ | ------ |
 | `Super+D`           | Lanzador de apps (`drun`, tema `selector-app.rasi`)    | `~/.config/rofi/scripts/selector-app.sh` |
-| `Super+=`           | Calculadora PySide (expresión → resultado; copia al portapapeles) | `~/.local/bin/pyside-calc` |
+| `Super+¿`           | Calculadora PySide (expresión → resultado; copia al portapapeles). En layout US: `Super+=` | `~/.local/bin/pyside-calc` |
 | `Super+Q`           | Power menu (apagar/reiniciar/bloquear/suspender/salir) | `~/.config/rofi/scripts/power-menu.sh` |
 | `Super+A`           | Cambiar tema (aplica sway/kitty/waybar/rofi/wallpaper) | `~/.config/rofi/scripts/theme-switcher.sh` |
 | `Super+W`           | Cambiar wallpaper (Sway)                               | `~/.config/rofi/scripts/wallpaper-switcher.sh` |
@@ -329,12 +329,12 @@ Comprueba que `org.freedesktop.portal.Desktop` esté activo (`busctl --user list
 ## Comprobar la instalación (tras `./update.sh`)
 
 1. **Arch nuevo:** `./install.sh` y reinicia a SDDM. **Solo configs:** `cd /ruta/a/Config-Sway && ./update.sh`
-2. **Paquetes extra a mano:** `./install.sh` (o la lista de `pacman` más abajo). Calculadora `Super+=`: [pyside-calc](https://github.com/FraVelz/pyside-calc) → `~/.local/bin/pyside-calc`.
+2. **Paquetes extra a mano:** `./install.sh` (o la lista de `pacman` más abajo). Calculadora `Super+¿`: [pyside-calc](https://github.com/FraVelz/pyside-calc) → `~/.local/bin/pyside-calc`.
 3. **Sway:** en la sesión, `swaymsg reload` o vuelve a entrar en Sway.
 4. **SwayNC:** `systemctl --user status` no debe estar fallando; `swaync-client -t -sw` debe abrir el panel; `notify-send prueba` debe mostrar una notificación.
 5. **Waybar:** icono de campana visible; clic abre SwayNC; clic derecho alterna no molestar (según `swaync-client`).
 6. **Rofi:** `Super+D` lista aplicaciones.
-7. **Calculadora:** `Super+=` abre pyside-calc; escribe `10+10` y debe aparecer el resultado; Enter copia al portapapeles.
+7. **Calculadora:** `Super+¿` abre pyside-calc; escribe `10+10` y debe aparecer el resultado; Enter copia al portapapeles.
 
 ## Iniciar Sway
 

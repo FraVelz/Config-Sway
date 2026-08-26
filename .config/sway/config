@@ -26,6 +26,8 @@ bindsym $mod+Shift+r reload
 
 # === MENÚS ROFI (Sway) ========================================================
 bindsym $mod+d exec ~/.config/rofi/scripts/selector-app.sh
+# latam: la tecla "=" del teclado US emite ¿ (questiondown). equal queda por si el layout es US.
+bindsym $mod+questiondown exec ~/.local/bin/pyside-calc
 bindsym $mod+equal exec ~/.local/bin/pyside-calc
 bindsym $mod+q exec ~/.config/rofi/scripts/power-menu.sh
 bindsym $mod+a exec ~/.config/rofi/scripts/theme-switcher.sh
