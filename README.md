@@ -94,6 +94,7 @@ Variables opcionales en el servicio: `SHUTDOWN_HOUR`, `SHUTDOWN_MINUTE`, `WARN_S
 | ------------- | ------------------------ |
 | `Super+Enter` | Abrir terminal **Kitty** |
 | `Super+F`     | Abrir **Firefox**        |
+| `Super+V`     | Abrir **Video Studio**   |
 | `Super+Z`     | **Flameshot** (GUI)      |
 
 ### Menús (Rofi) y calculadora

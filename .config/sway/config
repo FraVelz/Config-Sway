@@ -11,6 +11,7 @@ set $right l
 # === APLICACIONES =============================================================
 bindsym $mod+Return exec kitty
 bindsym $mod+f exec firefox
+bindsym $mod+v exec ~/.local/bin/video-studio
 bindsym $mod+z exec env QT_QPA_PLATFORM=wayland flameshot gui
 
 # === VENTANAS =================================================================
