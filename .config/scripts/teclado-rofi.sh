@@ -10,6 +10,10 @@ SWITCH="$SCRIPT_DIR/teclado-idioma.sh"
 if [ ! -x "$SWITCH" ]; then
   SWITCH="$HOME/.config/scripts/teclado-idioma.sh"
 fi
+MAPA="$SCRIPT_DIR/teclado-mapa.sh"
+if [ ! -x "$MAPA" ]; then
+  MAPA="$HOME/.config/scripts/teclado-mapa.sh"
+fi
 THEME="${ROFI_THEME:-$HOME/.config/rofi/styles/_core/wallpaper-switcher.rasi}"
 [ -f "$THEME" ] || THEME="$HOME/.config/rofi/styles/wallpaper-switcher.rasi"
 
@@ -32,7 +36,8 @@ menu() {
     "zh  中文 Pinyin" \
     "ru  Русский" \
     "ko  한국어 Hangul" \
-    "br  Português"
+    "br  Português" \
+    "mapa  Mapa teclado"
 }
 
 rofi_args=(
@@ -45,7 +50,7 @@ rofi_args=(
   -me-accept-entry "MousePrimary,Return,KP_Enter"
 )
 if [ -f "$THEME" ]; then
-  rofi_args+=(-theme "$THEME" -theme-str "listview { lines: 6; }")
+  rofi_args+=(-theme "$THEME" -theme-str "listview { lines: 7; }")
 fi
 
 set +e
@@ -63,9 +68,25 @@ code="${code,,}"
 
 case "$code" in
   es|en|zh|ru|ko|br) exec "$SWITCH" "$code" ;;
+  mapa)
+    if [ ! -x "$MAPA" ]; then
+      notify-send "Teclado" "No se encontró teclado-mapa.sh" 2>/dev/null || true
+      echo "Error: no está $MAPA" >&2
+      exit 1
+    fi
+    exec "$MAPA"
+    ;;
   *)
     # Por si el tema devuelve solo la etiqueta, sin el código.
     case "$choice" in
+      *Mapa*)
+        if [ ! -x "$MAPA" ]; then
+          notify-send "Teclado" "No se encontró teclado-mapa.sh" 2>/dev/null || true
+          echo "Error: no está $MAPA" >&2
+          exit 1
+        fi
+        exec "$MAPA"
+        ;;
       *Español*|*Espanol*) exec "$SWITCH" es ;;
       *English*)           exec "$SWITCH" en ;;
       *Pinyin*|*中文*)     exec "$SWITCH" zh ;;

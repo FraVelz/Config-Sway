@@ -75,13 +75,17 @@ printf '%s\n' "$new_managed" > "$managed_list_file"
 mkdir -p "$HOME/.local/bin" "$HOME/.config/fcitx5"
 chmod +x "$DST_CONFIG/scripts/teclado-rofi.sh" \
   "$DST_CONFIG/scripts/teclado-idioma.sh" \
-  "$DST_CONFIG/scripts/teclado-session-env.sh" 2>/dev/null || true
+  "$DST_CONFIG/scripts/teclado-session-env.sh" \
+  "$DST_CONFIG/scripts/teclado-mapa.sh" 2>/dev/null || true
 if [ -f "$DST_CONFIG/scripts/teclado-rofi.sh" ]; then
   ln -sfn "$DST_CONFIG/scripts/teclado-rofi.sh" "$HOME/.local/bin/teclado-rofi"
   ln -sfn "$DST_CONFIG/scripts/teclado-idioma.sh" "$HOME/.local/bin/teclado-idioma"
   for lang in es en zh ru ko br; do
     ln -sfn "$DST_CONFIG/scripts/teclado-idioma.sh" "$HOME/.local/bin/teclado-${lang}"
   done
+fi
+if [ -f "$DST_CONFIG/scripts/teclado-mapa.sh" ]; then
+  ln -sfn "$DST_CONFIG/scripts/teclado-mapa.sh" "$HOME/.local/bin/teclado-mapa"
 fi
 chmod +x "$DST_CONFIG/scripts/win-mode.sh" 2>/dev/null || true
 if [ -f "$DST_CONFIG/scripts/win-mode.sh" ]; then

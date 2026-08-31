@@ -95,6 +95,8 @@ PKGS=(
 
   # Input method (chino/coreano + teclados; menú Alt+Shift+S)
   fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-chinese-addons fcitx5-hangul
+  # Mapa visual de layouts (opción «Mapa teclado» en Alt+Shift+S)
+  tecla
 )
 
 clone_if_missing() {

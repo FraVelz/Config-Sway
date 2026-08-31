@@ -109,7 +109,7 @@ Los scripts de rofi viven en `~/.config/rofi/scripts/` (y los scripts generales 
 | `Super+A`           | Cambiar tema (aplica sway/kitty/waybar/rofi/wallpaper) | `~/.config/rofi/scripts/theme-switcher.sh` |
 | `Super+W`           | Cambiar wallpaper (Sway)                               | `~/.config/rofi/scripts/wallpaper-switcher.sh` |
 | `Super+E`           | Menú de iconos/emoji                                   | `~/.config/rofi/scripts/menu-iconos.sh` |
-| `Alt+Shift+S`       | Menú de teclados/idiomas (ES/EN/中文/RU/한국어/BR)     | `~/.local/bin/teclado-rofi` |
+| `Alt+Shift+S`       | Menú de teclados/idiomas (ES/EN/中文/RU/한국어/BR) y **Mapa teclado** (visor XKB; no cambia el idioma) | `~/.local/bin/teclado-rofi` |
 | `Super+Shift+Enter` | Layout “hacker”                                        | `~/.config/scripts/mode-hacker.sh` |
 
 **Windows 10 (claro/oscuro):** temas `Windows10-Dark` y `Windows10-Light`. Con uno de ellos activo, en terminal:
@@ -370,5 +370,6 @@ sudo pacman -S sway swaybg waybar swaync kitty rofi flameshot network-manager-ap
   pipewire pipewire-pulse pipewire-alsa wireplumber mpc alsa-utils libnotify bc \
   sound-theme-freedesktop sof-firmware polkit polkit-gnome xdg-user-dirs \
   ttf-jetbrains-mono-nerd noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-nerd-fonts-symbols \
-  fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-chinese-addons fcitx5-hangul
+  fcitx5 fcitx5-gtk fcitx5-qt fcitx5-configtool fcitx5-chinese-addons fcitx5-hangul \
+  tecla
 ```
