@@ -41,7 +41,7 @@ Aplica los dotfiles del repo a tu `$HOME`.
 
 #### Qué hace `update.sh` (importante)
 
-- **Backup**: por defecto copia `~/.config` a `~/.config.bak-YYYYMMDD-HHMMSS/` antes de cambiar nada.
+- **Backup**: no se crea por defecto (un `./update.sh` estable no deja copias). Con `--backup` copia `~/.config` a `~/.config.bak-YYYYMMDD-HHMMSS/` y los dotfiles de `home/` a `~/home-dots.bak-*` antes de cambiar nada. `--no-backup` se acepta y no hace nada.
 - **Sync gestionado**:
   - Sincroniza **solo** los top-level presentes en `./.config/` hacia `~/.config/` (con `rsync --delete`).
   - Sincroniza **solo** el primer nivel de `./home/` hacia tu `$HOME` (con `rsync --delete`).
@@ -51,10 +51,10 @@ Aplica los dotfiles del repo a tu `$HOME`.
   y elimina del destino lo que ya no exista en el repo (pero **solo** dentro de ese set).
 - **Post-apply**: intenta recargar Sway (`swaymsg reload`), reiniciar portales y reiniciar Waybar.
 
-Para aplicar **sin backup**:
+Para aplicar **con backup**:
 
 ```bash
-./update.sh --no-backup
+./update.sh --backup
 ```
 
 ## Documentación
@@ -94,7 +94,7 @@ Variables opcionales en el servicio: `SHUTDOWN_HOUR`, `SHUTDOWN_MINUTE`, `WARN_S
 | ------------- | ------------------------ |
 | `Super+Enter` | Abrir terminal **Kitty** |
 | `Super+F`     | Abrir **Firefox**        |
-| `Super+V`     | Abrir **Video Studio**   |
+| `Super+Y`     | Abrir **Kdenlive**       |
 | `Super+Z`     | **Flameshot** (GUI)      |
 
 ### Menús (Rofi) y calculadora
@@ -106,7 +106,7 @@ Los scripts de rofi viven en `~/.config/rofi/scripts/` (y los scripts generales 
 | `Super+D`           | Lanzador de apps (`drun`, tema `selector-app.rasi`)    | `~/.config/rofi/scripts/selector-app.sh` |
 | `Super+¿`           | Calculadora PySide (expresión → resultado; copia al portapapeles). En layout US: `Super+=` | `~/.local/bin/pyside-calc` |
 | `Super+Q`           | Power menu (apagar/reiniciar/bloquear/suspender/salir) | `~/.config/rofi/scripts/power-menu.sh` |
-| `Super+A`           | Cambiar tema (aplica sway/kitty/waybar/rofi/wallpaper) | `~/.config/rofi/scripts/theme-switcher.sh` |
+| `Super+A`           | Cambiar tema (aplica sway/kitty/waybar/rofi/wallpaper). Sin backup salvo `--backup`. | `~/.config/rofi/scripts/theme-switcher.sh` |
 | `Super+W`           | Cambiar wallpaper (Sway)                               | `~/.config/rofi/scripts/wallpaper-switcher.sh` |
 | `Super+E`           | Menú de iconos/emoji                                   | `~/.config/rofi/scripts/menu-iconos.sh` |
 | `Alt+Shift+S`       | Menú de teclados/idiomas (ES/EN/中文/RU/한국어/BR) y **Mapa teclado** (visor XKB; no cambia el idioma) | `~/.local/bin/teclado-rofi` |
@@ -265,6 +265,13 @@ Para que cada tema tenga su paleta propia, cada tema puede traer:
 Cuando aplicas un tema con `theme-switcher.sh`, si existe esa paleta, se copia a:
 
 - `~/.config/rofi/styles/_core/palette.rasi`
+
+`Super+A` no crea copias `.bak-*`. Para respaldar kitty/waybar/swaync/theme.conf antes de aplicar:
+
+```bash
+~/.config/rofi/scripts/theme-switcher.sh --backup
+~/.config/rofi/scripts/theme-switcher.sh --backup Batman
+```
 
 Eso hace que todos los menús de rofi se vean consistentes: **misma estructura/layout**, **distintos colores** según el tema.
 

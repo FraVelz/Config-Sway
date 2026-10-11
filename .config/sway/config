@@ -11,13 +11,15 @@ set $right l
 # === APLICACIONES =============================================================
 bindsym $mod+Return exec kitty
 bindsym $mod+f exec firefox
-bindsym $mod+v exec ~/.local/bin/video-studio
+bindsym $mod+y exec kdenlive
 bindsym $mod+z exec env QT_QPA_PLATFORM=wayland flameshot gui
 
 # === VENTANAS =================================================================
 bindsym $mod+u floating toggle
 bindsym $mod+o layout toggle split
 bindsym $mod+c kill
+# Zoom×8: lupa centrada en el cursor; otra vez restaura
+bindsym $mod+i exec ~/.config/scripts/window-zoom8-toggle.sh
 
 # Recargar configuración
 bindsym $mod+Shift+r reload
@@ -132,6 +134,9 @@ for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen disa
 
 # Contador de apagado: flotante, sin barra de título (solo borde fino)
 for_window [title="shutdown-countdown"] floating enable, sticky enable, focus_on_window_activation none, move position center, border pixel 2
+
+# Lupa ×8: overlay a pantalla completa, sin bordes
+for_window [title="window-zoom8"] floating enable, fullscreen enable, border pixel 0
 
 # ==============================================================================
 # ASPECTO

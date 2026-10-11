@@ -4,7 +4,8 @@ set -euo pipefail
 # Actualiza tu configuración local desde este repo.
 # - Sincroniza (incluye BORRADOS) desde ./.config → ~/.config, limitado a los top-level del repo
 # - Sincroniza (incluye BORRADOS) desde ./home → ~, limitado al primer nivel de home/
-# - Hace backup antes de tocar nada (puedes desactivarlo con --no-backup)
+# - No hace backup por defecto. Pasa --backup para copiar antes de tocar nada.
+#   --no-backup se acepta y no hace nada (compatibilidad).
 
 REPO_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -16,10 +17,11 @@ need() { command -v "$1" >/dev/null 2>&1; }
 die() { echo "Error: $*" >&2; exit 1; }
 
 # Flags
-NO_BACKUP=0
+DO_BACKUP=0
 for arg in "$@"; do
   case "$arg" in
-    --no-backup) NO_BACKUP=1 ;;
+    --backup) DO_BACKUP=1 ;;
+    --no-backup) DO_BACKUP=0 ;;
     *) die "Opción desconocida: $arg" ;;
   esac
 done
@@ -33,7 +35,7 @@ home_bak="$HOME/home-dots.bak-$ts"
 
 mkdir -p "$DST_CONFIG"
 
-if [ "$NO_BACKUP" -eq 0 ]; then
+if [ "$DO_BACKUP" -eq 1 ]; then
   echo "Backup: $DST_CONFIG -> $config_bak"
   cp -a "$DST_CONFIG" "$config_bak" 2>/dev/null || true
 fi
@@ -91,6 +93,36 @@ chmod +x "$DST_CONFIG/scripts/win-mode.sh" 2>/dev/null || true
 if [ -f "$DST_CONFIG/scripts/win-mode.sh" ]; then
   ln -sfn "$DST_CONFIG/scripts/win-mode.sh" "$HOME/.local/bin/win-mode"
 fi
+chmod +x "$DST_CONFIG/scripts/window-zoom8-toggle.sh" 2>/dev/null || true
+if [ -f "$DST_CONFIG/scripts/window-zoom8-toggle.sh" ]; then
+  ln -sfn "$DST_CONFIG/scripts/window-zoom8-toggle.sh" "$HOME/.local/bin/window-zoom8"
+fi
+
+# Magnifier Wayland (shmooz) para zoom×8 real del contenido
+ensure_shmooz() {
+  local dest="$HOME/.local/bin/shmooz"
+  local url="https://github.com/chmouel/shmooz/releases/download/v0.3.0/shmooz"
+  mkdir -p "$HOME/.local/bin"
+  if command -v shmooz >/dev/null 2>&1; then
+    return 0
+  fi
+  if [ -x "$dest" ]; then
+    return 0
+  fi
+  if ! need curl; then
+    echo "Aviso: no hay curl; no se pudo descargar shmooz" >&2
+    return 0
+  fi
+  echo "Descargando shmooz (lupa Wayland) → $dest"
+  if curl -fsSL --connect-timeout 15 -o "$dest.new" "$url"; then
+    chmod +x "$dest.new"
+    mv -f "$dest.new" "$dest"
+  else
+    rm -f "$dest.new"
+    echo "Aviso: falló la descarga de shmooz (zoom×8 no estará disponible)" >&2
+  fi
+}
+ensure_shmooz
 if [ -f "$DST_CONFIG/scripts/teclado/fcitx5/profile" ]; then
   cp -a "$DST_CONFIG/scripts/teclado/fcitx5/profile" "$HOME/.config/fcitx5/profile"
   cp -a "$DST_CONFIG/scripts/teclado/fcitx5/config" "$HOME/.config/fcitx5/config"
@@ -115,7 +147,7 @@ if [ -d "$SRC_HOME" ]; then
     old_home="$(cat "$home_managed_file" 2>/dev/null || true)"
   fi
 
-  if [ "$NO_BACKUP" -eq 0 ]; then
+  if [ "$DO_BACKUP" -eq 1 ]; then
     echo "Backup de dotfiles de $HOME en: $home_bak"
     mkdir -p "$home_bak"
   fi
@@ -124,7 +156,7 @@ if [ -d "$SRC_HOME" ]; then
   while IFS= read -r entry; do
     [ -n "${entry:-}" ] || continue
 
-    if [ "$NO_BACKUP" -eq 0 ] && [ -e "$HOME/$entry" ]; then
+    if [ "$DO_BACKUP" -eq 1 ] && [ -e "$HOME/$entry" ]; then
       mkdir -p "$(dirname "$home_bak/$entry")"
       cp -a "$HOME/$entry" "$home_bak/$entry" 2>/dev/null || true
     fi
@@ -141,7 +173,7 @@ if [ -d "$SRC_HOME" ]; then
     while IFS= read -r entry; do
       [ -n "${entry:-}" ] || continue
       if ! grep -Fxq -- "$entry" <<<"$new_home"; then
-        if [ "$NO_BACKUP" -eq 0 ] && [ -e "$HOME/$entry" ]; then
+        if [ "$DO_BACKUP" -eq 1 ] && [ -e "$HOME/$entry" ]; then
           mkdir -p "$(dirname "$home_bak/$entry")"
           cp -a "$HOME/$entry" "$home_bak/$entry" 2>/dev/null || true
         fi

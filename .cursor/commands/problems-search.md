@@ -7,7 +7,7 @@ Inventariar problemas en dotfiles y scripts. **No** commitear salvo petición ex
 ```bash
 bash -n .config/scripts/*.sh scripts/*.sh
 shellcheck .config/scripts/*.sh 2>/dev/null || true
-./update.sh --no-backup   # solo si el usuario lo autoriza en entorno de prueba
+./update.sh               # solo si el usuario lo autoriza en entorno de prueba (sin backup por defecto)
 sway -C -c .config/sway/config 2>&1 || true
 systemctl --user list-timers --all
 ```

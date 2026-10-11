@@ -473,7 +473,7 @@ function cleartarget(){
 # mis archivos
 
 function home(){
-  cd "$DOC_PERSONAL/notes/Notas-Personales-Markdown"
+  cd "$DOC_PERSONAL/Notas-Personales-Markdown"
 }
 
 # comando para taildwindcss

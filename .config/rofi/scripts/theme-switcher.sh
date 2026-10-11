@@ -3,6 +3,8 @@ set -euo pipefail
 
 # Theme switcher para Sway usando tu carpeta ~/.config/themes
 # Aplica: kitty, waybar (colors/style + genera config-sway), rofi-style (opcional) y wallpaper (swaybg)
+# No hace backup por defecto. Pasa --backup para copiar kitty/waybar/swaync/theme.conf antes de aplicar.
+#   Uso: theme-switcher.sh [--backup] [Tema]
 
 TEMAS_DIR="$HOME/.config/themes"
 ROFI_THEME="$HOME/.config/rofi/styles/_core/theme-switcher.rasi"
@@ -27,6 +29,26 @@ if [ ! -d "$TEMAS_DIR" ]; then
 fi
 
 need rofi || { print_error "Falta rofi"; exit 1; }
+
+DO_BACKUP=0
+TEMA=""
+for arg in "$@"; do
+  case "$arg" in
+    --backup) DO_BACKUP=1 ;;
+    --no-backup) DO_BACKUP=0 ;;
+    -*)
+      print_error "Opción desconocida: $arg"
+      exit 1
+      ;;
+    *)
+      if [ -n "$TEMA" ]; then
+        print_error "Demasiados argumentos: $arg"
+        exit 1
+      fi
+      TEMA="$arg"
+      ;;
+  esac
+done
 
 # shellcheck source=/dev/null
 source "$HOME/.config/scripts/rofi-replace.sh" 2>/dev/null || true
@@ -54,7 +76,6 @@ done
 
 [ "$theme_count" -eq 0 ] && { print_error "No hay temas en $TEMAS_DIR"; exit 1; }
 
-TEMA="${1:-}"
 if [ -z "${TEMA:-}" ]; then
   # Nota: evitamos pipe para que rofi lea siempre bien la entrada
   type rofi_replace >/dev/null 2>&1 && rofi_replace
@@ -72,6 +93,7 @@ printf '%s\n' "$TEMA" > "$TEMAS_DIR/.current"
 ts="$(date +%Y%m%d-%H%M%S)"
 
 backup_dir() {
+  [ "$DO_BACKUP" -eq 1 ] || return 0
   local path="$1"
   local bak="$path.bak-$ts"
   if [ -e "$path" ] && [ ! -e "$bak" ]; then
